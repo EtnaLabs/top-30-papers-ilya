@@ -86,7 +86,7 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
                 paper={paper}
                 isActive={activePaper?.id === paper.id}
                 onInView={() => {
-                  if (!isMobile && paper.type === "paper") {
+                  if (paper.type === "paper") {
                     setActivePaper(paper)
                     setCurrentYear(new Date(paper.date).getFullYear())
                   }
@@ -103,7 +103,12 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
       {/* Detail box - fixed on desktop, scrolls with content on mobile */}
       {!isMobile && activePaper && activePaper.type === "paper" && (
         <div className="lg:sticky lg:top-8 lg:self-start lg:w-[65%] h-fit">
-          <PaperCard paper={activePaper} />
+          <div 
+            key={activePaper.id} 
+            className="transition-all duration-300 ease-in-out animate-fadeIn"
+          >
+            <PaperCard paper={activePaper} />
+          </div>
         </div>
       )}
     </div>
@@ -126,16 +131,17 @@ function TimelineItem({
   index: number
 }) {
   const { ref, inView } = useInView({
-    threshold: 0.5,
+    threshold: 0.7,
     triggerOnce: false,
+    rootMargin: "-20% 0px -20% 0px",
   })
   const isMobile = useMobile()
 
   useEffect(() => {
-    if (inView) {
+    if (inView && paper.type === "paper") {
       onInView()
     }
-  }, [inView, onInView])
+  }, [inView, onInView, paper.type])
 
   // Calculate the gap based on the time difference between this paper and the previous one
   const getTimeGap = () => {
@@ -202,7 +208,7 @@ function TimelineItem({
       {!isRangeEvent && (
         <div
           className={`absolute left-[16px] top-6 w-3 h-3 rounded-full border-2 border-white z-10 transform -translate-x-1/2 -translate-y-1/2 ${
-            isEvent ? "bg-amber-500" : isActive ? "bg-blue-500" : "bg-gray-300"
+            isEvent ? "bg-amber-500" : isActive ? "bg-blue-500 ring-4 ring-blue-200" : "bg-gray-300"
           }`}
         />
       )}
@@ -221,7 +227,8 @@ function TimelineItem({
       )}
 
       <div 
-        className={`space-y-1 ${isEvent ? "bg-amber-50 p-3 rounded-md border border-amber-200" : ""}`}
+        className={`space-y-1 ${isEvent ? "bg-amber-50 p-3 rounded-md border border-amber-200" : 
+          isActive && !isEvent ? "bg-blue-50 p-3 rounded-md border border-blue-200 shadow-md transition-all duration-300" : ""}`}
         style={{
           minHeight: isRangeEvent ? eventHeight : "auto",
           display: "flex",
@@ -242,7 +249,7 @@ function TimelineItem({
             paper.date
           )}
         </span>
-        <h3 className={`text-lg font-semibold ${isEvent ? "text-amber-800" : ""}`}>{paper.title}</h3>
+        <h3 className={`text-lg font-semibold ${isEvent ? "text-amber-800" : isActive ? "text-blue-700 scale-105 transition-all duration-300" : ""}`}>{paper.title}</h3>
 
         {/* On mobile, show the paper card inline */}
         {isMobile && paper.type === "paper" && <PaperCard paper={paper} />}
