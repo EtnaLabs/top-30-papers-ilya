@@ -78,19 +78,6 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
           {/* Timeline line */}
           <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-200" />
 
-          {/* Year markers */}
-          <div className="absolute left-0 top-0 bottom-0">
-            {yearPositions.map(({ year, position }) => (
-              <div
-                key={year}
-                className="absolute left-[-2rem] flex items-center"
-                style={{ top: `${position}rem` }}
-              >
-                <span className="text-xs font-bold bg-gray-100 text-gray-600 px-2 py-1 rounded-full">{year}</span>
-              </div>
-            ))}
-          </div>
-
           {/* Timeline items */}
           <div>
             {papers.map((paper, index) => (
@@ -212,12 +199,13 @@ function TimelineItem({
       }}
     >
       {/* Timeline dot */}
-      <div
-        className={`absolute left-[14px] top-6 w-3 h-3 rounded-full border-2 border-white z-10 transform -translate-x-1/2 -translate-y-1/2 ${
-          isEvent ? "bg-amber-500" : isActive ? "bg-blue-500" : "bg-gray-300"
-        }`}
-      />
-
+      {!isRangeEvent && (
+        <div
+          className={`absolute left-[16px] top-6 w-3 h-3 rounded-full border-2 border-white z-10 transform -translate-x-1/2 -translate-y-1/2 ${
+            isEvent ? "bg-amber-500" : isActive ? "bg-blue-500" : "bg-gray-300"
+          }`}
+        />
+      )}
       {/* For range events, add a vertical line to show duration */}
       {isRangeEvent && (
         <div 
@@ -247,7 +235,7 @@ function TimelineItem({
                 {startYear} - {endYear}
               </span>
               <span className="ml-2 text-amber-700">
-                ({(endYear - startYear) * 12} months)
+                ({endYear - startYear} years)
               </span>
             </>
           ) : (
@@ -255,13 +243,6 @@ function TimelineItem({
           )}
         </span>
         <h3 className={`text-lg font-semibold ${isEvent ? "text-amber-800" : ""}`}>{paper.title}</h3>
-
-        {/* Add duration information for long events */}
-        {isRangeEvent && (endYear - startYear) > 1 && (
-          <div className="mt-auto pt-2 text-xs text-amber-700">
-            Duration: {endYear - startYear} years ({(endYear - startYear) * 12} months)
-          </div>
-        )}
 
         {/* On mobile, show the paper card inline */}
         {isMobile && paper.type === "paper" && <PaperCard paper={paper} />}
