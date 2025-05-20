@@ -23,55 +23,72 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
     }
   }, [papers, activePaper])
 
-  // Get unique years from papers
-  const years = [...new Set(papers.map((paper) => new Date(paper.date).getFullYear()))].sort()
+  // Get unique years from papers and sort chronologically
+  const years = [...new Set(papers.map((paper) => new Date(paper.date).getFullYear()))].sort((a, b) => a - b)
+
+  const calculateYearPositions = () => {
+    // Keep track of the positions
+    const positions: {year: number, position: number}[] = []
+    let currentPosition = 1 // Start with a small offset
+    
+    // Group papers by year for easier processing
+    const papersByYear = new Map<number, Item[]>()
+    years.forEach(year => {
+      papersByYear.set(year, papers.filter(p => {
+        const paperYear = new Date(p.date).getFullYear()
+        return paperYear === year
+      }))
+    })
+    
+    // Process years in order
+    for (const year of years) {
+      // Mark this year's position
+      positions.push({ year, position: currentPosition })
+      
+      // Get papers for this year
+      const yearPapers = papersByYear.get(year) || []
+      
+      // Add appropriate spacing based on paper type
+      for (const paper of yearPapers) {
+        // Base spacing for a normal paper/event
+        let spacing = 5 // rem
+        
+        // If it's a range event, add proportional spacing
+        if (paper.type === 'event' && paper.start && paper.end) {
+          // Calculate months and convert to rems
+          const monthsDiff = (paper.end - paper.start) * 12
+          const additionalHeight = (monthsDiff * 10) / 16 // 10px per month, convert to rem
+          spacing += additionalHeight
+        }
+        
+        // Add spacing for next item
+        currentPosition += spacing
+      }
+    }
+    
+    return positions
+  }
+  
+  const yearPositions = calculateYearPositions()
 
   return (
     <div className="flex flex-col lg:flex-row gap-8">
       <div ref={timelineRef} className="relative flex-1 max-w-full lg:max-w-[60%]">
-        {/* Year counter */}
-        {currentYear && (
-          <div className="sticky top-4 z-20 flex justify-end mb-4">
-            <div className="bg-blue-600 text-white font-bold rounded-full px-4 py-2 text-lg shadow-md">
-              {currentYear}
-            </div>
-          </div>
-        )}
         <div className="relative">
           {/* Timeline line */}
           <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-200" />
 
           {/* Year markers */}
           <div className="absolute left-0 top-0 bottom-0">
-            {years.map((year, index) => {
-              // Find the first paper in this year
-              const firstPaperInYear = papers.find((p) => new Date(p.date).getFullYear() === year)
-              if (!firstPaperInYear) return null
-
-              // Find the index of this paper
-              const paperIndex = papers.findIndex((p) => p.id === firstPaperInYear.id)
-
-              // Calculate position based on previous papers
-              let position = 0
-              for (let i = 0; i < paperIndex; i++) {
-                const currentDate = new Date(papers[i].date)
-                const nextDate = new Date(papers[i + 1].date)
-                const monthsDiff =
-                  (nextDate.getFullYear() - currentDate.getFullYear()) * 12 +
-                  (nextDate.getMonth() - currentDate.getMonth())
-                position += 3 + monthsDiff * 0.5 // Same calculation as in TimelineItem
-              }
-
-              return (
-                <div
-                  key={year}
-                  className="absolute left-[-2rem] flex items-center"
-                  style={{ top: `${position + 1.5}rem` }}
-                >
-                  <span className="text-xs font-bold bg-gray-100 text-gray-600 px-2 py-1 rounded-full">{year}</span>
-                </div>
-              )
-            })}
+            {yearPositions.map(({ year, position }) => (
+              <div
+                key={year}
+                className="absolute left-[-2rem] flex items-center"
+                style={{ top: `${position}rem` }}
+              >
+                <span className="text-xs font-bold bg-gray-100 text-gray-600 px-2 py-1 rounded-full">{year}</span>
+              </div>
+            ))}
           </div>
 
           {/* Timeline items */}
@@ -88,6 +105,8 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
                   }
                 }}
                 prevDate={index > 0 ? papers[index - 1].date : undefined}
+                papers={papers}
+                index={index}
               />
             ))}
           </div>
@@ -109,11 +128,15 @@ function TimelineItem({
   isActive,
   onInView,
   prevDate,
+  papers,
+  index,
 }: {
   paper: Item
   isActive: boolean
   onInView: () => void
   prevDate?: string
+  papers: Item[]
+  index: number
 }) {
   const { ref, inView } = useInView({
     threshold: 0.5,
@@ -148,10 +171,37 @@ function TimelineItem({
     return baseGap + monthsDiff * scaleFactor
   }
 
+  // Calculate the height of the event if it has start and end years
+  const getEventHeight = () => {
+    if (paper.type !== "event" || !paper.start || !paper.end) return "auto";
+    
+    // Get start and end years
+    const startYear = paper.start;
+    const endYear = paper.end;
+    
+    // Calculate total months between start and end
+    const totalMonths = (endYear - startYear) * 12;
+    
+    // Define pixels per month - this is the key scaling factor
+    // We use a more moderate scaling to ensure timeline remains usable
+    const pixelsPerMonth = 10; // 10px per month (120px per year)
+    
+    // Calculate height in pixels based on months
+    const heightInPixels = Math.max(100, totalMonths * pixelsPerMonth);
+    
+    return `${heightInPixels}px`;
+  };
+
   const timeGap = getTimeGap()
+  const eventHeight = getEventHeight()
 
   // Different styling for events vs papers
   const isEvent = paper.type === "event"
+  const isRangeEvent = isEvent && paper.start && paper.end;
+
+  // Safely get start and end years (fixing TypeScript errors)
+  const startYear = paper.start ?? 0;
+  const endYear = paper.end ?? 0;
 
   return (
     <div
@@ -168,9 +218,50 @@ function TimelineItem({
         }`}
       />
 
-      <div className={`space-y-1 ${isEvent ? "bg-amber-50 p-3 rounded-md border border-amber-200" : ""}`}>
-        <span className="text-sm text-gray-500 font-medium">{paper.date}</span>
+      {/* For range events, add a vertical line to show duration */}
+      {isRangeEvent && (
+        <div 
+          className="absolute left-4 w-1 bg-amber-500 rounded-full" 
+          style={{
+            top: "0.75rem",
+            height: eventHeight,
+            transform: "translateX(-50%)",
+            opacity: 0.8,
+            boxShadow: "0 0 4px rgba(245, 158, 11, 0.5)"
+          }}
+        />
+      )}
+
+      <div 
+        className={`space-y-1 ${isEvent ? "bg-amber-50 p-3 rounded-md border border-amber-200" : ""}`}
+        style={{
+          minHeight: isRangeEvent ? eventHeight : "auto",
+          display: "flex",
+          flexDirection: "column"
+        }}
+      >
+        <span className="text-sm text-gray-500 font-medium">
+          {isRangeEvent ? (
+            <>
+              <span className="inline-block px-2 py-0.5 bg-amber-100 text-amber-800 rounded-md">
+                {startYear} - {endYear}
+              </span>
+              <span className="ml-2 text-amber-700">
+                ({(endYear - startYear) * 12} months)
+              </span>
+            </>
+          ) : (
+            paper.date
+          )}
+        </span>
         <h3 className={`text-lg font-semibold ${isEvent ? "text-amber-800" : ""}`}>{paper.title}</h3>
+
+        {/* Add duration information for long events */}
+        {isRangeEvent && (endYear - startYear) > 1 && (
+          <div className="mt-auto pt-2 text-xs text-amber-700">
+            Duration: {endYear - startYear} years ({(endYear - startYear) * 12} months)
+          </div>
+        )}
 
         {/* On mobile, show the paper card inline */}
         {isMobile && paper.type === "paper" && <PaperCard paper={paper} />}

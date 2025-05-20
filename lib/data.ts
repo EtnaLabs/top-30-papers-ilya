@@ -412,7 +412,7 @@ const items: Item[] = [
   },
   {
     type: "event",
-    date: "01 Jan 2024",
+    date: "2024",
     title: "Launch Gemini 1.5; Launch GPT-4 Turbo"
   },
   {
