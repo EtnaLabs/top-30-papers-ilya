@@ -73,7 +73,7 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
 
   return (
     <div className="flex flex-col lg:flex-row gap-8">
-      <div ref={timelineRef} className="relative flex-1 max-w-full lg:max-w-[60%]">
+      <div ref={timelineRef} className="relative flex-1 max-w-full lg:max-w-[35%]">
         <div className="relative">
           {/* Timeline line */}
           <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-200" />
@@ -102,7 +102,7 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
 
       {/* Detail box - fixed on desktop, scrolls with content on mobile */}
       {!isMobile && activePaper && activePaper.type === "paper" && (
-        <div className="lg:sticky lg:top-8 lg:self-start lg:w-[40%] h-fit">
+        <div className="lg:sticky lg:top-8 lg:self-start lg:w-[65%] h-fit">
           <PaperCard paper={activePaper} />
         </div>
       )}

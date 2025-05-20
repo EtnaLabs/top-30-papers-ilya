@@ -5,9 +5,25 @@ export async function getPapers(): Promise<Item[]> {
 }
 
 const items: Item[] = [
-  { type: "event", date: "01 Jan 1974", start: 1974, end: 1980, title: "First AI winter: limited progress, loss of funding due to overly optimistic expectations" },
-  { type: "event", date: "01 Jan 1987", start: 1987, end: 1993, title: "Second AI winter: reduced funding after expert systems failed commercially" },
-  { type: "event", date: "01 Jan 1997", title: "IBM's Deep Blue beats chess champion Garry Kasparov" },
+  { 
+    type: "event", 
+    date: "01 Jan 1974", 
+    start: 1974, 
+    end: 1980, 
+    title: "First AI winter: limited progress, loss of funding due to overly optimistic expectations" 
+  },
+  { 
+    type: "event", 
+    date: "01 Jan 1987", 
+    start: 1987, 
+    end: 1993, 
+    title: "Second AI winter: reduced funding after expert systems failed commercially" 
+  },
+  { 
+    type: "event", 
+    date: "01 Jan 1997", 
+    title: "IBM's Deep Blue beats chess champion Garry Kasparov" 
+  },
   {
     type: "paper",
     id: 1,
