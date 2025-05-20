@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { PaperCard } from "@/components/paper-card"
 import type { Item } from "@/lib/types"
 import { useInView } from "react-intersection-observer"
@@ -11,6 +11,7 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
   const [currentYear, setCurrentYear] = useState<number | null>(null)
   const timelineRef = useRef<HTMLDivElement>(null)
   const isMobile = useMobile()
+  const paperRefs = useRef<Map<string, HTMLDivElement>>(new Map())
 
   // Set the first paper as active by default
   useEffect(() => {
@@ -25,6 +26,34 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
 
   // Get unique years from papers and sort chronologically
   const years = [...new Set(papers.map((paper) => new Date(paper.date).getFullYear()))].sort((a, b) => a - b)
+
+  // Navigation functions
+  const navigateToPaper = (direction: 'next' | 'prev') => {
+    if (!activePaper) return;
+    
+    // Get only paper type items
+    const onlyPapers = papers.filter(p => p.type === "paper");
+    const currentIndex = onlyPapers.findIndex(p => p.id === activePaper.id);
+    
+    if (currentIndex === -1) return;
+    
+    let targetIndex;
+    if (direction === 'next') {
+      targetIndex = currentIndex < onlyPapers.length - 1 ? currentIndex + 1 : 0; // Loop to first
+    } else {
+      targetIndex = currentIndex > 0 ? currentIndex - 1 : onlyPapers.length - 1; // Loop to last
+    }
+    
+    const targetPaper = onlyPapers[targetIndex];
+    setActivePaper(targetPaper);
+    setCurrentYear(new Date(targetPaper.date).getFullYear());
+    
+    // Scroll to the paper item
+    const targetElement = paperRefs.current.get(targetPaper.id ? String(targetPaper.id) : "");
+    if (targetElement) {
+      targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  };
 
   const calculateYearPositions = () => {
     // Keep track of the positions
@@ -94,6 +123,11 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
                 prevDate={index > 0 ? papers[index - 1].date : undefined}
                 papers={papers}
                 index={index}
+                ref={(el) => {
+                  if (el && paper.id && paper.type === "paper") {
+                    paperRefs.current.set(String(paper.id), el);
+                  }
+                }}
               />
             ))}
           </div>
@@ -107,6 +141,22 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
             key={activePaper.id} 
             className="transition-all duration-300 ease-in-out animate-fadeIn"
           >
+            {/* Navigation buttons */}
+            <div className="flex justify-between mb-4">
+              <button 
+                onClick={() => navigateToPaper('prev')}
+                className="flex items-center gap-1 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-md text-gray-700 font-medium transition-colors"
+              >
+                <span className="text-lg">←</span> Prev
+              </button>
+              <button 
+                onClick={() => navigateToPaper('next')}
+                className="flex items-center gap-1 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-md text-gray-700 font-medium transition-colors"
+              >
+                Next <span className="text-lg">→</span>
+              </button>
+            </div>
+            
             <PaperCard paper={activePaper} />
           </div>
         </div>
@@ -115,27 +165,42 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
   )
 }
 
-function TimelineItem({
+interface TimelineItemProps {
+  paper: Item;
+  isActive: boolean;
+  onInView: () => void;
+  prevDate?: string;
+  papers: Item[];
+  index: number;
+}
+
+// Modify the TimelineItem to accept ref
+const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(({
   paper,
   isActive,
   onInView,
   prevDate,
   papers,
   index,
-}: {
-  paper: Item
-  isActive: boolean
-  onInView: () => void
-  prevDate?: string
-  papers: Item[]
-  index: number
-}) {
-  const { ref, inView } = useInView({
+}, ref) => {
+  const { ref: inViewRef, inView } = useInView({
     threshold: 0.7,
     triggerOnce: false,
     rootMargin: "-20% 0px -20% 0px",
   })
   const isMobile = useMobile()
+
+  // Combine refs
+  const setRefs = (element: HTMLDivElement | null) => {
+    // Set the ref from props
+    if (typeof ref === 'function') {
+      ref(element);
+    } else if (ref) {
+      ref.current = element;
+    }
+    // Set the inView ref
+    inViewRef(element);
+  };
 
   useEffect(() => {
     if (inView && paper.type === "paper") {
@@ -154,8 +219,13 @@ function TimelineItem({
     const monthsDiff =
       (currentDate.getFullYear() - previousDate.getFullYear()) * 12 + (currentDate.getMonth() - previousDate.getMonth())
 
+    // Use different scaling based on the year
+    // For papers after 2004, use a larger scale factor to show more detail
+    const isAfter2004 = currentDate.getFullYear() > 2004;
+    
     // Scale factor - adjust this to control the overall spacing
-    const scaleFactor = 0.8 // Increased from 0.5 to 0.8
+    // Higher scale factor for papers after 2004
+    const scaleFactor = isAfter2004 ? 3.0 : 0.8;
 
     // Base gap (minimum spacing) in rem
     const baseGap = 3
@@ -198,7 +268,7 @@ function TimelineItem({
 
   return (
     <div
-      ref={ref}
+      ref={setRefs}
       className="relative pl-10"
       style={{
         marginTop: `${timeGap}rem`,
@@ -227,8 +297,13 @@ function TimelineItem({
       )}
 
       <div 
-        className={`space-y-1 ${isEvent ? "bg-amber-50 p-3 rounded-md border border-amber-200" : 
-          isActive && !isEvent ? "bg-blue-50 p-3 rounded-md border border-blue-200 shadow-md transition-all duration-300" : ""}`}
+        className={`space-y-1 ${
+          isEvent 
+            ? "bg-amber-50 p-3 rounded-md border border-amber-200" 
+            : isActive && !isEvent 
+              ? "bg-blue-50 p-3 rounded-md border border-blue-200 shadow-md transition-all duration-300" 
+              : "p-3"
+        }`}
         style={{
           minHeight: isRangeEvent ? eventHeight : "auto",
           display: "flex",
@@ -256,4 +331,7 @@ function TimelineItem({
       </div>
     </div>
   )
-}
+})
+
+// Add display name
+TimelineItem.displayName = "TimelineItem";
