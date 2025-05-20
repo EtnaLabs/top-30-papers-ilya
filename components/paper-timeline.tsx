@@ -55,6 +55,20 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
     }
   };
 
+  // Create a function to handle paper selection and scrolling
+  const handlePaperSelect = (paper: Item) => {
+    if (paper.type === "paper") {
+      setActivePaper(paper);
+      setCurrentYear(new Date(paper.date).getFullYear());
+      
+      // Scroll the clicked paper into view
+      const targetElement = paperRefs.current.get(String(paper.id));
+      if (targetElement) {
+        targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+  };
+
   const calculateYearPositions = () => {
     // Keep track of the positions
     const positions: {year: number, position: number}[] = []
@@ -120,6 +134,7 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
                     setCurrentYear(new Date(paper.date).getFullYear())
                   }
                 }}
+                onSelect={handlePaperSelect}
                 prevDate={index > 0 ? papers[index - 1].date : undefined}
                 papers={papers}
                 index={index}
@@ -169,6 +184,7 @@ interface TimelineItemProps {
   paper: Item;
   isActive: boolean;
   onInView: () => void;
+  onSelect: (paper: Item) => void;
   prevDate?: string;
   papers: Item[];
   index: number;
@@ -179,14 +195,15 @@ const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(({
   paper,
   isActive,
   onInView,
+  onSelect,
   prevDate,
   papers,
   index,
 }, ref) => {
   const { ref: inViewRef, inView } = useInView({
-    threshold: 0.7,
+    threshold: 0.6,
     triggerOnce: false,
-    rootMargin: "-20% 0px -20% 0px",
+    rootMargin: "-30% 0px -30% 0px",
   })
   const isMobile = useMobile()
 
@@ -204,9 +221,9 @@ const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(({
 
   useEffect(() => {
     if (inView && paper.type === "paper") {
-      onInView()
+      onInView();
     }
-  }, [inView, onInView, paper.type])
+  }, [inView, onInView, paper.type, paper])
 
   // Calculate the gap based on the time difference between this paper and the previous one
   const getTimeGap = () => {
@@ -303,11 +320,16 @@ const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(({
             : isActive && !isEvent 
               ? "bg-blue-50 p-3 rounded-md border border-blue-200 shadow-md transition-all duration-300" 
               : "p-3"
-        }`}
+        } ${!isEvent ? "cursor-pointer hover:bg-gray-50 transition-colors" : ""}`}
         style={{
           minHeight: isRangeEvent ? eventHeight : "auto",
           display: "flex",
           flexDirection: "column"
+        }}
+        onClick={() => {
+          if (paper.type === "paper") {
+            onSelect(paper);
+          }
         }}
       >
         <span className="text-sm text-gray-500 font-medium">
@@ -324,7 +346,7 @@ const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(({
             paper.date
           )}
         </span>
-        <h3 className={`text-lg font-semibold ${isEvent ? "text-amber-800" : isActive ? "text-blue-700 scale-105 transition-all duration-300" : ""}`}>{paper.title}</h3>
+        <h3 className={`text-lg font-semibold ${isEvent ? "text-amber-800" : isActive ? "text-blue-700 transition-all duration-300" : ""}`}>{paper.title}</h3>
 
         {/* On mobile, show the paper card inline */}
         {isMobile && paper.type === "paper" && <PaperCard paper={paper} />}
