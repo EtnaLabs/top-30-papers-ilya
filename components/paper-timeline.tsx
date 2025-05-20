@@ -209,7 +209,7 @@ function TimelineItem({
       {/* For range events, add a vertical line to show duration */}
       {isRangeEvent && (
         <div 
-          className="absolute left-4 w-1 bg-amber-500 rounded-full" 
+          className="absolute left-[17px] w-1 bg-amber-500 rounded-full" 
           style={{
             top: "0.75rem",
             height: eventHeight,
