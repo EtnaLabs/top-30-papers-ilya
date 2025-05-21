@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import type { Item } from "@/lib/types"
 
 export default function Home() {
-  const [sortByIlya, setSortByIlya] = useState(false)
+  const [sortByIlya, setSortByIlya] = useState(true)
   const [papers, setPapers] = useState<Item[]>([])
   
   useEffect(() => {
@@ -51,7 +51,10 @@ export default function Home() {
         </div>
       </div>
 
-      <PaperTimeline papers={papers} />
+      <PaperTimeline 
+        key={`papers-${sortByIlya ? 'ilya' : 'date'}`} 
+        papers={papers} 
+      />
     </div>
   )
 }

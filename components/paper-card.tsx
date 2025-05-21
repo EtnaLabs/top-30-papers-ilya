@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { ExternalLink, ChevronLeft, ChevronRight } from "lucide-react"
@@ -13,6 +13,11 @@ export function PaperCard({ paper }: { paper: Item }) {
 
   const totalSlides = paper.slides?.length || 0
 
+  // Reset to first slide whenever the paper changes
+  useEffect(() => {
+    setActiveSlideIndex(0);
+  }, [paper]);
+
   const handleNextSlide = () => {
     setActiveSlideIndex((prevIndex) => (prevIndex + 1) % totalSlides)
   }
@@ -21,11 +26,29 @@ export function PaperCard({ paper }: { paper: Item }) {
     setActiveSlideIndex((prevIndex) => (prevIndex - 1 + totalSlides) % totalSlides)
   }
 
+  // Function to check if text has fewer than 30 words
+  const hasShortText = (text: string) => {
+    if (!text) return false;
+    return text.split(/\s+/).filter(word => word.length > 0).length < 30;
+  }
+
   return (
     <Card className="mt-2">
       <CardContent className="pt-6">
         <div className="flex justify-between items-start mb-2">
           <h3 className="text-xl font-bold">{paper.title}</h3>
+          {paper.link && (
+            <Button 
+              asChild 
+              variant="ghost" 
+              size="icon" 
+              className="ml-2"
+            >
+              <a href={paper.link} target="_blank" rel="noopener noreferrer">
+                <ExternalLink className="h-5 w-5" />
+              </a>
+            </Button>
+          )}
         </div>
 
         {paper.authors && (
@@ -33,7 +56,7 @@ export function PaperCard({ paper }: { paper: Item }) {
             <div>
               <p>{paper.authors}</p>
             </div>
-            <span className="text-sm font-bold bg-blue-100 text-blue-800 px-2 py-1 rounded-full">{paper.date}</span>
+            <span className="text-sm font-bold bg-gray-100 text-gray-800 px-2 py-1 rounded-full">{paper.date}</span>
           </div>
         )}
 
@@ -43,6 +66,9 @@ export function PaperCard({ paper }: { paper: Item }) {
             <div className="space-y-6"> 
               {(() => {
                 const slide = paper.slides![activeSlideIndex];
+                // Check if the current slide has short text
+                const isShortText = slide.content ? hasShortText(slide.content) : false;
+                
                 return (
                   <>
                     {/* Show slide type as title above the slide */}
@@ -103,20 +129,26 @@ export function PaperCard({ paper }: { paper: Item }) {
                       )}
                       
                       {slide.type === "text" && slide.content && (
-                        <p className="text-sm">{slide.content}</p>
+                        <p className={isShortText ? "text-3xl" : "text-sm"}>
+                          {slide.content}
+                        </p>
                       )}
                       
                       {slide.type === "summary" && slide.content && (
                         <div>
-                          <p className="text-sm">{slide.content}</p>
+                          <p className={isShortText ? "text-3xl" : "text-sm"}>
+                            {slide.content}
+                          </p>
                         </div>
                       )}
                       
                       {slide.type === "keyTakeaways" && slide.content && (
                         <div>
-                          <ul className="list-disc pl-5 space-y-1 text-sm">
+                          <ul className="list-disc pl-5 space-y-1 text-4xl">
                             {slide.content.split("\n").map((takeaway, idx) => (
-                              <li key={idx}>{takeaway.replace(/^\d+\.\s/, "")}</li>
+                              <li key={idx} className={hasShortText(takeaway) ? "text-3xl" : "text-sm"}>
+                                {takeaway.replace(/^\d+\.\s/, "")}
+                              </li>
                             ))}
                           </ul>
                         </div>
@@ -129,16 +161,6 @@ export function PaperCard({ paper }: { paper: Item }) {
           </div>
         )}
       </CardContent>
-
-      {paper.link && (
-        <CardFooter>
-          <Button asChild className="w-full">
-            <a href={paper.link} target="_blank" rel="noopener noreferrer">
-              Read Paper <ExternalLink className="ml-2 h-4 w-4" />
-            </a>
-          </Button>
-        </CardFooter>
-      )}
     </Card>
   )
 }

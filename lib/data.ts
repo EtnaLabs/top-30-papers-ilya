@@ -36,8 +36,7 @@ const items: Item[] = [
     link: "https://nlp.seas.harvard.edu/annotated-transformer/",
     slides: [
       {
-        content:
-        "This resource provides a line-by-line implementation of the Transformer model with detailed annotations. It presents the original 'Attention is All You Need' paper as executable code, making it accessible for practitioners. The implementation covers the complete architecture including encoder-decoder stacks, multi-head attention, and training procedures.",
+        content: "Attention is all you need simplified and annotated with diagrams and python code!",
         type: "summary",
       },
       {
@@ -68,6 +67,14 @@ const items: Item[] = [
         content:
         "1. Analyzes the dynamics of complexity in closed systems using the Coffee Automaton model. \n2. Provides insights into the mechanisms driving complexity changes over time. \n3. Offers a framework for predicting complexity trends in similar systems.",
         type: "keyTakeaways",
+      },
+      {
+        imageUrl: "https://149663533.v2.pressablecdn.com/coffee-small.jpg",
+        type: "image",
+      },
+      {
+        imageUrl: "https://scottaaronson.blog/complexity-lrg.jpg",
+        type: "image",
       }
     ]
   },

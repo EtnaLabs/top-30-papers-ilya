@@ -354,7 +354,7 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
               <TimelineItem
                 key={paper.id || `event-${index}`}
                 paper={paper}
-                isActive={activePaper?.id === paper.id}
+                isActive={activePaper?.title === paper.title}
                 onInView={() => {
                   if (paper.type === "paper") {
                     setActivePaper(paper)
@@ -504,10 +504,10 @@ const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(({
         className={`space-y-1 ${
           isEvent 
             ? "bg-amber-50 p-3 rounded-md border border-amber-200" 
-            : isActive && !isEvent 
+            : isActive 
               ? "bg-blue-50 p-3 rounded-md border border-blue-200 shadow-md transition-all duration-300" 
-              : "p-3"
-        } ${!isEvent ? "cursor-pointer hover:bg-gray-50 transition-colors" : ""}`}
+              : "p-3 hover:bg-gray-50 transition-colors"
+        } ${!isEvent ? "cursor-pointer transition-colors" : ""}`}
         style={{
           minHeight: isRangeEvent ? eventHeight : "auto",
           display: "flex",
@@ -533,7 +533,7 @@ const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(({
             paper.date
           )}
         </span>
-        <h3 className={`text-lg font-semibold ${isEvent ? "text-amber-800" : isActive ? "text-blue-700 transition-all duration-300" : ""}`}>{paper.title}</h3>
+        <h3 className={`text-lg font-semibold ${isEvent ? "text-amber-800" : isActive ? "text-blue-700" : "text-gray-800"}`}>{paper.title}</h3>
 
         {/* On mobile, show the paper card inline */}
         {isMobile && paper.type === "paper" && <PaperCard paper={paper} />}
