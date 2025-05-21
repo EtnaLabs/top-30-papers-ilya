@@ -105,26 +105,7 @@ const items: Item[] = [
     ]
   },
   { type: "event", date: "2011", title: "IBM Watson wins Jeopardy!" },
-  {
-    type: "paper",
-    id: 5,
-    date: "23 Sep 2011",
-    title: "The First Law of Complexodynamics",
-    authors: "Scott Aaronson",
-    link: "https://scottaaronson.blog/?p=762",
-    slides: [
-      {
-        content:
-        "This paper introduces the First Law of Complexodynamics, exploring how complexity evolves in systems. It discusses the principles governing complexity growth and decay, providing insights into the dynamics of complex systems. The paper highlights applications in various fields, emphasizing the importance of understanding complexity in scientific research.",
-        type: "summary",
-      },
-      {
-        content:
-        "1. Introduces the concept of complexodynamics in understanding system evolution. \n2. Explores the relationship between complexity and energy in dynamic systems. \n3. Provides insights into the predictability and stability of complex systems.",
-        type: "keyTakeaways",
-      }
-    ]
-  },
+
   { type: "event", date: "2012", title: "AlexNet wins ImageNet challenge, sparking deep learning revolution" },
   {
     type: "paper",
@@ -497,6 +478,26 @@ const items: Item[] = [
     ]
   },
   {
+    type: "paper",
+    id: 31,
+    date: "01 Aug 2017",
+    title: "The Annotated Transformer",
+    authors: "Sasha Rush; Austin Huang; Suraj Subramanian; Jonathan Sum; Khalid Almubarak; Stella Biderman",
+    link: "https://nlp.seas.harvard.edu/annotated-transformer/",
+    slides: [
+      {
+        content:
+        "This resource provides a line-by-line implementation of the Transformer model with detailed annotations. It presents the original 'Attention is All You Need' paper as executable code, making it accessible for practitioners. The implementation covers the complete architecture including encoder-decoder stacks, multi-head attention, and training procedures.",
+        type: "summary",
+      },
+      {
+        content:
+        "1. Offers a practical, executable implementation of the Transformer architecture. \n2. Breaks down complex concepts with detailed annotations and explanations. \n3. Serves as an educational bridge between theoretical papers and practical implementation.",
+        type: "keyTakeaways",
+      }
+    ]
+  },
+  {
     type: "event",
     date: "01 Jan 2018",
     title: "Launch GPT-2; Launch BERT"
@@ -676,4 +677,35 @@ const items: Item[] = [
     date: "2025",
     title: "Launch GPT-4o; Launch Gemini 2.5"
   },
+]
+
+
+const IlyaList: { title: string; url: string }[] = [
+  { title: "The Annotated Transformer", url: "https://nlp.seas.harvard.edu/annotated-transformer/" },
+  { title: "The First Law of Complexodynamics", url: "https://scottaaronson.blog/?p=762" },
+  { title: "The Unreasonable Effectiveness of Recurrent Neural Networks", url: "https://karpathy.github.io/2015/05/21/rnn-effectiveness/" },
+  { title: "Understanding LSTM Networks", url: "https://colah.github.io/posts/2015-08-Understanding-LSTMs/" },
+  { title: "Recurrent Neural Network Regularization", url: "https://arxiv.org/pdf/1409.2329.pdf" },
+  { title: "Keeping Neural Networks Simple by Minimizing the Description Length of the Weights", url: "https://www.cs.toronto.edu/~hinton/absps/colt93.pdf" },
+  { title: "Pointer Networks", url: "https://arxiv.org/pdf/1506.03134.pdf" },
+  { title: "ImageNet Classification with Deep Convolutional Neural Networks", url: "https://proceedings.neurips.cc/paper_files/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf" },
+  { title: "Order Matters: Sequence-to-Sequence for Sets", url: "https://arxiv.org/pdf/1511.06391.pdf" },
+  { title: "GPipe: Efficient Training of Giant Neural Networks using Pipeline Parallelism", url: "https://arxiv.org/pdf/1811.06965.pdf" },
+  { title: "Deep Residual Learning for Image Recognition", url: "https://arxiv.org/pdf/1512.03385.pdf" },
+  { title: "Multi-Scale Context Aggregation by Dilated Convolutions", url: "https://arxiv.org/pdf/1511.07122.pdf" },
+  { title: "Neural Message Passing for Quantum Chemistry", url: "https://arxiv.org/pdf/1704.01212.pdf" },
+  { title: "Attention Is All You Need", url: "https://arxiv.org/pdf/1706.03762.pdf" },
+  { title: "Neural Machine Translation by Jointly Learning to Align and Translate", url: "https://arxiv.org/pdf/1409.0473.pdf" },
+  { title: "Identity Mappings in Deep Residual Networks", url: "https://arxiv.org/pdf/1603.05027.pdf" },
+  { title: "A Simple Neural Network Module for Relational Reasoning", url: "https://arxiv.org/pdf/1706.01427.pdf" },
+  { title: "Variational Lossy Autoencoder", url: "https://arxiv.org/pdf/1611.02731.pdf" },
+  { title: "Relational Recurrent Neural Networks", url: "https://arxiv.org/pdf/1806.01822.pdf" },
+  { title: "Quantifying the Rise and Fall of Complexity in Closed Systems: The Coffee Automaton", url: "https://arxiv.org/pdf/1405.6903.pdf" },
+  { title: "Neural Turing Machines", url: "https://arxiv.org/pdf/1410.5401.pdf" },
+  { title: "Deep Speech 2: End-to-End Speech Recognition in English and Mandarin", url: "https://arxiv.org/pdf/1512.02595.pdf" },
+  { title: "Scaling Laws for Neural Language Models", url: "https://arxiv.org/pdf/2001.08361.pdf" },
+  { title: "A Tutorial Introduction to the Minimum Description Length Principle", url: "https://arxiv.org/pdf/math/0406077.pdf" },
+  { title: "Machine Super Intelligence", url: "https://www.vetta.org/documents/Machine_Super_Intelligence.pdf" },
+  { title: "Kolmogorov Complexity and Algorithmic Randomness", url: "https://www.lirmm.fr/~ashen/kolmbook-eng-scan.pdf" },
+  { title: "CS231n: Deep Learning for Computer Vision", url: "https://cs231n.github.io/" }
 ]

@@ -26,16 +26,17 @@ export function PaperCard({ paper }: { paper: Item }) {
       <CardContent className="pt-6">
         <div className="flex justify-between items-start mb-2">
           <h3 className="text-xl font-bold">{paper.title}</h3>
-          <span className="text-sm font-bold bg-blue-100 text-blue-800 px-2 py-1 rounded-full">{year}</span>
         </div>
-        <p className="text-sm text-gray-500 mb-4">{paper.date}</p>
 
         {paper.authors && (
-          <div className="text-sm text-gray-700 mb-4">
-            <h4 className="font-semibold mb-1">Authors</h4>
-            <p>{paper.authors}</p>
+          <div className="flex justify-between items-center text-sm text-gray-700 mb-4">
+            <div>
+              <p>{paper.authors}</p>
+            </div>
+            <span className="text-sm font-bold bg-blue-100 text-blue-800 px-2 py-1 rounded-full">{paper.date}</span>
           </div>
         )}
+
 
         {paper.summary && (
           <div className="text-sm mb-4">
@@ -57,81 +58,90 @@ export function PaperCard({ paper }: { paper: Item }) {
 
         {paper.slides && totalSlides > 0 && (
           <div className="mt-6 border-t pt-4">
-            {/* Slide Navigation - only show if more than one slide */}
-            {totalSlides > 1 && (
-              <div className="flex justify-end items-center mb-3 space-x-2">
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={handlePrevSlide}
-                  aria-label="Previous slide"
-                >
-                  <ChevronLeft className="h-4 w-4" />
-                </Button>
-                <span className="text-sm text-gray-600">
-                  {activeSlideIndex + 1} of {totalSlides}
-                </span>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={handleNextSlide}
-                  aria-label="Next slide"
-                >
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
-              </div>
-            )}
-            {/* Single slide display - add top margin if navigation is not present */}
-            <div className={`space-y-6 ${totalSlides <= 1 ? 'mt-4' : ''}`}> 
+            {/* Single slide display */}
+            <div className="space-y-6"> 
               {(() => {
                 const slide = paper.slides![activeSlideIndex];
                 return (
-                  <div key={activeSlideIndex} className="border rounded-lg p-4 bg-gray-50">
-                    {slide.title && <h5 className="font-medium text-lg mb-2">{slide.title}</h5>}
-                    
-                    {slide.type === "image" && slide.imageUrl && (
-                      <div className="relative h-60 w-full overflow-hidden rounded-md mb-2">
-                        <Image 
-                          src={slide.imageUrl} 
-                          alt={slide.title || "Slide image"}
-                          fill
-                          className="object-contain"
-                        />
+                  <>
+                    {/* Show slide type as title above the slide */}
+                    {slide.type && (
+                      <div className="flex items-center justify-between mb-2">
+                        <h5 className="font-medium text-lg">
+                          {slide.type === "summary" ? "Summary" : 
+                           slide.type === "keyTakeaways" ? "Key Takeaways" : 
+                           slide.title || ""}
+                        </h5>
+                        
+                        {/* Navigation buttons moved next to title */}
+                        {totalSlides > 1 && (
+                          <div className="flex items-center space-x-2">
+                            <Button
+                              variant="outline"
+                              size="icon"
+                              onClick={handlePrevSlide}
+                              aria-label="Previous slide"
+                            >
+                              <ChevronLeft className="h-4 w-4" />
+                            </Button>
+                            <span className="text-sm text-gray-600">
+                              {activeSlideIndex + 1} of {totalSlides}
+                            </span>
+                            <Button
+                              variant="outline"
+                              size="icon"
+                              onClick={handleNextSlide}
+                              aria-label="Next slide"
+                            >
+                              <ChevronRight className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        )}
                       </div>
                     )}
-                    
-                    {slide.type === "video" && slide.videoUrl && (
-                      <div className="aspect-video mb-2">
-                        <iframe
-                          src={slide.videoUrl}
-                          className="w-full h-full rounded-md"
-                          allowFullScreen
-                        ></iframe>
-                      </div>
-                    )}
-                    
-                    {slide.type === "text" && slide.content && (
-                      <p className="text-sm">{slide.content}</p>
-                    )}
-                    
-                    {slide.type === "summary" && slide.content && (
-                      <div>
-                        <h6 className="text-sm font-medium mb-1">Summary</h6>
+                    <div key={activeSlideIndex}>
+                      {slide.type === "image" && slide.imageUrl && (
+                        <div className="relative h-60 w-full overflow-hidden rounded-md mb-2">
+                          <Image 
+                            src={slide.imageUrl} 
+                            alt={slide.title || "Slide image"}
+                            fill
+                            className="object-contain"
+                          />
+                        </div>
+                      )}
+                      
+                      {slide.type === "video" && slide.videoUrl && (
+                        <div className="aspect-video mb-2">
+                          <iframe
+                            src={slide.videoUrl}
+                            className="w-full h-full rounded-md"
+                            allowFullScreen
+                          ></iframe>
+                        </div>
+                      )}
+                      
+                      {slide.type === "text" && slide.content && (
                         <p className="text-sm">{slide.content}</p>
-                      </div>
-                    )}
-                    
-                    {slide.type === "keyTakeaways" && slide.content && (
-                      <div>
-                        <h6 className="text-sm font-medium mb-1">Key Takeaways</h6>
-                        <ul className="list-disc pl-5 space-y-1 text-sm">
-                          {slide.content.split("\n").map((takeaway, idx) => (
-                            <li key={idx}>{takeaway.replace(/^\d+\.\s/, "")}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </div>
+                      )}
+                      
+                      {slide.type === "summary" && slide.content && (
+                        <div>
+                          <p className="text-sm">{slide.content}</p>
+                        </div>
+                      )}
+                      
+                      {slide.type === "keyTakeaways" && slide.content && (
+                        <div>
+                          <ul className="list-disc pl-5 space-y-1 text-sm">
+                            {slide.content.split("\n").map((takeaway, idx) => (
+                              <li key={idx}>{takeaway.replace(/^\d+\.\s/, "")}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                  </>
                 );
               })()}
             </div>
