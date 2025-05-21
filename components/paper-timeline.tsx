@@ -30,7 +30,7 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
   // Store calculated positions to prevent overlapping
   const itemPositionsRef = useRef<Map<string, number>>(new Map())
   // Minimum spacing between items in rem
-  const MIN_ITEM_SPACING = 15; // rem
+  const MIN_ITEM_SPACING = 25; // rem
   // Check if using Ilya's order (papers with no gaps between them)
   const isIlyaOrder = useMemo(() => {
     // We can detect this by checking if papers are sorted by date

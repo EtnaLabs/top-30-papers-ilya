@@ -247,11 +247,15 @@ const items: Item[] = [
         imageUrl: "https://pbs.twimg.com/media/GrXJ8sZbAAEYXBh?format=jpg&name=medium"
       },
       {
-        content: "Using Kolmogorov Complexity (KC) to define entropy reveals intriguing insights. A uniformly random string, while having the highest KC, is paradoxically the least interesting due to its lack of decipherable structure. For instance, a random string can be described simply as 'it's random,' offering no complexity to the observer. This observation suggests that complexity requires some form of structure that an observer can interpret as meaningful. Mathematical arguments propose that we can either use bounded computations or adopt a probabilistic model to align KC and entropy with the observed complexity curve. Without discernible structure, an observer perceives a string as random, lacking the complexity that makes it interesting.",
+        title: "Kolmogorov Complexity (KC)",
+        content: "An example of KC is 01010101 can be represented as 01 repeated 4 times; while a random string like 01100101 can't be compressed further"
+      },
+      {
+        content: "Kolmogorov Complexity (KC) helps explain entropy. A random string has high KC but is uninteresting because it lacks structure. Complexity needs structure to be meaningful. We can use limited computations or a probabilistic model to match KC and entropy with observed complexity. Without structure, a string seems random and uninteresting.",
         imageUrl: "https://pbs.twimg.com/media/GrXM_JBbgAAnn5I?format=jpg&name=medium"
       },
       {
-        content: "We have explored KC and entropy, now let's define a concept closer to complexity: 'sophistication'. It's an apt term, as being sophisticated means not being easily describable. If a string S belongs to a group that can be easily generated (i.e., the group's generator has a small MDL/KC), then its sophistication is low. When entropy is low, KC is low due to fewer states, leading to low sophistication (beginning of a computation/universe). Conversely, in high entropy, randomness prevails, and a simple random generator can describe the sea of states, resulting in lost sophistication but high KC. This is an intriguing definition, offering a new perspective on complexity.",
+        content: "Sophistication means being hard to describe. A string with a simple generator has low sophistication. Low entropy means fewer states and low sophistication, while high entropy means randomness, low sophistication, but high KC. This offers a fresh view on complexity.",
         imageUrl: "https://pbs.twimg.com/media/GrXPZcDbAAI01Ou?format=jpg&name=medium"
       }
     ]
