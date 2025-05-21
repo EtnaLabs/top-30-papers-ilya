@@ -34,9 +34,6 @@ export default function Home() {
         </p>
         
         <div className="flex flex-col items-center gap-2 mt-6">
-          <p className="text-sm text-muted-foreground">
-            Currently showing: <span className="font-medium">{sortByIlya ? "Ilya's priority order" : "Chronological order"}</span>
-          </p>
           <div className="flex justify-center gap-4">
             <Button 
               variant={sortByIlya ? "outline" : "default"} 

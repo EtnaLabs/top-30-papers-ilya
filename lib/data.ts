@@ -8,133 +8,48 @@ export async function getPapersSortedByIlyaList(): Promise<Item[]> {
   return itemsSortedByIlyaList
 }
 
-const items: Item[] = [
-  { 
-    type: "event", 
-    date: "01 Jan 1974", 
-    start: 1974, 
-    end: 1980, 
-    title: "First AI winter: limited progress, loss of funding due to overly optimistic expectations" 
-  },
-  { 
-    type: "event", 
-    date: "01 Jan 1987", 
-    start: 1987, 
-    end: 1993, 
-    title: "Second AI winter: reduced funding after expert systems failed commercially" 
-  },
-  {
-    type: "paper",
-    id: 1,
-    date: "01 Jul 1993",
-    title: "Keeping Neural Networks Simple by Minimizing the Description Length of the Weights",
-    authors: "Geoffrey E. Hinton; Drew van Camp",
-    link: "https://www.cs.toronto.edu/~hinton/absps/colt93.pdf",
-    slides: [
-      {
-        content:
-        "Hinton & van Camp reduce overfitting in neural networks by minimizing weight description length using the MDL principle. This method simplifies to L2 weight-decay with a Gaussian prior, linking MDL to Bayesian regularization. It supports weight-sharing, pruning, and adaptive noise, effectively improving test errors.",
-        type: "summary",
-      },
-      {
-        content:
-        "1. Simplifies neural network models by reducing the complexity of weight descriptions. \n2. Enhances model generalization by focusing on essential features. \n3. Reduces overfitting by minimizing unnecessary parameters.",
-        type: "keyTakeaways",
-      }
-    ]
-  },
-  { 
-    type: "event", 
-    date: "01 Jan 1997", 
-    title: "IBM's Deep Blue beats chess champion Garry Kasparov" 
-  },
-  {
-    type: "paper",
-    id: 2,
-    date: "04 Jun 2004",
-    title: "A Tutorial Introduction to the Minimum Description Length Principle",
-    authors: "Peter Grunwald",
-    link: "https://arxiv.org/pdf/math/0406077.pdf",
-    slides: [ 
-      {
-        content:
-        "This paper introduces the MDL principle, a method for model selection and inference in information theory. It minimizes data and model description length to prevent overfitting. The paper covers MDL's foundations, applications, and practical guidance, aiding in selecting models that generalize well.",
-        type: "summary",
-      },
-      {
-        content:
-        "1. Provides a comprehensive overview of the MDL principle in model selection. \n2. Demonstrates the application of MDL in various statistical models. \n3. Highlights the balance between model complexity and data fitting.",
-        type: "keyTakeaways",
-      }
-    ]
-  },
-  {
-    type: "paper",
-    id: 3,
-    date: "01 Jan 2008",
-    title: "Kolmogorov Complexity and Algorithmic Randomness",
-    authors: "A. Shen; V. A. Uspensky; N. Vereshchagin",
-    link: "https://www.lirmm.fr/~ashen/kolmbook-eng-scan.pdf",
-    slides: [
-      {
-        content:
-        "This paper examines Kolmogorov complexity, measuring randomness by the shortest description length of a string. It explores algorithmic randomness and its implications in data compression, information theory, and computational theory, serving as a foundational text for understanding the mathematical basis of randomness.",
-        type: "summary",
-      },
-      {
-        content:
-        "1. Explores the concept of Kolmogorov complexity in measuring randomness. \n2. Discusses the implications of algorithmic randomness in computation. \n3. Connects complexity theory with practical applications in data compression.",
-        type: "keyTakeaways",
-      }
-    ]
-  },
-  {
-    type: "paper",
-    id: 4,
-    date: "22 Jun 2008",
-    title: "Machine Super Intelligence",
-    authors: "Shane Legg",
-    link: "https://www.vetta.org/documents/Machine_Super_Intelligence.pdf",
-    slides: [
-      {
-        content:
-        "This paper discusses machine superintelligence, an AI surpassing human intelligence. It examines societal, ethical, and future implications, focusing on controlling and aligning such systems with human values. The paper emphasizes safety measures and explores superintelligence's transformative impact on technology, economy, and global power dynamics.",
-        type: "summary",
-      },
-      {
-        content:
-        "1. Examines the potential and challenges of achieving superintelligent AI. \n2. Discusses ethical considerations and safety measures for AI development. \n3. Analyzes the impact of superintelligence on society and future technologies.",
-        type: "keyTakeaways",
-      }
-    ]
-  },
+const events: Item[] = [
+  { type: "event", date: "01 Jan 1974", start: 1974, end: 1980, title: "First AI winter: limited progress, loss of funding due to overly optimistic expectations" },
+  { type: "event", date: "01 Jan 1987", start: 1987, end: 1993, title: "Second AI winter: reduced funding after expert systems failed commercially" },
+  { type: "event", date: "01 Jan 1997", title: "IBM's Deep Blue beats chess champion Garry Kasparov" },
   { type: "event", date: "2011", title: "IBM Watson wins Jeopardy!" },
-
   { type: "event", date: "2012", title: "AlexNet wins ImageNet challenge, sparking deep learning revolution" },
+  { type: "event", date: "2014", title: "Launch GPT" },
+  { type: "event", date: "01 Jan 2016", title: "AlphaGo beats Lee Sedol in Go" },
+  { type: "event", date: "01 Jan 2018", title: "Launch GPT-2; Launch BERT" },
+  { type: "event", date: "01 Jan 2020", title: "Launch GPT-3" },
+  { type: "event", date: "01 Jan 2021", title: "Launch DALL-E; Launch Codex" },
+  { type: "event", date: "01 Jan 2022", title: "Launch ChatGPT (GPT-3.5); Stable Diffusion; Midjourney" },
+  { type: "event", date: "01 Jan 2023", title: "Launch GPT-4; Launch Claude" },
+  { type: "event", date: "2024", title: "Launch Gemini 1.5; Launch GPT-4 Turbo" },
+  { type: "event", date: "2025", title: "Launch GPT-4o; Launch Gemini 2.5" },
+]
+
+
+const items: Item[] = [
   {
     type: "paper",
-    id: 6,
-    date: "01 Dec 2012",
-    title: "ImageNet Classification with Deep Convolutional Neural Networks",
-    authors: "Alex Krizhevsky; Ilya Sutskever; Geoffrey E. Hinton",
-    link: "https://proceedings.neurips.cc/paper_files/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf",
+    order: 1,
+    date: "01 Aug 2017",
+    title: "The Annotated Transformer",
+    authors: "Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Łukasz Kaiser, Illia Polosukhin",
+    link: "https://nlp.seas.harvard.edu/annotated-transformer/",
     slides: [
       {
         content:
-        "AlexNet transformed image classification with deep convolutional neural networks, achieving high accuracy on ImageNet. It introduced ReLU activations, dropout, and GPU use, significantly advancing computer vision and deep learning architectures.",
+        "This resource provides a line-by-line implementation of the Transformer model with detailed annotations. It presents the original 'Attention is All You Need' paper as executable code, making it accessible for practitioners. The implementation covers the complete architecture including encoder-decoder stacks, multi-head attention, and training procedures.",
         type: "summary",
       },
       {
         content:
-        "1. Demonstrates the effectiveness of deep CNNs in large-scale image classification. \n2. Highlights the role of data augmentation and dropout in improving model performance. \n3. Sets a new benchmark for image recognition tasks with significant accuracy improvements.",
+        "1. Offers a practical, executable implementation of the Transformer architecture. \n2. Breaks down complex concepts with detailed annotations and explanations. \n3. Serves as an educational bridge between theoretical papers and practical implementation.",
         type: "keyTakeaways",
       }
     ]
   },
-  { type: "event", date: "2014", title: "Launch GPT" },
   {
     type: "paper",
-    id: 7,
+    order: 2,
     date: "23 Sep 2011",
     title: "The First Law of Complexodynamics",
     authors: "Scott Aaronson",
@@ -154,87 +69,7 @@ const items: Item[] = [
   },
   {
     type: "paper",
-    id: 8,
-    date: "01 Sep 2014",
-    title: "Neural Machine Translation by Jointly Learning to Align and Translate",
-    authors: "Dzmitry Bahdanau; Kyunghyun Cho; Yoshua Bengio",
-    link: "https://arxiv.org/pdf/1409.0473.pdf",
-    slides: [
-      {
-        content:
-        "This paper introduces a novel approach to neural machine translation by integrating alignment and translation processes. It enhances translation accuracy by jointly learning these tasks, significantly improving performance over traditional methods, and setting a new standard in machine translation research.",
-        type: "summary",
-      },
-      {
-        content:
-        "1. Introduces a novel approach to neural machine translation by integrating alignment and translation processes. \n2. Improves translation accuracy by leveraging joint learning techniques. \n3. Demonstrates the effectiveness of the model on various language pairs.",
-        type: "keyTakeaways",
-      }
-    ]
-  },
-  {
-    type: "paper",
-    id: 9,
-    date: "08 Sep 2014",
-    title: "Recurrent Neural Network Regularization",
-    authors: "Wojciech Zaremba; Ilya Sutskever; Oriol Vinyals",
-    link: "https://arxiv.org/pdf/1409.2329.pdf",
-    slides: [
-      {
-        content:
-        "This paper explores techniques to regularize recurrent neural networks, addressing overfitting issues. It introduces methods like dropout and weight noise, improving model generalization and performance. These techniques are crucial for enhancing the robustness of RNNs in various applications.",
-        type: "summary",
-      },
-      {
-        content:
-        "1. Proposes new regularization techniques to enhance the performance of recurrent neural networks. \n2. Reduces overfitting and improves generalization in RNN models. \n3. Validates the effectiveness of the methods through extensive experiments.",
-        type: "keyTakeaways",
-      }
-    ]
-  },
-  {
-    type: "paper",
-        id: 10,
-    date: "20 Oct 2014",
-    title: "Neural Turing Machines",
-    authors: "Alex Graves; Greg Wayne; Ivo Danihelka",
-    link: "https://arxiv.org/pdf/1405.6903.pdf",
-    slides: [
-      {
-        content:
-        "This paper presents Neural Turing Machines, a model combining neural networks with external memory resources. It mimics the capabilities of a Turing machine, enabling complex data manipulation and storage, advancing the field of neural computation and memory-augmented networks.",
-        type: "summary",
-      },
-      {
-        content:
-        "1. Combines neural networks with external memory resources to create Neural Turing Machines. \n2. Enhances the ability of neural networks to perform algorithmic tasks. \n3. Demonstrates the potential of NTMs in solving complex computational problems.",
-        type: "keyTakeaways",
-      }
-    ]
-  },
-  {
-    type: "paper",
-    id: 11,
-    date: "01 Jan 2015",
-    title: "Stanford's CS231n Convolutional Neural Networks for Visual Recognition",
-    authors: "Fei-Fei Li; Justin Johnson; Serena Yeung",
-    link: "https://cs231n.github.io/",
-    slides: [
-      {
-        content:
-        "This course provides comprehensive insights into convolutional neural networks for visual recognition. It covers fundamental concepts, architectures, and applications, equipping students with practical skills and theoretical knowledge to tackle computer vision challenges using deep learning techniques.",
-        type: "summary",
-      },
-      {
-        content:
-        "1. Provides comprehensive coverage of CNNs for visual recognition tasks. \n2. Offers practical insights and techniques for improving CNN performance. \n3. Serves as a foundational resource for students and practitioners in the field.",
-        type: "keyTakeaways",
-      }
-    ]
-  },
-  {
-    type: "paper",
-    id: 12,
+    order: 3,
     date: "21 May 2015",
     title: "The Unreasonable Effectiveness of Recurrent Neural Networks",
     authors: "Andrej Karpathy",
@@ -254,27 +89,7 @@ const items: Item[] = [
   },
   {
     type: "paper",
-    id: 13,
-    date: "09 Jun 2015",
-    title: "Pointer Networks",
-    authors: "Oriol Vinyals; Meire Fortunato; Navdeep Jaitly",
-    link: "https://arxiv.org/pdf/1506.03134.pdf",
-    slides: [
-      {
-        content:
-        "This paper introduces Pointer Networks, a novel neural architecture for solving combinatorial optimization problems. It uses attention mechanisms to select output sequences, outperforming traditional methods in tasks like sorting and routing, and offering new solutions in optimization challenges.",
-        type: "summary",
-      },
-      {
-        content:
-        "1. Introduces Pointer Networks, a novel neural architecture for solving combinatorial problems. \n2. Demonstrates the model's ability to handle variable-sized outputs. \n3. Validates the approach on tasks like sorting and the traveling salesman problem.",
-        type: "keyTakeaways",
-      }
-    ]
-  },
-  {
-    type: "paper",
-    id: 14,
+    order: 4,
     date: "27 Aug 2015",
     title: "Understanding LSTM Networks",
     authors: "Christopher Olah",
@@ -294,7 +109,90 @@ const items: Item[] = [
   },
   {
     type: "paper",
-    id: 15,
+    order: 5,
+    date: "08 Sep 2014",
+    title: "Recurrent Neural Network Regularization",
+    authors: "Wojciech Zaremba; Ilya Sutskever; Oriol Vinyals",
+    link: "https://arxiv.org/pdf/1409.2329.pdf",
+    slides: [
+      {
+        content:
+        "This paper explores techniques to regularize recurrent neural networks, addressing overfitting issues. It introduces methods like dropout and weight noise, improving model generalization and performance. These techniques are crucial for enhancing the robustness of RNNs in various applications.",
+        type: "summary",
+      },
+      {
+        content:
+        "1. Proposes new regularization techniques to enhance the performance of recurrent neural networks. \n2. Reduces overfitting and improves generalization in RNN models. \n3. Validates the effectiveness of the methods through extensive experiments.",
+        type: "keyTakeaways",
+      }
+    ]
+  },
+  {
+    type: "paper",
+    order: 6,
+    date: "01 Jul 1993",
+    title: "Keeping Neural Networks Simple by Minimizing the Description Length of the Weights",
+    authors: "Geoffrey E. Hinton; Drew van Camp",
+    link: "https://www.cs.toronto.edu/~hinton/absps/colt93.pdf",
+    slides: [
+      {
+        content:
+        "Hinton & van Camp reduce overfitting in neural networks by minimizing weight description length using the MDL principle. This method simplifies to L2 weight-decay with a Gaussian prior, linking MDL to Bayesian regularization. It supports weight-sharing, pruning, and adaptive noise, effectively improving test errors.",
+        type: "summary",
+      },
+      {
+        content:
+        "1. Simplifies neural network models by reducing the complexity of weight descriptions. \n2. Enhances model generalization by focusing on essential features. \n3. Reduces overfitting by minimizing unnecessary parameters.",
+        type: "keyTakeaways",
+      }
+    ]
+  },
+  {
+    type: "paper",
+    order: 7,
+    date: "09 Jun 2015",
+    title: "Pointer Networks",
+    authors: "Oriol Vinyals; Meire Fortunato; Navdeep Jaitly",
+    link: "https://arxiv.org/pdf/1506.03134.pdf",
+    slides: [
+      {
+        content:
+        "This paper introduces Pointer Networks, a novel neural architecture for solving combinatorial optimization problems. It uses attention mechanisms to select output sequences, outperforming traditional methods in tasks like sorting and routing, and offering new solutions in optimization challenges.",
+        type: "summary",
+      },
+      {
+        content:
+        "1. Introduces Pointer Networks, a novel neural architecture for solving combinatorial problems. \n2. Demonstrates the model's ability to handle variable-sized outputs. \n3. Validates the approach on tasks like sorting and the traveling salesman problem.",
+        type: "keyTakeaways",
+      }
+    ]
+  },
+
+
+  {
+    type: "paper",
+    order: 8,
+    date: "01 Dec 2012",
+    title: "ImageNet Classification with Deep Convolutional Neural Networks",
+    authors: "Alex Krizhevsky; Ilya Sutskever; Geoffrey E. Hinton",
+    link: "https://proceedings.neurips.cc/paper_files/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf",
+    slides: [
+      {
+        content:
+        "AlexNet transformed image classification with deep convolutional neural networks, achieving high accuracy on ImageNet. It introduced ReLU activations, dropout, and GPU use, significantly advancing computer vision and deep learning architectures.",
+        type: "summary",
+      },
+      {
+        content:
+        "1. Demonstrates the effectiveness of deep CNNs in large-scale image classification. \n2. Highlights the role of data augmentation and dropout in improving model performance. \n3. Sets a new benchmark for image recognition tasks with significant accuracy improvements.",
+        type: "keyTakeaways",
+      }
+    ]
+  },
+
+  {
+    type: "paper",
+    order: 9,
     date: "19 Nov 2015",
     title: "Order Matters: Sequence-to-sequence for sets",
     authors: "Oriol Vinyals; Samy Bengio; Manjunath Kudlur",
@@ -314,7 +212,49 @@ const items: Item[] = [
   },
   {
     type: "paper",
-    id: 16,
+    order: 10,
+    date: "16 Nov 2018",
+    title: "GPipe: Efficient Training of Giant Neural Networks using Pipeline Parallelism",
+    authors:
+      "Yanping Huang; Youlong Cheng; Ankur Bapna; Orhan Firat; Mia Xu Chen; Dehao Chen; HyoukJoong Lee; Jiquan Ngiam; Quoc V. Le; Yonghui Wu; Zhifeng Chen",
+    link: "https://arxiv.org/pdf/1811.06965.pdf",
+    slides: [
+      {
+        content:
+        "This paper presents GPipe, a method for training large neural networks efficiently using pipeline parallelism. It improves scalability and reduces training time, enabling the handling of giant models in deep learning applications.",
+        type: "summary",
+      },
+      {
+        content:
+        "1. Introduces pipeline parallelism to efficiently train large neural networks. \n2. Reduces memory usage by partitioning models across multiple accelerators. \n3. Demonstrates scalability and improved training speed for giant models.",
+        type: "keyTakeaways",
+      }
+    ]
+  },
+
+  {
+    type: "paper",
+    order: 11,
+    date: "10 Dec 2015",
+    title: "Deep Residual Learning for Image Recognition",
+    authors: "Kaiming He; Xiangyu Zhang; Shaoqing Ren; Jian Sun",
+    link: "https://arxiv.org/pdf/1512.03385.pdf",
+    slides: [
+      {
+        content:
+        "This paper introduces deep residual networks (ResNets) for image recognition. It addresses the degradation problem in deep networks by using residual learning, significantly improving accuracy and enabling the training of much deeper models.",
+        type: "summary",
+      },
+      {
+        content:
+        "1. Introduces residual learning framework to ease training of deep networks. \n2. Significantly improves accuracy in image recognition tasks. \n3. Enables the training of extremely deep networks with hundreds of layers.",
+        type: "keyTakeaways",
+      }
+    ]
+  },
+  {
+    type: "paper",
+    order: 12,
     date: "23 Nov 2015",
     title: "Multi-Scale Context Aggregation by Dilated Convolutions",
     authors: "Fisher Yu; Vladlen Koltun",
@@ -334,94 +274,7 @@ const items: Item[] = [
   },
   {
     type: "paper",
-    id: 17,
-    date: "08 Dec 2015",
-    title: "Deep Speech 2: End-to-End Speech Recognition in English and Mandarin",
-    authors:
-      "Dario Amodei; Rishita Anubhai; Eric Battenberg; Carl Case; Jared Casper; Bryan Catanzaro; Jingdong Chen; Mike Chrzanowski; Adam Coates; Greg Diamos; Erich Elsen; Jesse Engel; Linxi Fan; Christopher Fougner; Tony Han; Awni Hannun; Billy Jun; Patrick LeGresley; Libby Lin; Sharan Narang; Andrew Ng; Sherjil Ozair; Ryan Prenger; Jonathan Raiman; Sanjeev Satheesh; David Seetapun; Shubho Sengupta; Yi Wang; Zhiqian Wang; Chong Wang; Bo Xiao; Dani Yogatama; Jun Zhan; Zhenyao Zhu",
-    link: "https://arxiv.org/pdf/1512.02595.pdf",
-    slides: [
-      {
-        content:
-        "This paper presents Deep Speech 2, an end-to-end speech recognition system for English and Mandarin. It utilizes deep learning techniques to achieve high accuracy, demonstrating significant improvements over traditional methods in speech recognition tasks.",
-        type: "summary",
-      },
-      {
-        content:
-        "1. Proposes an end-to-end deep learning approach for speech recognition. \n2. Achieves state-of-the-art performance in both English and Mandarin. \n3. Utilizes a deep recurrent neural network architecture for improved accuracy.",
-        type: "keyTakeaways",
-      }
-    ]
-  },
-  {
-    type: "paper",
-    id: 18,
-    date: "10 Dec 2015",
-    title: "Deep Residual Learning for Image Recognition",
-    authors: "Kaiming He; Xiangyu Zhang; Shaoqing Ren; Jian Sun",
-    link: "https://arxiv.org/pdf/1512.03385.pdf",
-    slides: [
-      {
-        content:
-        "This paper introduces deep residual networks (ResNets) for image recognition. It addresses the degradation problem in deep networks by using residual learning, significantly improving accuracy and enabling the training of much deeper models.",
-        type: "summary",
-      },
-      {
-        content:
-        "1. Introduces residual learning framework to ease training of deep networks. \n2. Significantly improves accuracy in image recognition tasks. \n3. Enables the training of extremely deep networks with hundreds of layers.",
-        type: "keyTakeaways",
-      }
-    ]
-  },
-  {
-    type: "event",
-    date: "01 Jan 2016",
-    title: "AlphaGo beats Lee Sedol in Go"
-  },
-  {
-    type: "paper",
-    id: 19,
-    date: "16 Mar 2016",
-    title: "Identity Mappings in Deep Residual Networks",
-    authors: "Kaiming He; Xiangyu Zhang; Shaoqing Ren; Jian Sun",
-    link: "https://arxiv.org/pdf/1603.05027.pdf",
-    slides: [
-      {
-        content:
-        "This paper explores identity mappings in deep residual networks, enhancing their performance. It shows how identity shortcuts improve training efficiency and accuracy, contributing to the success of ResNets in various computer vision tasks.",
-        type: "summary",
-      },
-      {
-        content:
-        "1. Proposes identity mappings to improve residual network training. \n2. Enhances learning by simplifying the optimization process. \n3. Demonstrates improved performance on benchmark image recognition datasets.",
-        type: "keyTakeaways",
-      }
-    ]
-  },
-  {
-    type: "paper",
-    id: 20,
-    date: "08 Nov 2016",
-    title: "Variational Lossy Autoencoder",
-    authors:
-      "Xi Chen; Diederik P. Kingma; Tim Salimans; Yan Duan; Prafulla Dhariwal; John Schulman; Ilya Sutskever; Pieter Abbeel",
-    link: "https://arxiv.org/pdf/1611.02731.pdf",
-    slides: [
-      {
-        content:
-        "This paper introduces a variational approach to lossy autoencoders, focusing on efficient data compression and reconstruction. It explores the trade-offs between compression rate and quality, providing insights into optimizing autoencoder performance for various applications.",
-        type: "summary",
-      },
-      {
-        content:
-        "1. Introduces a variational approach to lossy data compression. \n2. Balances reconstruction quality and compression rate effectively. \n3. Provides insights into the trade-offs in lossy compression using neural networks.",
-        type: "keyTakeaways",
-      }
-    ]
-  },
-  {
-    type: "paper",
-    id: 21,
+    order: 13,
     date: "04 Apr 2017",
     title: "Neural Message Passing for Quantum Chemistry",
     authors: "Justin Gilmer; Samuel S. Schoenholz; Patrick F. Riley; Oriol Vinyals; George E. Dahl",
@@ -441,28 +294,7 @@ const items: Item[] = [
   },
   {
     type: "paper",
-    id: 22,
-    date: "05 Jun 2017",
-    title: "A Simple Neural Network Module for Relational Reasoning",
-    authors:
-      "Adam Santoro; David Raposo; David G.T. Barrett; Mateusz Malinowski; Razvan Pascanu; Peter Battaglia; Timothy Lillicrap",
-    link: "https://arxiv.org/pdf/1706.01427.pdf",
-    slides: [
-      {
-        content:
-        "This paper introduces a neural network module designed for relational reasoning tasks. It enhances the model's ability to process and infer relationships between entities, improving performance in tasks requiring complex relational understanding.",
-        type: "summary",
-      },
-      {
-        content:
-        "1. Proposes a neural network module for effective relational reasoning. \n2. Enhances the ability to process and reason about relationships in data. \n3. Demonstrates improved performance on visual question answering tasks.",
-        type: "keyTakeaways",
-      }
-    ]
-  },
-  {
-    type: "paper",
-    id: 23,
+    order: 14,
     date: "12 Jun 2017",
     title: "Attention Is All You Need",
     authors:
@@ -483,32 +315,92 @@ const items: Item[] = [
   },
   {
     type: "paper",
-    id: 31,
-    date: "01 Aug 2017",
-    title: "The Annotated Transformer",
-    authors: "Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Łukasz Kaiser, Illia Polosukhin",
-    link: "https://nlp.seas.harvard.edu/annotated-transformer/",
+    order: 15,
+    date: "01 Sep 2014",
+    title: "Neural Machine Translation by Jointly Learning to Align and Translate",
+    authors: "Dzmitry Bahdanau; Kyunghyun Cho; Yoshua Bengio",
+    link: "https://arxiv.org/pdf/1409.0473.pdf",
     slides: [
       {
         content:
-        "This resource provides a line-by-line implementation of the Transformer model with detailed annotations. It presents the original 'Attention is All You Need' paper as executable code, making it accessible for practitioners. The implementation covers the complete architecture including encoder-decoder stacks, multi-head attention, and training procedures.",
+        "This paper introduces a novel approach to neural machine translation by integrating alignment and translation processes. It enhances translation accuracy by jointly learning these tasks, significantly improving performance over traditional methods, and setting a new standard in machine translation research.",
         type: "summary",
       },
       {
         content:
-        "1. Offers a practical, executable implementation of the Transformer architecture. \n2. Breaks down complex concepts with detailed annotations and explanations. \n3. Serves as an educational bridge between theoretical papers and practical implementation.",
+        "1. Introduces a novel approach to neural machine translation by integrating alignment and translation processes. \n2. Improves translation accuracy by leveraging joint learning techniques. \n3. Demonstrates the effectiveness of the model on various language pairs.",
+        type: "keyTakeaways",
+      }
+    ]
+  },
+
+  {
+    type: "paper",
+    order: 16,
+    date: "16 Mar 2016",
+    title: "Identity Mappings in Deep Residual Networks",
+    authors: "Kaiming He; Xiangyu Zhang; Shaoqing Ren; Jian Sun",
+    link: "https://arxiv.org/pdf/1603.05027.pdf",
+    slides: [
+      {
+        content:
+        "This paper explores identity mappings in deep residual networks, enhancing their performance. It shows how identity shortcuts improve training efficiency and accuracy, contributing to the success of ResNets in various computer vision tasks.",
+        type: "summary",
+      },
+      {
+        content:
+        "1. Proposes identity mappings to improve residual network training. \n2. Enhances learning by simplifying the optimization process. \n3. Demonstrates improved performance on benchmark image recognition datasets.",
+        type: "keyTakeaways",
+      }
+    ]
+  },
+
+  {
+    type: "paper",
+    order: 17,
+    date: "05 Jun 2017",
+    title: "A Simple Neural Network Module for Relational Reasoning",
+    authors:
+      "Adam Santoro; David Raposo; David G.T. Barrett; Mateusz Malinowski; Razvan Pascanu; Peter Battaglia; Timothy Lillicrap",
+    link: "https://arxiv.org/pdf/1706.01427.pdf",
+    slides: [
+      {
+        content:
+        "This paper introduces a neural network module designed for relational reasoning tasks. It enhances the model's ability to process and infer relationships between entities, improving performance in tasks requiring complex relational understanding.",
+        type: "summary",
+      },
+      {
+        content:
+        "1. Proposes a neural network module for effective relational reasoning. \n2. Enhances the ability to process and reason about relationships in data. \n3. Demonstrates improved performance on visual question answering tasks.",
+        type: "keyTakeaways",
+      }
+    ]
+  },
+
+  {
+    type: "paper",
+    order: 18,
+    date: "08 Nov 2016",
+    title: "Variational Lossy Autoencoder",
+    authors:
+      "Xi Chen; Diederik P. Kingma; Tim Salimans; Yan Duan; Prafulla Dhariwal; John Schulman; Ilya Sutskever; Pieter Abbeel",
+    link: "https://arxiv.org/pdf/1611.02731.pdf",
+    slides: [
+      {
+        content:
+        "This paper introduces a variational approach to lossy autoencoders, focusing on efficient data compression and reconstruction. It explores the trade-offs between compression rate and quality, providing insights into optimizing autoencoder performance for various applications.",
+        type: "summary",
+      },
+      {
+        content:
+        "1. Introduces a variational approach to lossy data compression. \n2. Balances reconstruction quality and compression rate effectively. \n3. Provides insights into the trade-offs in lossy compression using neural networks.",
         type: "keyTakeaways",
       }
     ]
   },
   {
-    type: "event",
-    date: "01 Jan 2018",
-    title: "Launch GPT-2; Launch BERT"
-  },
-  {
     type: "paper",
-    id: 24,
+    order: 19,
     date: "05 Jun 2018",
     title: "Relational Recurrent Neural Networks",
     authors:
@@ -527,35 +419,67 @@ const items: Item[] = [
       }
     ]
   },
+
   {
     type: "paper",
-    id: 25,
-    date: "16 Nov 2018",
-    title: "GPipe: Efficient Training of Giant Neural Networks using Pipeline Parallelism",
-    authors:
-      "Yanping Huang; Youlong Cheng; Ankur Bapna; Orhan Firat; Mia Xu Chen; Dehao Chen; HyoukJoong Lee; Jiquan Ngiam; Quoc V. Le; Yonghui Wu; Zhifeng Chen",
-    link: "https://arxiv.org/pdf/1811.06965.pdf",
+    order: 20,
+    date: "27 May 2014",
+    title: "Quantifying the Rise and Fall of Complexity in Closed Systems: The Coffee Automaton",
+    authors: "Scott Aaronson, Sean M. Carroll, Lauren Ouellette",
+    link: "https://arxiv.org/pdf/1405.6903",
     slides: [
       {
         content:
-        "This paper presents GPipe, a method for training large neural networks efficiently using pipeline parallelism. It improves scalability and reduces training time, enabling the handling of giant models in deep learning applications.",
+        "In contrast to entropy, which increases monotonically, the 'complexity' or 'interestingness' of closed systems seems intuitively to increase at first and then decrease as equilibrium is approached. For example, our universe lacked complex structures at the Big Bang and will also lack them after black holes evaporate and particles are dispersed. This paper makes an initial attempt to quantify this pattern. As a model system, we use a simple, two-dimensional cellular automaton that simulates the mixing of two liquids ('coffee' and 'cream'). A plausible complexity measure is then the Kolmogorov complexity of a coarse-grained approximation of the automaton's state, which we dub the 'apparent complexity.' We study this complexity measure, and show analytically that it never becomes large when the liquid particles are non-interacting. By contrast, when the particles do interact, we give numerical evidence that the complexity reaches a maximum comparable to the 'coffee cup's' horizontal dimension. We raise the problem of proving this behavior analytically.",
+        type: "summary",
+      },
+    ]
+  },
+
+  {
+    type: "paper",
+    order: 21,
+    date: "20 Oct 2014",
+    title: "Neural Turing Machines",
+    authors: "Alex Graves; Greg Wayne; Ivo Danihelka",
+    link: "https://arxiv.org/pdf/1405.6903.pdf",
+    slides: [
+      {
+        content:
+        "This paper presents Neural Turing Machines, a model combining neural networks with external memory resources. It mimics the capabilities of a Turing machine, enabling complex data manipulation and storage, advancing the field of neural computation and memory-augmented networks.",
         type: "summary",
       },
       {
         content:
-        "1. Introduces pipeline parallelism to efficiently train large neural networks. \n2. Reduces memory usage by partitioning models across multiple accelerators. \n3. Demonstrates scalability and improved training speed for giant models.",
+        "1. Combines neural networks with external memory resources to create Neural Turing Machines. \n2. Enhances the ability of neural networks to perform algorithmic tasks. \n3. Demonstrates the potential of NTMs in solving complex computational problems.",
         type: "keyTakeaways",
       }
     ]
   },
   {
-    type: "event",
-    date: "01 Jan 2020",
-    title: "Launch GPT-3"
+    type: "paper",
+    order: 22,
+    date: "08 Dec 2015",
+    title: "Deep Speech 2: End-to-End Speech Recognition in English and Mandarin",
+    authors:
+      "Dario Amodei; Rishita Anubhai; Eric Battenberg; Carl Case; Jared Casper; Bryan Catanzaro; Jingdong Chen; Mike Chrzanowski; Adam Coates; Greg Diamos; Erich Elsen; Jesse Engel; Linxi Fan; Christopher Fougner; Tony Han; Awni Hannun; Billy Jun; Patrick LeGresley; Libby Lin; Sharan Narang; Andrew Ng; Sherjil Ozair; Ryan Prenger; Jonathan Raiman; Sanjeev Satheesh; David Seetapun; Shubho Sengupta; Yi Wang; Zhiqian Wang; Chong Wang; Bo Xiao; Dani Yogatama; Jun Zhan; Zhenyao Zhu",
+    link: "https://arxiv.org/pdf/1512.02595.pdf",
+    slides: [
+      {
+        content:
+        "This paper presents Deep Speech 2, an end-to-end speech recognition system for English and Mandarin. It utilizes deep learning techniques to achieve high accuracy, demonstrating significant improvements over traditional methods in speech recognition tasks.",
+        type: "summary",
+      },
+      {
+        content:
+        "1. Proposes an end-to-end deep learning approach for speech recognition. \n2. Achieves state-of-the-art performance in both English and Mandarin. \n3. Utilizes a deep recurrent neural network architecture for improved accuracy.",
+        type: "keyTakeaways",
+      }
+    ]
   },
   {
     type: "paper",
-    id: 26,
+    order: 23,
     date: "23 Jan 2020",
     title: "Scaling Laws for Neural Language Models",
     authors:
@@ -576,84 +500,90 @@ const items: Item[] = [
   },
   {
     type: "paper",
-    id: 27,
-    date: "10 Apr 2020",
-    title: "Dense Passage Retrieval for Open-Domain Question Answering",
-    authors:
-      "Vladimir Karpukhin; Barlas Oğuz; Sewon Min; Patrick Lewis; Ledell Wu; Sergey Edunov; Danqi Chen; Wen-tau Yih",
-    link: "https://arxiv.org/pdf/2004.04906.pdf",
-    slides: [
+    order: 24,
+    date: "04 Jun 2004",
+    title: "A Tutorial Introduction to the Minimum Description Length Principle",
+    authors: "Peter Grunwald",
+    link: "https://arxiv.org/pdf/math/0406077.pdf",
+    slides: [ 
       {
         content:
-        "This paper introduces dense passage retrieval, enhancing open-domain question answering by efficiently retrieving relevant passages. It improves accuracy and speed, offering a robust solution for handling large-scale information retrieval tasks in natural language processing.",
+        "This paper introduces the MDL principle, a method for model selection and inference in information theory. It minimizes data and model description length to prevent overfitting. The paper covers MDL's foundations, applications, and practical guidance, aiding in selecting models that generalize well.",
         type: "summary",
       },
       {
         content:
-        "1. Proposes a dense retrieval method for improving open-domain question answering. \n2. Enhances retrieval accuracy by leveraging dense vector representations. \n3. Demonstrates significant improvements over traditional sparse retrieval techniques.",
-        type: "keyTakeaways",
-      }
-    ]
-  },
-      {
-    type: "event",
-    date: "01 Jan 2021",
-    title: "Launch DALL-E; Launch Codex"
-  },
-  {
-    type: "event",
-    date: "01 Jan 2022",
-    title: "Launch ChatGPT (GPT-3.5); Stable Diffusion; Midjourney"
-  },
-  {
-    type: "paper",
-    id: 28,
-    date: "22 May 2020",
-    title: "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
-    authors:
-      "Patrick Lewis; Ethan Perez; Aleksandra Piktus; Fabio Petroni; Vladimir Karpukhin; Naman Goyal; Heinrich Küttler; Mike Lewis; Wen-tau Yih; Tim Rocktäschel; Sebastian Riedel; Douwe Kiela",
-    link: "https://arxiv.org/pdf/2005.11401.pdf",
-    slides: [
-      {
-        content:
-      "This paper presents retrieval-augmented generation, combining retrieval and generation for knowledge-intensive NLP tasks. It enhances model performance by integrating external knowledge, improving accuracy and relevance in tasks like question answering and summarization.",
-        type: "summary",
-      },
-      {
-        content:
-        "1. Combines retrieval and generation to enhance knowledge-intensive NLP tasks. \n2. Improves model performance by integrating external knowledge sources. \n3. Validates the approach on tasks like question answering and fact-checking.",
+        "1. Provides a comprehensive overview of the MDL principle in model selection. \n2. Demonstrates the application of MDL in various statistical models. \n3. Highlights the balance between model complexity and data fitting.",
         type: "keyTakeaways",
       }
     ]
   },
   {
     type: "paper",
-    id: 29,
-    date: "20 Dec 2022",
-    title: "Precise Zero-Shot Dense Retrieval Without Relevance Labels",
-    authors: "Luyu Gao; Xueguang Ma; Jimmy Lin; Jamie Callan",
-    link: "https://arxiv.org/pdf/2212.10496.pdf",
+    order: 25,
+    date: "22 Jun 2008",
+    title: "Machine Super Intelligence",
+    authors: "Shane Legg",
+    link: "https://www.vetta.org/documents/Machine_Super_Intelligence.pdf",
     slides: [
       {
         content:
-        "This paper explores zero-shot dense retrieval, achieving precise results without relevance labels. It leverages pre-trained models to enhance retrieval accuracy, offering a novel approach to information retrieval in scenarios lacking labeled data.",
+        "This paper discusses machine superintelligence, an AI surpassing human intelligence. It examines societal, ethical, and future implications, focusing on controlling and aligning such systems with human values. The paper emphasizes safety measures and explores superintelligence's transformative impact on technology, economy, and global power dynamics.",
         type: "summary",
       },
       {
         content:
-        "1. Introduces a method for zero-shot dense retrieval without the need for relevance labels. \n2. Achieves high retrieval accuracy using pre-trained language models. \n3. Demonstrates effectiveness in various retrieval scenarios.",
+        "1. Examines the potential and challenges of achieving superintelligent AI. \n2. Discusses ethical considerations and safety measures for AI development. \n3. Analyzes the impact of superintelligence on society and future technologies.",
         type: "keyTakeaways",
       }
     ]
   },
   {
-    type: "event",
-    date: "01 Jan 2023",
-    title: "Launch GPT-4; Launch Claude"
+    type: "paper",
+    order: 26,
+    date: "01 Jan 2008",
+    title: "Kolmogorov Complexity and Algorithmic Randomness",
+    authors: "A. Shen; V. A. Uspensky; N. Vereshchagin",
+    link: "https://www.lirmm.fr/~ashen/kolmbook-eng-scan.pdf",
+    slides: [
+      {
+        content:
+        "This paper examines Kolmogorov complexity, measuring randomness by the shortest description length of a string. It explores algorithmic randomness and its implications in data compression, information theory, and computational theory, serving as a foundational text for understanding the mathematical basis of randomness.",
+        type: "summary",
+      },
+      {
+        content:
+        "1. Explores the concept of Kolmogorov complexity in measuring randomness. \n2. Discusses the implications of algorithmic randomness in computation. \n3. Connects complexity theory with practical applications in data compression.",
+        type: "keyTakeaways",
+      }
+    ]
   },
   {
     type: "paper",
-    id: 30,
+    order: 27,
+    date: "01 Jan 2015",
+    title: "Stanford's CS231n Convolutional Neural Networks for Visual Recognition",
+    authors: "Fei-Fei Li; Justin Johnson; Serena Yeung",
+    link: "https://cs231n.github.io/",
+    slides: [
+      {
+        content:
+        "This course provides comprehensive insights into convolutional neural networks for visual recognition. It covers fundamental concepts, architectures, and applications, equipping students with practical skills and theoretical knowledge to tackle computer vision challenges using deep learning techniques.",
+        type: "summary",
+      },
+      {
+        content:
+        "1. Provides comprehensive coverage of CNNs for visual recognition tasks. \n2. Offers practical insights and techniques for improving CNN performance. \n3. Serves as a foundational resource for students and practitioners in the field.",
+        type: "keyTakeaways",
+      }
+    ]
+  },
+]
+
+const otherFoundationPapers: Item[] = [
+  {
+    type: "paper",
+    order: 28,
     date: "06 Jul 2023",
     title: "Lost in the Middle: How Language Models Use Long Contexts",
     authors: "Nelson F. Liu; Kevin Lin; John Hewitt; Ashwin Paranjape; Michele Bevilacqua; Fabio Petroni; Percy Liang",
@@ -671,66 +601,16 @@ const items: Item[] = [
       }
     ]
   },
-  {
-    type: "event",
-    date: "2024",
-    title: "Launch Gemini 1.5; Launch GPT-4 Turbo"
-  },
-  {
-    type: "event",
-    date: "2025",
-    title: "Launch GPT-4o; Launch Gemini 2.5"
-  },
 ]
 
 
-const IlyaList: { title: string; url: string }[] = [
-  { title: "The Annotated Transformer", url: "https://nlp.seas.harvard.edu/annotated-transformer/" },
-  { title: "The First Law of Complexodynamics", url: "https://scottaaronson.blog/?p=762" },
-  { title: "The Unreasonable Effectiveness of Recurrent Neural Networks", url: "https://karpathy.github.io/2015/05/21/rnn-effectiveness/" },
-  { title: "Understanding LSTM Networks", url: "https://colah.github.io/posts/2015-08-Understanding-LSTMs/" },
-  { title: "Recurrent Neural Network Regularization", url: "https://arxiv.org/pdf/1409.2329.pdf" },
-  { title: "Keeping Neural Networks Simple by Minimizing the Description Length of the Weights", url: "https://www.cs.toronto.edu/~hinton/absps/colt93.pdf" },
-  { title: "Pointer Networks", url: "https://arxiv.org/pdf/1506.03134.pdf" },
-  { title: "ImageNet Classification with Deep Convolutional Neural Networks", url: "https://proceedings.neurips.cc/paper_files/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf" },
-  { title: "Order Matters: Sequence-to-Sequence for Sets", url: "https://arxiv.org/pdf/1511.06391.pdf" },
-  { title: "GPipe: Efficient Training of Giant Neural Networks using Pipeline Parallelism", url: "https://arxiv.org/pdf/1811.06965.pdf" },
-  { title: "Deep Residual Learning for Image Recognition", url: "https://arxiv.org/pdf/1512.03385.pdf" },
-  { title: "Multi-Scale Context Aggregation by Dilated Convolutions", url: "https://arxiv.org/pdf/1511.07122.pdf" },
-  { title: "Neural Message Passing for Quantum Chemistry", url: "https://arxiv.org/pdf/1704.01212.pdf" },
-  { title: "Attention Is All You Need", url: "https://arxiv.org/pdf/1706.03762.pdf" },
-  { title: "Neural Machine Translation by Jointly Learning to Align and Translate", url: "https://arxiv.org/pdf/1409.0473.pdf" },
-  { title: "Identity Mappings in Deep Residual Networks", url: "https://arxiv.org/pdf/1603.05027.pdf" },
-  { title: "A Simple Neural Network Module for Relational Reasoning", url: "https://arxiv.org/pdf/1706.01427.pdf" },
-  { title: "Variational Lossy Autoencoder", url: "https://arxiv.org/pdf/1611.02731.pdf" },
-  { title: "Relational Recurrent Neural Networks", url: "https://arxiv.org/pdf/1806.01822.pdf" },
-  { title: "Quantifying the Rise and Fall of Complexity in Closed Systems: The Coffee Automaton", url: "https://arxiv.org/pdf/1405.6903.pdf" },
-  { title: "Neural Turing Machines", url: "https://arxiv.org/pdf/1410.5401.pdf" },
-  { title: "Deep Speech 2: End-to-End Speech Recognition in English and Mandarin", url: "https://arxiv.org/pdf/1512.02595.pdf" },
-  { title: "Scaling Laws for Neural Language Models", url: "https://arxiv.org/pdf/2001.08361.pdf" },
-  { title: "A Tutorial Introduction to the Minimum Description Length Principle", url: "https://arxiv.org/pdf/math/0406077.pdf" },
-  { title: "Machine Super Intelligence", url: "https://www.vetta.org/documents/Machine_Super_Intelligence.pdf" },
-  { title: "Kolmogorov Complexity and Algorithmic Randomness", url: "https://www.lirmm.fr/~ashen/kolmbook-eng-scan.pdf" },
-  { title: "CS231n: Deep Learning for Computer Vision", url: "https://cs231n.github.io/" }
-]
 
-function sortByIlyaList(items: Item[], ilyaList: { title: string; url: string }[]): Item[] {
-  const ilyaTitles = ilyaList.map(item => item.title);
-  const sortedItems = [...items].sort((a, b) => {
-    const indexA = ilyaTitles.indexOf(a.title);
-    const indexB = ilyaTitles.indexOf(b.title);
-    if (indexA === -1 && indexB === -1) return 0;
-    if (indexA === -1) return 1;
-    if (indexB === -1) return -1;
-    return indexA - indexB;
-  });
-  return sortedItems;
+function sortByOrder(items: Item[]): Item[] {
+  return [...items].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 }
 
 function sortByDate(items: Item[]): Item[] {
-  return [...items].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+  return [...items, ...otherFoundationPapers].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 }
-
 const itemsSortedByDate = sortByDate(items);
-
-const itemsSortedByIlyaList = sortByIlyaList(items, IlyaList);
+const itemsSortedByIlyaList = sortByOrder(items);
