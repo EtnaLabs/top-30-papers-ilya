@@ -403,16 +403,6 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
           {/* Timeline line */}
           <div ref={timelineLineRef} className="absolute left-0 top-0 bottom-0 w-0.5 bg-gray-200" />
 
-          {/* Fixed date indicator at the top that stays visible when scrolling */}
-          {cursorYear && !isIlyaOrder && (
-            <div className="sticky top-0 z-20 pointer-events-none pt-4 pb-2">
-              <div className="absolute left-0 transform -translate-x-1/2 flex flex-col items-center">
-                <div className="bg-blue-600 text-white text-xs font-bold px-3 py-2 rounded-full mt-1 shadow-sm">
-                  {formatCursorDate()}
-                </div>
-              </div>
-            </div>
-          )}
 
           {/* Timeline items with absolute positioning */}
           <div 
@@ -483,33 +473,7 @@ const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(({
   index,
   isIlyaOrder,
 }, ref) => {
-  const { ref: inViewRef, inView } = useInView({
-    threshold: 0,
-    triggerOnce: false,
-    rootMargin: "-10px 0px -90% 0px",
-    // Add a delay to prevent rapid changes during scroll
-    delay: 100,
-  })
   const isMobile = useMobile()
-
-  // Combine refs
-  const setRefs = (element: HTMLDivElement | null) => {
-    // Set the ref from props
-    if (typeof ref === 'function') {
-      ref(element);
-    } else if (ref) {
-      ref.current = element;
-    }
-    // Set the inView ref
-    inViewRef(element);
-  };
-
-  // Only trigger onInView if we're not actively navigating
-  useEffect(() => {
-    if (inView && !isActive) {
-      onInView();
-    }
-  }, [inView, onInView, isActive])
 
   // Get absolute position in rem units for this item
   const position = getPosition(paper.date, index);
@@ -528,7 +492,7 @@ const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(({
 
   return (
     <div
-      ref={setRefs}
+      ref={ref}
       id={itemId}
       className="relative pl-8"
       style={{
