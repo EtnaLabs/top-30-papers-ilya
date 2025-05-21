@@ -44,6 +44,10 @@ const items: Item[] = [
         content:
         "1. Offers a practical, executable implementation of the Transformer architecture. \n2. Breaks down complex concepts with detailed annotations and explanations. \n3. Serves as an educational bridge between theoretical papers and practical implementation.",
         type: "keyTakeaways",
+      },
+      {
+        imageUrl: "https://miro.medium.com/v2/resize:fit:640/format:webp/1*InsTuWpZTYm0kwi8ovIMAQ.png",
+        type: "image",
       }
     ]
   },

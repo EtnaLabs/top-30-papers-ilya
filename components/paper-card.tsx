@@ -37,25 +37,6 @@ export function PaperCard({ paper }: { paper: Item }) {
           </div>
         )}
 
-
-        {paper.summary && (
-          <div className="text-sm mb-4">
-            <h4 className="font-semibold mb-1">Summary</h4>
-            <p>{paper.summary}</p>
-          </div>
-        )}
-
-        {paper.keyTakeaways && (
-          <div className="text-sm mb-4">
-            <h4 className="font-semibold mb-1">Key Takeaways</h4>
-            <ul className="list-disc pl-5 space-y-1">
-              {paper.keyTakeaways.split("\n").map((takeaway, index) => (
-                <li key={index}>{takeaway.replace(/^\d+\.\s/, "")}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-
         {paper.slides && totalSlides > 0 && (
           <div className="mt-6 border-t pt-4">
             {/* Single slide display */}
