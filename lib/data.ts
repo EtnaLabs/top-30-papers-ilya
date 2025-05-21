@@ -2,11 +2,11 @@ import image from "next/image"
 import type { Item } from "./types"
 
 export async function getPapers(): Promise<Item[]> {
-  return itemsSortedByDate
+  return itemsSortedByDate.map((item, index) => ({ ...item, id: index + 1 }))
 }
 
 export async function getPapersSortedByIlyaList(): Promise<Item[]> {
-  return itemsSortedByIlyaList
+  return itemsSortedByIlyaList.map((item, index) => ({ ...item, id: index + 1 }))
 }
 
 const events: Item[] = [

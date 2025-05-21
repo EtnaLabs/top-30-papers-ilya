@@ -21,12 +21,30 @@ export function PaperCard({ paper }: { paper: Item }) {
   }, [paper]);
 
   const handleNextSlide = () => {
-    setActiveSlideIndex((prevIndex) => (prevIndex + 1) % totalSlides)
+    if (activeSlideIndex < totalSlides - 1) {
+      setActiveSlideIndex((prevIndex) => prevIndex + 1)
+    }
   }
 
   const handlePrevSlide = () => {
-    setActiveSlideIndex((prevIndex) => (prevIndex - 1 + totalSlides) % totalSlides)
+    if (activeSlideIndex > 0) {
+      setActiveSlideIndex((prevIndex) => prevIndex - 1)
+    }
   }
+
+  // Add keyboard navigation for slides
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft' && activeSlideIndex > 0) {
+        handlePrevSlide();
+      } else if (e.key === 'ArrowRight' && activeSlideIndex < totalSlides - 1) {
+        handleNextSlide();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [totalSlides, activeSlideIndex]);
 
   // Function to check if text has fewer than 50 words
   const hasShortText = (text: string) => {

@@ -30,7 +30,7 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
   // Store calculated positions to prevent overlapping
   const itemPositionsRef = useRef<Map<string, number>>(new Map())
   // Minimum spacing between items in rem
-  const MIN_ITEM_SPACING = 25; // rem
+  const MIN_ITEM_SPACING = 35; // rem
   // Check if using Ilya's order (papers with no gaps between them)
   const isIlyaOrder = useMemo(() => {
     // We can detect this by checking if papers are sorted by date
@@ -267,29 +267,46 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
   const navigateToPaper = (direction: 'next' | 'prev') => {
     if (!activePaper) return;
     
-    // Get only paper type items
-    const onlyPapers = papers.filter(p => p.type === "paper");
-    const currentIndex = onlyPapers.findIndex(p => p.id === activePaper.id);
+    // Get all items (both papers and events)
+    const currentIndex = papers.findIndex(p => p.id === activePaper.id);
     
     if (currentIndex === -1) return;
     
     let targetIndex;
     if (direction === 'next') {
-      targetIndex = currentIndex < onlyPapers.length - 1 ? currentIndex + 1 : 0; // Loop to first
+      targetIndex = (currentIndex + 1) % papers.length;
     } else {
-      targetIndex = currentIndex > 0 ? currentIndex - 1 : onlyPapers.length - 1; // Loop to last
+      targetIndex = (currentIndex - 1 + papers.length) % papers.length;
     }
     
-    const targetPaper = onlyPapers[targetIndex];
+    const targetPaper = papers[targetIndex];
+    
+    // Set the active paper
     setActivePaper(targetPaper);
     setCurrentYear(new Date(targetPaper.date).getFullYear());
     
-    // Scroll to the paper item
-    const targetElement = paperRefs.current.get(targetPaper.id ? String(targetPaper.id) : "");
+    // Scroll to the target element
+    const targetElement = document.getElementById(`item-${targetIndex}`);
     if (targetElement) {
-      targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
+
+  // Add keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        navigateToPaper('prev');
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        navigateToPaper('next');
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [activePaper, papers]);
 
   // Create a function to handle item selection and scrolling
   const handlePaperSelect = (paper: Item) => {
@@ -469,7 +486,9 @@ const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(({
   const { ref: inViewRef, inView } = useInView({
     threshold: 0,
     triggerOnce: false,
-    rootMargin: "-10px 0px -90% 0px", // Changed to detect when paper is near the top of viewport
+    rootMargin: "-10px 0px -90% 0px",
+    // Add a delay to prevent rapid changes during scroll
+    delay: 100,
   })
   const isMobile = useMobile()
 
@@ -485,12 +504,12 @@ const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(({
     inViewRef(element);
   };
 
+  // Only trigger onInView if we're not actively navigating
   useEffect(() => {
-    if (inView) {
-      // Trigger onInView for all items
+    if (inView && !isActive) {
       onInView();
     }
-  }, [inView, onInView])
+  }, [inView, onInView, isActive])
 
   // Get absolute position in rem units for this item
   const position = getPosition(paper.date, index);
@@ -500,15 +519,17 @@ const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(({
 
   // Get item color
   const getItemColor = () => {
-    if (isEvent) return "amber"; // Events use amber color
-    return "blue"; // Papers use blue color
+    if (isEvent) return "amber";
+    return "blue";
   }
   
   const itemColor = getItemColor();
+  const itemId = `item-${index}`;
 
   return (
     <div
       ref={setRefs}
+      id={itemId}
       className="relative pl-8"
       style={{
         position: 'absolute',
