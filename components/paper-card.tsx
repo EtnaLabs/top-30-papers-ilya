@@ -123,9 +123,9 @@ export function PaperCard({ paper }: { paper: Item }) {
                     <div key={activeSlideIndex}>
                       <div>
                         {slide?.title && (
-                          <p className="font-medium text-4xl text-gray-700 mb-20">
+                          <h4 className="text-2xl font-semibold text-gray-800 mb-6">
                             {slide.title}
-                          </p>
+                          </h4>
                         )}
                         {slide?.content && (
                           <p className={isShortText ? "text-3xl font-light leading-relaxed tracking-wide" : "text-base leading-relaxed"}>
