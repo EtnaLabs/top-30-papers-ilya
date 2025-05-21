@@ -62,8 +62,15 @@ export default function Home() {
   }, [sortByIlya, isInitialLoad])
   
   // Handlers for changing sort preference
-  const handleSortByDate = () => setSortByIlya(false)
-  const handleSortByIlya = () => setSortByIlya(true)
+  const handleSortByDate = () => {
+    setSortByIlya(false)
+    window.scrollTo(0, 0)
+  }
+  
+  const handleSortByIlya = () => {
+    setSortByIlya(true)
+    window.scrollTo(0, 0)
+  }
   
   return (
     <div className="container mx-auto py-10">

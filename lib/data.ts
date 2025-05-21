@@ -48,6 +48,8 @@ const events: Item[] = [
       {
         content: "In 1997, IBM's Deep Blue became the first computer chess-playing system to beat a reigning world chess champion, Garry Kasparov, in a match under standard chess tournament time controls.",
         imageUrl: "https://eu-images.contentstack.com/v3/assets/blt6b0f74e5591baa03/blt7cc688614b70f9be/65672f49361a98040a9a8940/News_Image_-_2023-11-29T123206.186.jpg",
+      },
+      {
         videoUrl: "https://www.youtube.com/watch?v=KF6sLCeBj0s"
       }
     ]

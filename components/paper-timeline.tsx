@@ -73,14 +73,26 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
         }
       }
 
-          // Always select the first paper when papers list changes
-    if (papers.some((p) => p.type === "paper")) {
-      const firstPaper = papers.find((p) => p.type === "paper")
-      if (firstPaper) {
-        setActivePaper(firstPaper)
-        setCurrentYear(new Date(firstPaper.date).getFullYear())
+      // Always select the first item in the papers array, regardless of type
+      if (papers.length > 0) {
+        const firstItem = papers[0];
+        setActivePaper(firstItem);
+        setCurrentYear(new Date(firstItem.date).getFullYear());
+        
+        // Scroll to the top of the timeline
+        if (timelineRef.current) {
+          // First make sure we're at the top of the page
+          window.scrollTo(0, 0);
+          
+          // Then scroll the first item into view if it exists
+          const firstItemElement = paperRefs.current.get(String(firstItem.id));
+          if (firstItemElement) {
+            setTimeout(() => {
+              firstItemElement.scrollIntoView({ behavior: 'auto', block: 'start' });
+            }, 100); // Small delay to ensure DOM is ready
+          }
+        }
       }
-    }
     }
   }, [papers])
 

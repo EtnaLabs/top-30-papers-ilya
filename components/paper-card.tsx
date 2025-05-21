@@ -16,6 +16,7 @@ export function PaperCard({ paper }: { paper: Item }) {
 
   // Reset to first slide whenever the paper changes
   useEffect(() => {
+    // This ensures we always start viewing the first slide when switching between papers or events
     setActiveSlideIndex(0);
   }, [paper]);
 
@@ -37,8 +38,8 @@ export function PaperCard({ paper }: { paper: Item }) {
   const displaySlides = paper.slides || [];
 
   return (
-    <Card className="mt-2 border-0 shadow-none">
-      <CardContent className="pt-6">
+    <Card className="mt-0 border-0 shadow-none">
+      <CardContent className="pt-0">
         <div className="flex justify-between items-start mb-6">
           <h3 className={`text-4xl font-bold tracking-tight leading-tight mr-10 ${isEvent ? "text-amber-700" : "text-blue-700"}`}>
             {paper.title}
@@ -90,7 +91,7 @@ export function PaperCard({ paper }: { paper: Item }) {
                 return (
                   <>
                     {/* Show slide navigation if there are multiple slides */}
-                    <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center justify-between mb-2 float-right">
                       <h5 className="font-medium text-lg text-gray-700">
                       </h5>
                       
