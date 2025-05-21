@@ -1,12 +1,25 @@
+import React from "react"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { ExternalLink } from "lucide-react"
+import { ExternalLink, ChevronLeft, ChevronRight } from "lucide-react"
 import type { Item } from "@/lib/types"
 import Image from "next/image"
+import { useState } from "react"
 
 export function PaperCard({ paper }: { paper: Item }) {
   // Extract year from the date
   const year = new Date(paper.date).getFullYear()
+  const [activeSlideIndex, setActiveSlideIndex] = useState(0)
+
+  const totalSlides = paper.slides?.length || 0
+
+  const handleNextSlide = () => {
+    setActiveSlideIndex((prevIndex) => (prevIndex + 1) % totalSlides)
+  }
+
+  const handlePrevSlide = () => {
+    setActiveSlideIndex((prevIndex) => (prevIndex - 1 + totalSlides) % totalSlides)
+  }
 
   return (
     <Card className="mt-2">
@@ -42,58 +55,85 @@ export function PaperCard({ paper }: { paper: Item }) {
           </div>
         )}
 
-        {paper.slides && paper.slides.length > 0 && (
+        {paper.slides && totalSlides > 0 && (
           <div className="mt-6 border-t pt-4">
-            <h4 className="font-semibold text-lg mb-3">Slides</h4>
-            <div className="space-y-6">
-              {paper.slides.map((slide, index) => (
-                <div key={index} className="border rounded-lg p-4 bg-gray-50">
-                  {slide.title && <h5 className="font-medium text-base mb-2">{slide.title}</h5>}
-                  
-                  {slide.type === "image" && slide.imageUrl && (
-                    <div className="relative h-60 w-full overflow-hidden rounded-md mb-2">
-                      <Image 
-                        src={slide.imageUrl} 
-                        alt={slide.title || "Slide image"}
-                        fill
-                        className="object-contain"
-                      />
-                    </div>
-                  )}
-                  
-                  {slide.type === "video" && slide.videoUrl && (
-                    <div className="aspect-video mb-2">
-                      <iframe
-                        src={slide.videoUrl}
-                        className="w-full h-full rounded-md"
-                        allowFullScreen
-                      ></iframe>
-                    </div>
-                  )}
-                  
-                  {slide.type === "text" && slide.content && (
-                    <p className="text-sm">{slide.content}</p>
-                  )}
-                  
-                  {slide.type === "summary" && slide.content && (
-                    <div>
-                      <h6 className="text-sm font-medium mb-1">Summary</h6>
+            {/* Slide Navigation - only show if more than one slide */}
+            {totalSlides > 1 && (
+              <div className="flex justify-end items-center mb-3 space-x-2">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={handlePrevSlide}
+                  aria-label="Previous slide"
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </Button>
+                <span className="text-sm text-gray-600">
+                  {activeSlideIndex + 1} of {totalSlides}
+                </span>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={handleNextSlide}
+                  aria-label="Next slide"
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+              </div>
+            )}
+            {/* Single slide display - add top margin if navigation is not present */}
+            <div className={`space-y-6 ${totalSlides <= 1 ? 'mt-4' : ''}`}> 
+              {(() => {
+                const slide = paper.slides![activeSlideIndex];
+                return (
+                  <div key={activeSlideIndex} className="border rounded-lg p-4 bg-gray-50">
+                    {slide.title && <h5 className="font-medium text-lg mb-2">{slide.title}</h5>}
+                    
+                    {slide.type === "image" && slide.imageUrl && (
+                      <div className="relative h-60 w-full overflow-hidden rounded-md mb-2">
+                        <Image 
+                          src={slide.imageUrl} 
+                          alt={slide.title || "Slide image"}
+                          fill
+                          className="object-contain"
+                        />
+                      </div>
+                    )}
+                    
+                    {slide.type === "video" && slide.videoUrl && (
+                      <div className="aspect-video mb-2">
+                        <iframe
+                          src={slide.videoUrl}
+                          className="w-full h-full rounded-md"
+                          allowFullScreen
+                        ></iframe>
+                      </div>
+                    )}
+                    
+                    {slide.type === "text" && slide.content && (
                       <p className="text-sm">{slide.content}</p>
-                    </div>
-                  )}
-                  
-                  {slide.type === "keyTakeaways" && slide.content && (
-                    <div>
-                      <h6 className="text-sm font-medium mb-1">Key Takeaways</h6>
-                      <ul className="list-disc pl-5 space-y-1 text-sm">
-                        {slide.content.split("\n").map((takeaway, idx) => (
-                          <li key={idx}>{takeaway.replace(/^\d+\.\s/, "")}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </div>
-              ))}
+                    )}
+                    
+                    {slide.type === "summary" && slide.content && (
+                      <div>
+                        <h6 className="text-sm font-medium mb-1">Summary</h6>
+                        <p className="text-sm">{slide.content}</p>
+                      </div>
+                    )}
+                    
+                    {slide.type === "keyTakeaways" && slide.content && (
+                      <div>
+                        <h6 className="text-sm font-medium mb-1">Key Takeaways</h6>
+                        <ul className="list-disc pl-5 space-y-1 text-sm">
+                          {slide.content.split("\n").map((takeaway, idx) => (
+                            <li key={idx}>{takeaway.replace(/^\d+\.\s/, "")}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                );
+              })()}
             </div>
           </div>
         )}

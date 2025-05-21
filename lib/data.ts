@@ -19,11 +19,6 @@ const items: Item[] = [
     end: 1993, 
     title: "Second AI winter: reduced funding after expert systems failed commercially" 
   },
-  { 
-    type: "event", 
-    date: "01 Jan 1997", 
-    title: "IBM's Deep Blue beats chess champion Garry Kasparov" 
-  },
   {
     type: "paper",
     id: 1,
@@ -43,6 +38,11 @@ const items: Item[] = [
         type: "keyTakeaways",
       }
     ]
+  },
+  { 
+    type: "event", 
+    date: "01 Jan 1997", 
+    title: "IBM's Deep Blue beats chess champion Garry Kasparov" 
   },
   {
     type: "paper",

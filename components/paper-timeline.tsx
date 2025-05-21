@@ -26,6 +26,10 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
   const timelineHeightRef = useRef<number>(0)
   // Calculate and store the first date once
   const firstDateRef = useRef<Date | null>(null)
+  // Store calculated positions to prevent overlapping
+  const itemPositionsRef = useRef<Map<string, number>>(new Map())
+  // Minimum spacing between items in rem
+  const MIN_ITEM_SPACING = 15; // rem
 
   // Set the first paper as active by default and calculate the first date
   useEffect(() => {
@@ -56,13 +60,20 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
   }, [papers, activePaper])
 
   // Calculate absolute position based on date
-  const getAbsolutePosition = (date: string) => {
+  const getAbsolutePosition = (date: string, index: number) => {
     if (!firstDateRef.current) return 0;
     
     const itemDate = new Date(date);
+    const itemId = `item-${index}`;
+    
+    // If position was already calculated, return it
+    if (itemPositionsRef.current.has(itemId)) {
+      return itemPositionsRef.current.get(itemId)!;
+    }
+    
     const firstDate = firstDateRef.current;
     
-    // Calculate total months difference
+    // Calculate base position using date
     const monthsDiff = 
       (itemDate.getFullYear() - firstDate.getFullYear()) * 12 + 
       (itemDate.getMonth() - firstDate.getMonth());
@@ -71,8 +82,28 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
     const daysInMonth = new Date(itemDate.getFullYear(), itemDate.getMonth() + 1, 0).getDate();
     const daysFraction = itemDate.getDate() / daysInMonth;
     
-    // Position: 1rem per month + a bit more for days within month
-    return monthsDiff + daysFraction;
+    // Initial position based on date
+    let position = monthsDiff + daysFraction;
+    
+    // Adjust position to prevent overlapping with previous items
+    if (index > 0) {
+      const prevItemId = `item-${index - 1}`;
+      
+      if (itemPositionsRef.current.has(prevItemId)) {
+        const prevPosition = itemPositionsRef.current.get(prevItemId)!;
+        const minPosition = prevPosition + MIN_ITEM_SPACING;
+        
+        // If this position would overlap with previous item, place it after
+        if (position < minPosition) {
+          position = minPosition;
+        }
+      }
+    }
+    
+    // Store the calculated position
+    itemPositionsRef.current.set(itemId, position);
+    
+    return position;
   };
 
   // Calculate the total height of the timeline
@@ -232,9 +263,19 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
 
   // Calculate total height needed for the timeline
   const calculateTimelineHeight = () => {
-    if (papers.length === 0 || !firstDateRef.current) return 0;
+    if (papers.length === 0) return 0;
     
-    // Find the last date
+    // If we have positions calculated, use the last item's position + padding
+    if (itemPositionsRef.current.size > 0) {
+      const lastItemId = `item-${papers.length - 1}`;
+      if (itemPositionsRef.current.has(lastItemId)) {
+        return itemPositionsRef.current.get(lastItemId)! + 30; // Add padding
+      }
+    }
+    
+    // Fallback: calculate based on total months
+    if (!firstDateRef.current) return papers.length * MIN_ITEM_SPACING;
+    
     const sortedPapers = [...papers].sort((a, b) => 
       new Date(b.date).getTime() - new Date(a.date).getTime()
     );
@@ -242,13 +283,12 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
     const lastDate = new Date(sortedPapers[0].date);
     const firstDate = firstDateRef.current;
     
-    // Calculate total months
     const totalMonths = 
       (lastDate.getFullYear() - firstDate.getFullYear()) * 12 + 
       (lastDate.getMonth() - firstDate.getMonth());
     
-    // Add some padding at the bottom
-    return totalMonths + 20; // in rem units
+    // Use either date-based calculation or fixed spacing, whichever is larger
+    return Math.max(totalMonths + 20, papers.length * MIN_ITEM_SPACING);
   };
 
   return (
@@ -338,7 +378,7 @@ interface TimelineItemProps {
   isActive: boolean;
   onInView: () => void;
   onSelect: (paper: Item) => void;
-  getPosition: (date: string) => number;
+  getPosition: (date: string, index: number) => number;
   papers: Item[];
   index: number;
 }
@@ -379,7 +419,7 @@ const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(({
   }, [inView, onInView, paper.type, paper])
 
   // Get absolute position in rem units for this item
-  const position = getPosition(paper.date);
+  const position = getPosition(paper.date, index);
 
   // Calculate the height of the event if it has start and end years
   const getEventHeight = () => {
