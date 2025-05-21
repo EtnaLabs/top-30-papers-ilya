@@ -2,7 +2,9 @@ import image from "next/image"
 import type { Item } from "./types"
 
 export async function getPapers(): Promise<Item[]> {
-  return itemsSortedByDate.map((item, index) => ({ ...item, id: index + 1 }))
+  // Combine events and papers, then sort by date
+  const allItems = [...events, ...itemsSortedByDate]
+  return sortByDate(allItems, events).map((item, index) => ({ ...item, id: index + 1 }))
 }
 
 export async function getPapersSortedByIlyaList(): Promise<Item[]> {

@@ -17,6 +17,7 @@ export default function Home() {
   const [sortByIlya, setSortByIlya] = useState(true)
   const [papers, setPapers] = useState<Item[]>([])
   const [isInitialLoad, setIsInitialLoad] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
   
   // Load the sort preference from cookie on initial render
   useEffect(() => {
@@ -31,12 +32,17 @@ export default function Home() {
   // Load papers based on sort preference
   useEffect(() => {
     async function loadPapers() {
-      if (sortByIlya) {
-        const sortedPapers = await getPapersSortedByIlyaList()
-        setPapers(sortedPapers)
-      } else {
-        const dateSortedPapers = await getPapers()
-        setPapers(dateSortedPapers)
+      setIsLoading(true)
+      try {
+        if (sortByIlya) {
+          const sortedPapers = await getPapersSortedByIlyaList()
+          setPapers(sortedPapers)
+        } else {
+          const dateSortedPapers = await getPapers()
+          setPapers(dateSortedPapers)
+        }
+      } finally {
+        setIsLoading(false)
       }
     }
     
@@ -86,23 +92,31 @@ export default function Home() {
             <Button 
               variant={sortByIlya ? "outline" : "default"} 
               onClick={handleSortByDate}
+              disabled={isLoading}
             >
-              Show by date
+              {isLoading ? "Loading..." : "Show by date"}
             </Button>
             <Button 
               variant={sortByIlya ? "default" : "outline"} 
               onClick={handleSortByIlya}
+              disabled={isLoading}
             >
-              Show in Ilya&apos;s order
+              {isLoading ? "Loading..." : "Show in Ilya&apos;s order"}
             </Button>
           </div>
         </div>
       </div>
 
-      <PaperTimeline 
-        key={`papers-${sortByIlya ? 'ilya' : 'date'}`} 
-        papers={papers} 
-      />
+      {isLoading ? (
+        <div className="flex justify-center items-center min-h-[200px]">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+        </div>
+      ) : (
+        <PaperTimeline 
+          key={`papers-${sortByIlya ? 'ilya' : 'date'}`} 
+          papers={papers} 
+        />
+      )}
     </div>
   )
 }
