@@ -73,16 +73,16 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
         }
       }
 
-      // Find the first paper (for activation) - only if no paper is already active
-      if (!activePaper && papers.some((p) => p.type === "paper")) {
-        const firstPaper = papers.find((p) => p.type === "paper")
-        if (firstPaper) {
-          setActivePaper(firstPaper)
-          setCurrentYear(new Date(firstPaper.date).getFullYear())
-        }
+          // Always select the first paper when papers list changes
+    if (papers.some((p) => p.type === "paper")) {
+      const firstPaper = papers.find((p) => p.type === "paper")
+      if (firstPaper) {
+        setActivePaper(firstPaper)
+        setCurrentYear(new Date(firstPaper.date).getFullYear())
       }
     }
-  }, [papers, activePaper])
+    }
+  }, [papers])
 
   // Calculate absolute position based on date or sequence in Ilya's order
   const getAbsolutePosition = (date: string, index: number) => {
