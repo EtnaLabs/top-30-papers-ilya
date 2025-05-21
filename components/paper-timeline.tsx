@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef, useState, useMemo } from "react"
 import { PaperCard } from "@/components/paper-card"
 import type { Item } from "@/lib/types"
 import { useInView } from "react-intersection-observer"
@@ -30,6 +30,25 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
   const itemPositionsRef = useRef<Map<string, number>>(new Map())
   // Minimum spacing between items in rem
   const MIN_ITEM_SPACING = 15; // rem
+  // Check if using Ilya's order (papers with no gaps between them)
+  const isIlyaOrder = useMemo(() => {
+    // We can detect this by checking if papers are sorted by date
+    // If not sorted by date, assume it's Ilya's order
+    if (papers.length <= 1) return false;
+    
+    // Check only paper items (ignore events)
+    const paperItems = papers.filter(p => p.type === "paper");
+    if (paperItems.length <= 1) return false;
+    
+    for (let i = 1; i < paperItems.length; i++) {
+      if (new Date(paperItems[i].date) < new Date(paperItems[i-1].date)) {
+        // Found an item out of date order, so this is likely Ilya's order
+        return true;
+      }
+    }
+    
+    return false;
+  }, [papers]);
 
   // Set the first paper as active by default and calculate the first date
   useEffect(() => {
@@ -59,8 +78,23 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
     }
   }, [papers, activePaper])
 
-  // Calculate absolute position based on date
+  // Calculate absolute position based on date or sequence in Ilya's order
   const getAbsolutePosition = (date: string, index: number) => {
+    if (isIlyaOrder) {
+      // In Ilya's order, just space items equally
+      // Only consider paper items for positioning, not events
+      const paperItems = papers.filter(p => p.type === "paper");
+      const paperIndex = paperItems.findIndex(p => p.date === date);
+      
+      if (paperIndex !== -1) {
+        // Position based on index in the paper items list
+        return paperIndex * MIN_ITEM_SPACING + 1; // +1 for initial offset
+      }
+      
+      // For events, position them based on their date
+      // This falls through to the date-based positioning below
+    }
+  
     if (!firstDateRef.current) return 0;
     
     const itemDate = new Date(date);
@@ -299,7 +333,7 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
           <div ref={timelineLineRef} className="absolute left-2 top-0 bottom-0 w-0.5 bg-gray-200" />
 
           {/* Fixed date indicator at the top that stays visible when scrolling */}
-          {cursorYear && (
+          {cursorYear && !isIlyaOrder && (
             <div className="sticky top-0 z-20 pointer-events-none pt-4 pb-2">
               <div className="absolute left-0 transform -translate-x-1/2 flex flex-col items-center">
                 <div className="bg-blue-600 text-white text-xs font-bold px-3 py-2 rounded-full mt-1 shadow-sm">

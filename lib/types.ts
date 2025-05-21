@@ -1,5 +1,6 @@
 export interface Item {
   id?: number
+  order?: number
   date: string
   title: string
   authors?: string

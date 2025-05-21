@@ -1,7 +1,7 @@
 import type { Item } from "./types"
 
 export async function getPapers(): Promise<Item[]> {
-  return items
+  return itemsSortedByDate
 }
 
 export async function getPapersSortedByIlyaList(): Promise<Item[]> {
@@ -135,14 +135,14 @@ const items: Item[] = [
   {
     type: "paper",
     id: 7,
-    date: "27 May 2014",
-    title: "Quantifying the Rise and Fall of Complexity in Closed Systems: the Coffee Automaton",
-    authors: "Scott Aaronson; Sean M. Carroll; Lauren Ouellette",
+    date: "23 Sep 2011",
+    title: "The First Law of Complexodynamics",
+    authors: "Scott Aaronson",
     link: "https://scottaaronson.blog/?p=762",
     slides: [
       {
         content:
-        "This paper explores the dynamics of complexity in closed systems using the Coffee Automaton model. It analyzes how complexity emerges, evolves, and dissipates, providing insights into the fundamental principles governing complex systems and their applications in various scientific fields.",
+        "This blog post explores the dynamics of complexity in closed systems using the Coffee Automaton model. It analyzes how complexity emerges, evolves, and dissipates, providing insights into the fundamental principles governing complex systems and their applications in various scientific fields.",
         type: "summary",
       },
       {
@@ -296,7 +296,7 @@ const items: Item[] = [
     type: "paper",
     id: 15,
     date: "19 Nov 2015",
-    title: "Order Matters: Sequence to sequence for sets",
+    title: "Order Matters: Sequence-to-sequence for sets",
     authors: "Oriol Vinyals; Samy Bengio; Manjunath Kudlur",
     link: "https://arxiv.org/pdf/1511.06391.pdf",
     slides: [
@@ -481,26 +481,26 @@ const items: Item[] = [
       }
     ]
   },
-  // {
-  //   type: "paper",
-  //   id: 31,
-  //   date: "01 Aug 2017",
-  //   title: "The Annotated Transformer",
-  //   authors: "Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Łukasz Kaiser, Illia Polosukhin",
-  //   link: "https://nlp.seas.harvard.edu/annotated-transformer/",
-  //   slides: [
-  //     {
-  //       content:
-  //       "This resource provides a line-by-line implementation of the Transformer model with detailed annotations. It presents the original 'Attention is All You Need' paper as executable code, making it accessible for practitioners. The implementation covers the complete architecture including encoder-decoder stacks, multi-head attention, and training procedures.",
-  //       type: "summary",
-  //     },
-  //     {
-  //       content:
-  //       "1. Offers a practical, executable implementation of the Transformer architecture. \n2. Breaks down complex concepts with detailed annotations and explanations. \n3. Serves as an educational bridge between theoretical papers and practical implementation.",
-  //       type: "keyTakeaways",
-  //     }
-  //   ]
-  // },
+  {
+    type: "paper",
+    id: 31,
+    date: "01 Aug 2017",
+    title: "The Annotated Transformer",
+    authors: "Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Łukasz Kaiser, Illia Polosukhin",
+    link: "https://nlp.seas.harvard.edu/annotated-transformer/",
+    slides: [
+      {
+        content:
+        "This resource provides a line-by-line implementation of the Transformer model with detailed annotations. It presents the original 'Attention is All You Need' paper as executable code, making it accessible for practitioners. The implementation covers the complete architecture including encoder-decoder stacks, multi-head attention, and training procedures.",
+        type: "summary",
+      },
+      {
+        content:
+        "1. Offers a practical, executable implementation of the Transformer architecture. \n2. Breaks down complex concepts with detailed annotations and explanations. \n3. Serves as an educational bridge between theoretical papers and practical implementation.",
+        type: "keyTakeaways",
+      }
+    ]
+  },
   {
     type: "event",
     date: "01 Jan 2018",
@@ -726,5 +726,11 @@ function sortByIlyaList(items: Item[], ilyaList: { title: string; url: string }[
   });
   return sortedItems;
 }
+
+function sortByDate(items: Item[]): Item[] {
+  return [...items].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+}
+
+const itemsSortedByDate = sortByDate(items);
 
 const itemsSortedByIlyaList = sortByIlyaList(items, IlyaList);
