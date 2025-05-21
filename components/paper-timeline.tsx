@@ -211,7 +211,7 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
       // Scroll the clicked paper into view
       const targetElement = paperRefs.current.get(String(paper.id));
       if (targetElement) {
-        targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }
   };
@@ -349,22 +349,6 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
             key={activePaper.id} 
             className="transition-all duration-300 ease-in-out animate-fadeIn"
           >
-            {/* Navigation buttons */}
-            <div className="flex justify-between mb-4">
-              <button 
-                onClick={() => navigateToPaper('prev')}
-                className="flex items-center gap-1 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-md text-gray-700 font-medium transition-colors"
-              >
-                <span className="text-lg">←</span> Prev
-              </button>
-              <button 
-                onClick={() => navigateToPaper('next')}
-                className="flex items-center gap-1 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-md text-gray-700 font-medium transition-colors"
-              >
-                Next <span className="text-lg">→</span>
-              </button>
-            </div>
-            
             <PaperCard paper={activePaper} />
           </div>
         </div>
@@ -394,9 +378,9 @@ const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(({
   index,
 }, ref) => {
   const { ref: inViewRef, inView } = useInView({
-    threshold: 0.6,
+    threshold: 0,
     triggerOnce: false,
-    rootMargin: "-30% 0px -30% 0px",
+    rootMargin: "-10px 0px -90% 0px", // Changed to detect when paper is near the top of viewport
   })
   const isMobile = useMobile()
 
