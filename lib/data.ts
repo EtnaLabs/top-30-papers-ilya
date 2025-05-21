@@ -4,6 +4,10 @@ export async function getPapers(): Promise<Item[]> {
   return items
 }
 
+export async function getPapersSortedByIlyaList(): Promise<Item[]> {
+  return itemsSortedByIlyaList
+}
+
 const items: Item[] = [
   { 
     type: "event", 
@@ -477,26 +481,26 @@ const items: Item[] = [
       }
     ]
   },
-  {
-    type: "paper",
-    id: 31,
-    date: "01 Aug 2017",
-    title: "The Annotated Transformer",
-    authors: "Sasha Rush; Austin Huang; Suraj Subramanian; Jonathan Sum; Khalid Almubarak; Stella Biderman",
-    link: "https://nlp.seas.harvard.edu/annotated-transformer/",
-    slides: [
-      {
-        content:
-        "This resource provides a line-by-line implementation of the Transformer model with detailed annotations. It presents the original 'Attention is All You Need' paper as executable code, making it accessible for practitioners. The implementation covers the complete architecture including encoder-decoder stacks, multi-head attention, and training procedures.",
-        type: "summary",
-      },
-      {
-        content:
-        "1. Offers a practical, executable implementation of the Transformer architecture. \n2. Breaks down complex concepts with detailed annotations and explanations. \n3. Serves as an educational bridge between theoretical papers and practical implementation.",
-        type: "keyTakeaways",
-      }
-    ]
-  },
+  // {
+  //   type: "paper",
+  //   id: 31,
+  //   date: "01 Aug 2017",
+  //   title: "The Annotated Transformer",
+  //   authors: "Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Łukasz Kaiser, Illia Polosukhin",
+  //   link: "https://nlp.seas.harvard.edu/annotated-transformer/",
+  //   slides: [
+  //     {
+  //       content:
+  //       "This resource provides a line-by-line implementation of the Transformer model with detailed annotations. It presents the original 'Attention is All You Need' paper as executable code, making it accessible for practitioners. The implementation covers the complete architecture including encoder-decoder stacks, multi-head attention, and training procedures.",
+  //       type: "summary",
+  //     },
+  //     {
+  //       content:
+  //       "1. Offers a practical, executable implementation of the Transformer architecture. \n2. Breaks down complex concepts with detailed annotations and explanations. \n3. Serves as an educational bridge between theoretical papers and practical implementation.",
+  //       type: "keyTakeaways",
+  //     }
+  //   ]
+  // },
   {
     type: "event",
     date: "01 Jan 2018",
@@ -709,3 +713,18 @@ const IlyaList: { title: string; url: string }[] = [
   { title: "Kolmogorov Complexity and Algorithmic Randomness", url: "https://www.lirmm.fr/~ashen/kolmbook-eng-scan.pdf" },
   { title: "CS231n: Deep Learning for Computer Vision", url: "https://cs231n.github.io/" }
 ]
+
+function sortByIlyaList(items: Item[], ilyaList: { title: string; url: string }[]): Item[] {
+  const ilyaTitles = ilyaList.map(item => item.title);
+  const sortedItems = [...items].sort((a, b) => {
+    const indexA = ilyaTitles.indexOf(a.title);
+    const indexB = ilyaTitles.indexOf(b.title);
+    if (indexA === -1 && indexB === -1) return 0;
+    if (indexA === -1) return 1;
+    if (indexB === -1) return -1;
+    return indexA - indexB;
+  });
+  return sortedItems;
+}
+
+const itemsSortedByIlyaList = sortByIlyaList(items, IlyaList);
