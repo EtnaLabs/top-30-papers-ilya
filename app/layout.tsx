@@ -2,6 +2,7 @@ import type React from "react"
 import "@/app/globals.css"
 import { Nunito_Sans, Merriweather } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
+import { Toaster } from "@/components/ui/toaster"
 
 const nunitoSans = Nunito_Sans({
   subsets: ["latin"],
@@ -35,6 +36,7 @@ export default function RootLayout({
       <body className={`${nunitoSans.variable} ${merriweather.variable}`}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           {children}
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

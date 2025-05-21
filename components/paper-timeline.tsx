@@ -187,11 +187,11 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
       
       // Use different approach for different views
       if (isIlyaOrder) {
-        // For Ilya's order, base the cursor year on which paper is currently in view
-        const nearestPaper = findNearestVisiblePaper();
-        if (nearestPaper) {
-          const paperDate = new Date(nearestPaper.date);
-          setCursorYear(paperDate.getFullYear() + paperDate.getMonth()/12);
+        // For Ilya's order, base the cursor year on which item is currently in view
+        const nearestItem = findNearestVisibleItem();
+        if (nearestItem) {
+          const itemDate = new Date(nearestItem.date);
+          setCursorYear(itemDate.getFullYear() + itemDate.getMonth()/12);
         }
       } else {
         // Convert scroll position to months (1rem = 1 month)
@@ -208,21 +208,17 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
       }
     };
     
-    // Helper function to find the nearest paper to viewport center
-    const findNearestVisiblePaper = () => {
+    // Helper function to find the nearest item to viewport center
+    const findNearestVisibleItem = () => {
       if (!timelineRef.current || papers.length === 0) return null;
       
-      // Get only paper items
-      const paperItems = papers.filter(p => p.type === "paper");
-      if (paperItems.length === 0) return null;
-      
       // Use activePaper if available
-      if (activePaper && activePaper.type === "paper") {
+      if (activePaper) {
         return activePaper;
       }
       
-      // Fallback to first paper
-      return paperItems[0];
+      // Fallback to first item
+      return papers[0];
     };
     
     // Call initially
@@ -283,17 +279,16 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
     }
   };
 
-  // Create a function to handle paper selection and scrolling
+  // Create a function to handle item selection and scrolling
   const handlePaperSelect = (paper: Item) => {
-    if (paper.type === "paper") {
-      setActivePaper(paper);
-      setCurrentYear(new Date(paper.date).getFullYear());
-      
-      // Scroll the clicked paper into view
-      const targetElement = paperRefs.current.get(String(paper.id));
-      if (targetElement) {
-        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+    // Set the active item (regardless of type)
+    setActivePaper(paper);
+    setCurrentYear(new Date(paper.date).getFullYear());
+    
+    // Scroll the clicked item into view
+    const targetElement = paperRefs.current.get(String(paper.id));
+    if (targetElement) {
+      targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
 
@@ -403,10 +398,8 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
                 paper={paper}
                 isActive={activePaper?.title === paper.title}
                 onInView={() => {
-                  if (paper.type === "paper") {
-                    setActivePaper(paper)
-                    setCurrentYear(new Date(paper.date).getFullYear())
-                  }
+                  setActivePaper(paper)
+                  setCurrentYear(new Date(paper.date).getFullYear())
                 }}
                 onSelect={handlePaperSelect}
                 getPosition={getAbsolutePosition}
@@ -414,7 +407,7 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
                 index={index}
                 isIlyaOrder={isIlyaOrder}
                 ref={(el) => {
-                  if (el && paper.id && paper.type === "paper") {
+                  if (el && paper.id) {
                     paperRefs.current.set(String(paper.id), el);
                   }
                 }}
@@ -425,7 +418,7 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
       </div>
 
       {/* Detail box - show in all views, not just Ilya's order mode */}
-      {!isMobile && activePaper && activePaper.type === "paper" && (
+      {!isMobile && activePaper && (
         <div className="lg:sticky lg:top-8 lg:self-start lg:w-[80%] h-fit">
           <div 
             key={activePaper.id} 
@@ -482,42 +475,24 @@ const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(({
 
   useEffect(() => {
     if (inView) {
-      // Only trigger onInView for paper types, but still track visibility for events
-      if (paper.type === "paper") {
-        onInView();
-      }
+      // Trigger onInView for all items
+      onInView();
     }
-  }, [inView, onInView, paper.type, paper])
+  }, [inView, onInView])
 
   // Get absolute position in rem units for this item
   const position = getPosition(paper.date, index);
 
-  // Calculate the height of the event if it has start and end years
-  const getEventHeight = () => {
-    if (paper.type !== "event" || !paper.start || !paper.end) return "auto";
-    
-    // Get start and end years
-    const startYear = paper.start;
-    const endYear = paper.end;
-    
-    // Calculate total months between start and end
-    const totalMonths = (endYear - startYear) * 12;
-    
-    // Use a scaling factor that works well with the timeline spacing
-    const heightInRem = Math.max(totalMonths * 0.4, 8); // Ensure minimum height for visibility
-    
-    return `${heightInRem}rem`;
-  };
-
-  const eventHeight = getEventHeight()
-
   // Different styling for events vs papers
   const isEvent = paper.type === "event"
-  const isRangeEvent = isEvent && paper.start && paper.end;
 
-  // Safely get start and end years (fixing TypeScript errors)
-  const startYear = paper.start ?? 0;
-  const endYear = paper.end ?? 0;
+  // Get item color
+  const getItemColor = () => {
+    if (isEvent) return "amber"; // Events use amber color
+    return "blue"; // Papers use blue color
+  }
+  
+  const itemColor = getItemColor();
 
   return (
     <div
@@ -531,74 +506,47 @@ const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(({
       }}
     >
       {/* Timeline dot */}
-      {!isRangeEvent && (
-        <div
-          className={`absolute left-0 top-6 w-3 h-3 rounded-full border-2 border-white z-10 transform -translate-x-1/2 -translate-y-1/2 ${
-            isEvent ? "bg-amber-500" : isActive ? "bg-blue-500 ring-4 ring-blue-200" : "bg-gray-300"
-          }`}
-        />
-      )}
-      {/* For range events, add a vertical line to show duration */}
-      {isRangeEvent && (
-        <div 
-          className="absolute left-0 w-2 bg-amber-500 rounded-full" 
-          style={{
-            top: "0.75rem",
-            height: eventHeight,
-            transform: "translateX(-50%)",
-            opacity: 0.7,
-            boxShadow: "0 0 6px rgba(245, 158, 11, 0.6)"
-          }}
-        >
-          {/* Small dots at start and end of timeline */}
-          <div className="absolute top-0 left-1/2 w-3 h-3 bg-amber-600 rounded-full transform -translate-x-1/2 -translate-y-1/2" />
-          <div className="absolute bottom-0 left-1/2 w-3 h-3 bg-amber-600 rounded-full transform -translate-x-1/2 translate-y-1/2" />
-        </div>
-      )}
+      <div
+        className={`absolute left-0 top-6 w-3 h-3 rounded-full border-2 border-white z-10 transform -translate-x-1/2 -translate-y-1/2 ${
+          isEvent 
+            ? isActive 
+              ? "bg-amber-500 ring-4 ring-amber-200" 
+              : "bg-amber-400"
+            : isActive 
+              ? "bg-blue-500 ring-4 ring-blue-200" 
+              : "bg-blue-400"
+        }`}
+      />
 
       <div 
-        className={`space-y-1 ${
-          isEvent 
-            ? "bg-amber-50 p-3 rounded-md border border-amber-200" 
-            : isActive 
-              ? "bg-blue-50 p-3 rounded-md border border-blue-200 shadow-md transition-all duration-300" 
-              : "p-3 hover:bg-gray-50 transition-colors"
-        } ${!isEvent ? "cursor-pointer transition-colors" : ""}`}
-        style={{
-          minHeight: isRangeEvent ? eventHeight : "auto",
-          display: "flex",
-          flexDirection: "column"
-        }}
+        className={`space-y-1 p-3 ${
+          isActive 
+            ? isEvent
+              ? "bg-amber-50 rounded-md border border-amber-200 shadow-md transition-all duration-300" 
+              : "bg-blue-50 rounded-md border border-blue-200 shadow-md transition-all duration-300"
+            : "hover:bg-gray-50 transition-colors"
+        } cursor-pointer transition-colors`}
         onClick={() => {
-          // For papers, select them and scroll to view
-          if (paper.type === "paper") {
-            onSelect(paper);
-          } 
-          // For events, just highlight them but don't change the active paper
+          onSelect(paper);
         }}
       >
         <span className="text-sm text-gray-500 font-medium">
-          {isRangeEvent ? (
-            <>
-              <span className="inline-block px-2 py-0.5 bg-amber-100 text-amber-800 rounded-md">
-                {startYear} - {endYear}
-              </span>
-              <span className="ml-2 text-amber-700">
-                ({endYear - startYear} years)
-              </span>
-            </>
-          ) : (
-            paper.date
-          )}
+          {paper.date}
         </span>
-        <h3 className={`text-lg font-semibold ${isEvent ? "text-amber-800" : isActive ? "text-blue-700" : "text-gray-800"}`}>{paper.title}</h3>
+        <h3 className={`text-lg font-semibold ${
+          isEvent 
+            ? isActive ? "text-amber-700" : "text-gray-800"
+            : isActive ? "text-blue-700" : "text-gray-800"
+        }`}>
+          {paper.title}
+        </h3>
         
-        {/* Show authors for both views */}
+        {/* Show authors for papers */}
         {paper.type === "paper" && paper.authors && (
           <p className="text-sm text-gray-600 mt-1 font-light">{paper.authors}</p>
         )}
 
-        {/* On mobile, show the paper card inline regardless of view mode */}
+        {/* On mobile, show the paper card inline */}
         {isMobile && paper.type === "paper" && <PaperCard paper={paper} />}
       </div>
     </div>

@@ -9,20 +9,181 @@ export async function getPapersSortedByIlyaList(): Promise<Item[]> {
 }
 
 const events: Item[] = [
-  { type: "event", date: "01 Jan 1974", start: 1974, end: 1980, title: "First AI winter: limited progress, loss of funding due to overly optimistic expectations" },
-  { type: "event", date: "01 Jan 1987", start: 1987, end: 1993, title: "Second AI winter: reduced funding after expert systems failed commercially" },
-  { type: "event", date: "01 Jan 1997", title: "IBM's Deep Blue beats chess champion Garry Kasparov" },
-  { type: "event", date: "01 Jan 2011", title: "IBM Watson wins Jeopardy!" },
-  { type: "event", date: "01 Jan 2012", title: "AlexNet wins ImageNet challenge, sparking deep learning revolution" },
-  { type: "event", date: "01 Jan 2014", title: "Launch GPT" },
-  { type: "event", date: "01 Jan 2016", title: "AlphaGo beats Lee Sedol in Go" },
-  { type: "event", date: "01 Jan 2018", title: "Launch GPT-2; Launch BERT" },
-  { type: "event", date: "01 Jan 2020", title: "Launch GPT-3" },
-  { type: "event", date: "01 Jan 2021", title: "Launch DALL-E; Launch Codex" },
-  { type: "event", date: "01 Jan 2022", title: "Launch ChatGPT (GPT-3.5); Stable Diffusion; Midjourney" },
-  { type: "event", date: "01 Jan 2023", title: "Launch GPT-4; Launch Claude" },
-  { type: "event", date: "01 Jan 2024", title: "Launch Gemini 1.5; Launch GPT-4 Turbo" },
-  { type: "event", date: "01 Jan 2025", title: "Launch GPT-4o; Launch Gemini 2.5" },
+  { 
+    type: "event", 
+    date: "01 Jan 1974", 
+    start: 1974, 
+    end: 1980, 
+    title: "First AI winter: limited progress, loss of funding due to overly optimistic expectations", 
+    slides: [
+      {
+        content: "The first AI winter was a period of reduced funding and interest in artificial intelligence research. Following a series of criticisms and government report cutbacks in funding, especially from DARPA, AI research slowed significantly from 1974-1980.",
+        bullets: [
+          "Caused by failure to meet ambitious expectations and promises",
+          "DARPA funding cuts after the Lighthill Report questioned AI progress",
+          "Highlighted the difficulty of natural language processing and expert systems"
+        ]
+      }
+    ]
+  },
+  { 
+    type: "event", 
+    date: "01 Jan 1987", 
+    start: 1987, 
+    end: 1993, 
+    title: "Second AI winter: reduced funding after expert systems failed commercially",
+    slides: [
+      {
+        content: "The second major AI winter occurred when the market for expert systems collapsed in the late 1980s. Specialized AI hardware companies suffered as conventional desktop computers became more powerful, making dedicated AI machines unnecessary.",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/1/1b/Expert_systems_technology_stack.png"
+      }
+    ] 
+  },
+  { 
+    type: "event", 
+    date: "01 Jan 1997", 
+    title: "IBM's Deep Blue beats chess champion Garry Kasparov", 
+    slides: [
+      {
+        content: "In 1997, IBM's Deep Blue became the first computer chess-playing system to beat a reigning world chess champion, Garry Kasparov, in a match under standard chess tournament time controls.",
+        imageUrl: "https://eu-images.contentstack.com/v3/assets/blt6b0f74e5591baa03/blt7cc688614b70f9be/65672f49361a98040a9a8940/News_Image_-_2023-11-29T123206.186.jpg",
+      }
+    ]
+  },
+  { 
+    type: "event", 
+    date: "01 Jan 2011", 
+    title: "IBM Watson wins Jeopardy!",
+    slides: [
+      {
+        content: "IBM's Watson computer system competed on Jeopardy! against former winners Brad Rutter and Ken Jennings. Watson won the first place prize of $1 million, demonstrating significant advances in natural language processing and question answering.",
+        imageUrl: "https://media-cldnry.s-nbcnews.com/image/upload/t_fit-1240w,f_auto,q_auto:best/msnbc/Components/Photo/_new/110114-watson-hmed-5p.jpg"
+      }
+    ]
+  },
+  { 
+    type: "event", 
+    date: "01 Jan 2012", 
+    title: "AlexNet wins ImageNet challenge, sparking deep learning revolution",
+    slides: [
+      {
+        content: "AlexNet, developed by Alex Krizhevsky, Ilya Sutskever, and Geoffrey Hinton, won the ImageNet Large Scale Visual Recognition Challenge (ILSVRC) with significantly better results than previous approaches. This victory sparked the modern deep learning revolution.",
+        imageUrl: "https://miro.medium.com/v2/resize:fit:1400/1*bD_DMBtKwveuzIkQTwjKQQ.png"
+      }
+    ]
+  },
+  { 
+    type: "event", 
+    date: "01 Jan 2014", 
+    title: "Launch GPT",
+    slides: [
+      {
+        content: "In 2014, the first steps toward what would become the Generative Pre-trained Transformer (GPT) model began with advances in sequence-to-sequence learning and attention mechanisms, laying the groundwork for future large language models.",
+      }
+    ]
+  },
+  { 
+    type: "event", 
+    date: "01 Jan 2016", 
+    title: "AlphaGo beats Lee Sedol in Go",
+    slides: [
+      {
+        content: "DeepMind's AlphaGo defeated 18-time world champion Lee Sedol in the board game Go, which was considered a grand challenge for AI due to its complexity. AlphaGo's victory was a landmark achievement for deep reinforcement learning.",
+        imageUrl: "https://storage.googleapis.com/deepmind-live-cms/images/AlphaGo%2520documentary%2520still%25203.max-1100x1100.jpg"
+      }
+    ]
+  },
+  { 
+    type: "event", 
+    date: "01 Jan 2018", 
+    title: "Launch GPT-2; Launch BERT",
+    slides: [
+      {
+        title: "Major Language Model Advances",
+        bullets: [
+          "OpenAI released GPT-2, a 1.5B parameter model showing impressive text generation capabilities",
+          "Google released BERT (Bidirectional Encoder Representations from Transformers)",
+          "These models set new standards for language understanding and generation tasks"
+        ],
+        imageUrl: "https://miro.medium.com/v2/resize:fit:1400/1*vTRzCQsyP-lcJBTJYxdKYQ.png"
+      }
+    ]
+  },
+  { 
+    type: "event", 
+    date: "01 Jan 2020", 
+    title: "Launch GPT-3",
+    slides: [
+      {
+        content: "OpenAI released GPT-3, a 175-billion parameter language model that demonstrated unprecedented capabilities in natural language understanding and generation, showing few-shot and zero-shot learning abilities.",
+        imageUrl: "https://techmond.com/wp-content/uploads/2023/02/Applications-of-GPT3.jpg"
+      }
+    ]
+  },
+  { 
+    type: "event", 
+    date: "01 Jan 2021", 
+    title: "Launch DALL-E; Launch Codex",
+    slides: [
+      {
+        title: "Multimodal AI Models",
+        bullets: [
+          "OpenAI introduced DALL-E, generating images from natural language descriptions",
+          "OpenAI released Codex, powering GitHub Copilot for code generation",
+          "These systems extended language models to new domains beyond text"
+        ],
+        imageUrl: "https://miro.medium.com/v2/resize:fit:1400/1*s8JFjWCh_WU4JnPF1IdQSA.jpeg"
+      }
+    ]
+  },
+  { 
+    type: "event", 
+    date: "01 Jan 2022", 
+    title: "Launch ChatGPT (GPT-3.5); Stable Diffusion; Midjourney",
+    slides: [
+      {
+        content: "2022 marked the beginning of AI going mainstream with ChatGPT (based on GPT-3.5) and the release of powerful image generation models like Stable Diffusion and Midjourney that democratized access to AI creative tools.",
+        imageUrl: "https://www.thurrott.com/wp-content/uploads/sites/2/2023/03/ChatGPT.jpg"
+      }
+    ]
+  },
+  { 
+    type: "event", 
+    date: "01 Jan 2023", 
+    title: "Launch GPT-4; Launch Claude",
+    slides: [
+      {
+        title: "Next Generation AI Models",
+        bullets: [
+          "OpenAI released GPT-4 with multimodal capabilities and improved reasoning",
+          "Anthropic introduced Claude, focusing on constitutional AI and safety",
+          "Major improvements in reasoning, coding, and multimodal understanding"
+        ],
+        imageUrl: "https://media.wired.com/photos/641a2065e416a93659850ce2/master/pass/GPT-4-Scores-Gear.jpg"
+      }
+    ]
+  },
+  { 
+    type: "event", 
+    date: "01 Jan 2024", 
+    title: "Launch Gemini 1.5; Launch GPT-4 Turbo",
+    slides: [
+      {
+        content: "The AI race accelerated with Google releasing Gemini 1.5 featuring million-token context windows, while OpenAI launched GPT-4 Turbo with improved capabilities and lower costs.",
+        imageUrl: "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Gemini_15_header_4.width-1000.format-webp.webp"
+      }
+    ]
+  },
+  { 
+    type: "event", 
+    date: "01 Jan 2025", 
+    title: "Launch GPT-4o; Launch Gemini 2.5",
+    slides: [
+      {
+        content: "Predicted future releases of next-generation models with even more advanced capabilities in multimodal understanding, reasoning, and real-time interactions.",
+      }
+    ]
+  },
 ]
 
 
@@ -46,6 +207,7 @@ const items: Item[] = [
         ],
       },
       {
+        title: "Transformer Architecture",
         imageUrl: "https://miro.medium.com/v2/resize:fit:640/format:webp/1*InsTuWpZTYm0kwi8ovIMAQ.png",
       }
     ]

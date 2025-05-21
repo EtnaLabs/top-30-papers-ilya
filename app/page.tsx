@@ -5,11 +5,30 @@ import { PaperTimeline } from "@/components/paper-timeline"
 import { getPapers, getPapersSortedByIlyaList } from "@/lib/data"
 import { Button } from "@/components/ui/button"
 import type { Item } from "@/lib/types"
+import Cookies from "js-cookie"
+import { toast } from "@/hooks/use-toast"
+import { CheckIcon } from "lucide-react"
+
+// Cookie name for sort preference
+const SORT_PREFERENCE_COOKIE = "paper-sort-preference"
 
 export default function Home() {
+  // Initialize with the cookie value if available, otherwise default to Ilya's order
   const [sortByIlya, setSortByIlya] = useState(true)
   const [papers, setPapers] = useState<Item[]>([])
+  const [isInitialLoad, setIsInitialLoad] = useState(true)
   
+  // Load the sort preference from cookie on initial render
+  useEffect(() => {
+    const savedPreference = Cookies.get(SORT_PREFERENCE_COOKIE)
+    // If we have a saved preference, use it
+    if (savedPreference) {
+      setSortByIlya(savedPreference === "ilya")
+    }
+    setIsInitialLoad(false)
+  }, [])
+  
+  // Load papers based on sort preference
   useEffect(() => {
     async function loadPapers() {
       if (sortByIlya) {
@@ -22,7 +41,29 @@ export default function Home() {
     }
     
     loadPapers()
-  }, [sortByIlya])
+    
+    // Save preference to cookie whenever it changes, but not on initial load
+    if (!isInitialLoad) {
+      Cookies.set(SORT_PREFERENCE_COOKIE, sortByIlya ? "ilya" : "date", { expires: 365 }) // expires in 1 year
+      
+      // Show a toast notification that preference was saved
+      toast({
+        title: "Preference saved",
+        description: `Viewing papers ${sortByIlya ? "in Ilya's order" : "by date"}.`,
+        duration: 2000,
+        className: "bg-green-50 border-green-200",
+        action: (
+          <div className="flex items-center justify-center w-8 h-8 bg-green-100 rounded-full">
+            <CheckIcon className="h-4 w-4 text-green-600" />
+          </div>
+        ),
+      })
+    }
+  }, [sortByIlya, isInitialLoad])
+  
+  // Handlers for changing sort preference
+  const handleSortByDate = () => setSortByIlya(false)
+  const handleSortByIlya = () => setSortByIlya(true)
   
   return (
     <div className="container mx-auto py-10">
@@ -37,13 +78,13 @@ export default function Home() {
           <div className="flex justify-center gap-4">
             <Button 
               variant={sortByIlya ? "outline" : "default"} 
-              onClick={() => setSortByIlya(false)}
+              onClick={handleSortByDate}
             >
               Show by date
             </Button>
             <Button 
               variant={sortByIlya ? "default" : "outline"} 
-              onClick={() => setSortByIlya(true)}
+              onClick={handleSortByIlya}
             >
               Show in Ilya&apos;s order
             </Button>
