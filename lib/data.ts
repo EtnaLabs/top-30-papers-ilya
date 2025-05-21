@@ -609,8 +609,8 @@ function sortByOrder(items: Item[]): Item[] {
   return [...items].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 }
 
-function sortByDate(items: Item[]): Item[] {
-  return [...items, ...otherFoundationPapers].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+function sortByDate(items: Item[], events: Item[]): Item[] {
+  return [...items, ...events].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 }
-const itemsSortedByDate = sortByDate(items);
+const itemsSortedByDate = sortByDate(items, events);
 const itemsSortedByIlyaList = sortByOrder(items);
