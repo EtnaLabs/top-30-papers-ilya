@@ -30,7 +30,7 @@ export function PaperCard({ paper }: { paper: Item }) {
   // Function to check if text has fewer than 50 words
   const hasShortText = (text: string) => {
     if (!text) return false;
-    return text.split(/\s+/).filter(word => word.length > 0).length < 50;
+    return text.split(/\s+/).filter(word => word.length > 0).length < 100;
   }
 
   // If there are no slides but we have a summary, create a slide from the summary

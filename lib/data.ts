@@ -1,3 +1,4 @@
+import image from "next/image"
 import type { Item } from "./types"
 
 export async function getPapers(): Promise<Item[]> {
@@ -263,12 +264,13 @@ const items: Item[] = [
       {
         content:
         "This paper highlights the surprising capabilities of recurrent neural networks in sequence prediction tasks. It demonstrates their effectiveness in generating coherent sequences, from text to music, showcasing the potential of RNNs in creative and predictive applications.",
+        imageUrl: "https://pbs.twimg.com/media/GrXdeNwa8AEeuw8?format=jpg&name=medium"
       },
       {
         bullets: [
-          "Highlights the surprising capabilities of recurrent neural networks in various applications.",
-          "Explores the reasons behind the effectiveness of RNNs in sequence modeling.",
-          "Discusses the potential and limitations of RNNs in real-world scenarios.",
+          "RNNs were the state-of-the-art before transformers, but faced challenges like scalability.",
+          "Attention mechanisms revolutionized the field, yet RNNs still appear in projects like RWKV.",
+          "Despite their limitations, RNNs continue to be relevant in certain applications."
         ],
       }
     ]
@@ -284,6 +286,19 @@ const items: Item[] = [
       {
         content:
         "This paper explains Long Short-Term Memory (LSTM) networks, a type of recurrent neural network capable of learning long-term dependencies. It covers their architecture, functionality, and applications, highlighting their effectiveness in sequence prediction tasks across various domains.",
+        imageUrl: "https://pbs.twimg.com/media/GrXexl6bAAM3DQO?format=jpg&name=medium"
+      },
+      {
+        content: "The paper provides a detailed explanation of LSTM networks, illustrating how they can be viewed as standard neural networks once the recurrence is unrolled. It explores their architecture, functionality, and applications, raising the question of whether solving the long context problem in RNNs could lead to insights applicable to a mathematically equivalent Transformer.",
+        imageUrl: "https://pbs.twimg.com/media/GrXfqKabAAAc3ZF?format=jpg&name=medium"
+      },
+      {
+        content: "So RNN have issues wiht long context... LSTM came to solve it .. LSTM = Long short temr memory \n\n the repeating module of LSTM is more complex than RNN and something to do with the memory part",
+        imageUrl: "https://pbs.twimg.com/media/GrXgjJGbAAIJ9Kw?format=jpg&name=medium"
+      },
+      {
+        content: "What intrigues me about LSTM networks is their resemblance to the residual stream concept, with a primary path that remains unaltered and additional circuits diverging through alternative routes. The operations within LSTMs are akin to memory operations, involving function compositions. The article also discusses more complex variants of these networks.",
+        imageUrl: "https://pbs.twimg.com/media/GrXhm8bbAAQyKa_?format=jpg&name=medium"
       },
       {
         bullets: [
@@ -305,6 +320,14 @@ const items: Item[] = [
       {
         content:
         "This paper explores techniques to regularize recurrent neural networks, addressing overfitting issues. It introduces methods like dropout and weight noise, improving model generalization and performance. These techniques are crucial for enhancing the robustness of RNNs in various applications.",
+        imageUrl: "https://pbs.twimg.com/media/GrXkGnIboAAHIeB?format=jpg&name=medium",
+      },
+      {
+        content: "dropout was known to work for NN, but not for RNN/LSTM.. this paper helps in that",
+      },
+      {
+        content: "They introduce a dropout operator that 'corrupts' the information carried by the unit, which according to them, leads to more robust computations. One way to imagine this is if there was a boundary where it could just 'tip' into the wrong computation zone. Adding noise/corruption forces the network to learn to remain some steps away from it.",
+        imageUrl: "https://pbs.twimg.com/media/GrXkhvkbAAIHkVX?format=jpg&name=medium"
       },
       {
         bullets: [
@@ -336,6 +359,10 @@ const items: Item[] = [
         ],
       },
       {
+        imageUrl: "https://pbs.twimg.com/media/GrXSwdCa4AAHXdn?format=png&name=medium"
+      },
+      {
+        content: "The majority of the paper discusses applying the MDL principle to weights, resulting in some improvements. However, the truly fascinating aspect is the assertion that 'the best model of some data is the one that minimizes the combined cost of describing the model and describing the misfit between the model and the data.' This notion of misfit is something I hadn't previously considered, though I recently encountered a similar concept in another paper. Additionally, I'm amazed by the insightful clarity with which these papers were written. Achieving such clarity of thought decades ago is no small feat. In hindsight, everything seems straightforward, but the brilliance of these ideas remains impressive today.",
         imageUrl: "https://pbs.twimg.com/media/GrXSwdCa4AAHXdn?format=png&name=medium"
       }
     ]
@@ -373,8 +400,14 @@ const items: Item[] = [
     slides: [
       {
         content:
-        "AlexNet transformed image classification with deep convolutional neural networks, achieving high accuracy on ImageNet. It introduced ReLU activations, dropout, and GPU use, significantly advancing computer vision and deep learning architectures.",
+        "AlexNet transformed image classification with deep convolutional neural networks, achieving high accuracy on ImageNet. It introduced ReLU activations, dropout, and GPU use, significantly advancing computer vision and deep learning architectures. Non saturating neurons + dropout + efficient gpu implementation on image dataset",
+        imageUrl: "https://pbs.twimg.com/media/GrXkGnIboAAHIeB?format=jpg&name=medium",
       },
+      {
+        content: "> most paper is talking about stuff we consider obvious nowadays.. like use of relu, dropout, how to run code on gpus assinging blocks etc.. in hindsight it looks simple but this was sota at the time",
+        imageUrl: "https://pbs.twimg.com/media/GrXm4riboAAyk8V?format=png&name=medium"
+      },
+
       {
         bullets: [
           "Demonstrates the effectiveness of deep CNNs in large-scale image classification.",
@@ -395,7 +428,15 @@ const items: Item[] = [
     slides: [
       {
         content:
-        "This paper explores the importance of order in sequence-to-sequence models for set-based tasks. It demonstrates how different orderings can impact model performance, providing insights into optimizing sequence processing for improved accuracy in set-related applications.",
+        "This paper investigates how the order of input and output data significantly affects the learning of underlying models in sequence-to-sequence tasks for sets. It highlights the impact of different orderings on model performance and offers strategies to optimize sequence processing for enhanced accuracy in set-related applications.",
+        imageUrl: "https://pbs.twimg.com/media/GrXYaQtbcAAghEm?format=png&name=medium"
+      },
+      {
+        content: "The paper primarily conducts various experiments on different datasets using LSTM models, focusing less on theoretical discussions. It highlights how ordering data can enhance learning, akin to the concept of 'curriculum learning' where strategic data sequencing maximizes model performance.",
+        imageUrl: "https://pbs.twimg.com/media/GrXbHZQbAAIpmY_?format=png&name=medium"
+      },
+      {
+        content: "The paper delves into the significance of input order in sequence-to-sequence models for set-based tasks. It discusses how searching for the optimal order can enhance model performance, akin to the effect of multiple training epochs which might help the model learn the data in a more effective sequence. Additionally, it raises the question of whether a perfect order exists for data with cyclic dependencies, suggesting that achieving an ideal sequence might be challenging in such cases.",
       },
       {
         bullets: [
