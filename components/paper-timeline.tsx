@@ -6,23 +6,162 @@ import type { Item } from "@/lib/types"
 import { useInView } from "react-intersection-observer"
 import { useMobile } from "@/hooks/use-mobile"
 
+// Type for tracking closest papers to viewport center
+type ClosestPaper = {
+  paper: Item;
+  distance: number;
+  element: HTMLDivElement;
+};
+
 export function PaperTimeline({ papers }: { papers: Item[] }) {
   const [activePaper, setActivePaper] = useState<Item | null>(null)
   const [currentYear, setCurrentYear] = useState<number | null>(null)
+  const [cursorYear, setCursorYear] = useState<number | null>(null)
+  // Add decimal part to represent months (e.g., 1974.5 = June 1974)
+  const [cursorPosition, setCursorPosition] = useState<number>(0)
   const timelineRef = useRef<HTMLDivElement>(null)
   const isMobile = useMobile()
   const paperRefs = useRef<Map<string, HTMLDivElement>>(new Map())
+  // Reference for the timeline line
+  const timelineLineRef = useRef<HTMLDivElement>(null)
+  // Reference to track total timeline height
+  const timelineHeightRef = useRef<number>(0)
 
-  // Set the first paper as active by default
+  // Set the first paper as active by default and initialize cursor
   useEffect(() => {
     if (papers.length > 0 && !activePaper && papers.some((p) => p.type === "paper")) {
       const firstPaper = papers.find((p) => p.type === "paper")
       if (firstPaper) {
         setActivePaper(firstPaper)
         setCurrentYear(new Date(firstPaper.date).getFullYear())
+        
+        // Get earliest year from papers
+        const earliestYear = Math.min(...papers.map(p => new Date(p.date).getFullYear()))
+        setCursorYear(earliestYear)
       }
     }
   }, [papers, activePaper])
+
+  // Calculate the total height of the timeline and years span
+  useEffect(() => {
+    if (timelineRef.current) {
+      // Measure the total height
+      const timelineHeight = timelineRef.current.scrollHeight;
+      timelineHeightRef.current = timelineHeight;
+      
+      // Get the earliest and latest years
+      const years = papers.map(p => new Date(p.date).getFullYear());
+      const earliestYear = Math.min(...years);
+      const latestYear = Math.max(...years);
+      
+      // Calculate total months
+      const totalMonths = (latestYear - earliestYear) * 12;
+      
+      // Initialize cursor at earliest year
+      setCursorYear(earliestYear);
+    }
+  }, [papers]);
+
+  // Update cursor year based on scroll position
+  useEffect(() => {
+    const updateCursorYear = () => {
+      if (!timelineRef.current) return;
+      
+      // Get the viewport middle position
+      const viewportMiddle = window.innerHeight / 2;
+      
+      // Find papers before and after the viewport middle
+      let closestBefore: ClosestPaper | null = null;
+      let closestAfter: ClosestPaper | null = null;
+      
+      // Check all paper elements
+      paperRefs.current.forEach((element, id) => {
+        const rect = element.getBoundingClientRect();
+        const elemMiddle = rect.top + rect.height / 2;
+        const paper = papers.find(p => String(p.id) === id);
+        
+        if (!paper || paper.type !== "paper") return;
+        
+        // Check if this element is before or after viewport middle
+        if (elemMiddle <= viewportMiddle) {
+          // Before or equal to viewport middle
+          if (!closestBefore || (viewportMiddle - elemMiddle) < closestBefore.distance) {
+            closestBefore = {
+              paper,
+              distance: viewportMiddle - elemMiddle,
+              element
+            };
+          }
+        } else {
+          // After viewport middle
+          if (!closestAfter || (elemMiddle - viewportMiddle) < closestAfter.distance) {
+            closestAfter = {
+              paper,
+              distance: elemMiddle - viewportMiddle,
+              element
+            };
+          }
+        }
+      });
+      
+      // Calculate cursor year based on interpolation between before and after
+      if (closestBefore && closestAfter) {
+        // We have papers before and after viewport middle - interpolate between them
+        const beforeDate = new Date(closestBefore.paper.date);
+        const afterDate = new Date(closestAfter.paper.date);
+        
+        // Calculate total milliseconds between the two dates
+        const totalMs = afterDate.getTime() - beforeDate.getTime();
+        
+        // Calculate the relative position between the two papers (0 to 1)
+        const totalDistance = closestBefore.distance + closestAfter.distance;
+        const relativePosition = closestBefore.distance / totalDistance;
+        
+        // Calculate the interpolated date
+        const interpolatedMs = beforeDate.getTime() + (totalMs * relativePosition);
+        const interpolatedDate = new Date(interpolatedMs);
+        
+        // Extract year and month
+        const year = interpolatedDate.getFullYear();
+        const month = interpolatedDate.getMonth();
+        setCursorYear(year + month/12);
+      } else if (closestBefore) {
+        // Only have a paper before viewport middle
+        const date = new Date(closestBefore.paper.date);
+        setCursorYear(date.getFullYear() + date.getMonth()/12);
+      } else if (closestAfter) {
+        // Only have a paper after viewport middle
+        const date = new Date(closestAfter.paper.date);
+        setCursorYear(date.getFullYear() + date.getMonth()/12);
+      }
+    };
+    
+    // Call initially
+    updateCursorYear();
+    
+    // Update on scroll
+    window.addEventListener('scroll', updateCursorYear);
+    return () => window.removeEventListener('scroll', updateCursorYear);
+  }, [papers]);
+
+  // Format the cursor year to show year and month
+  const formatCursorDate = () => {
+    if (!cursorYear) return "";
+    
+    const year = Math.floor(cursorYear);
+    const monthDecimal = cursorYear - year;
+    const month = Math.round(monthDecimal * 12); // Convert from decimal (0.08, 0.16, etc) to month index (0-11)
+    
+    // Convert month number to name
+    const monthNames = [
+      "Jan", "Feb", "Mar", "Apr", "May", "Jun", 
+      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+    
+    const monthName = monthNames[month] || monthNames[0];
+    
+    return `${monthName} ${year}`;
+  };
 
   // Get unique years from papers and sort chronologically
   const years = [...new Set(papers.map((paper) => new Date(paper.date).getFullYear()))].sort((a, b) => a - b)
@@ -119,7 +258,19 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
       <div ref={timelineRef} className="relative flex-1 max-w-full lg:max-w-[35%]">
         <div className="relative">
           {/* Timeline line */}
-          <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-200" />
+          <div ref={timelineLineRef} className="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-200" />
+
+          {/* Year cursor that stays fixed in the middle */}
+          {cursorYear && (
+            <div className="sticky top-1/2 h-0 z-20 pointer-events-none">
+              <div className="absolute left-4 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
+                <div className="w-5 h-5 rounded-full bg-gray-400 border-2 border-white shadow-md"></div>
+                <div className="bg-gray-400 text-white text-xs font-bold px-2 py-1 rounded mt-1 shadow-sm">
+                  {formatCursorDate()}
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Timeline items */}
           <div>
