@@ -17,8 +17,6 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
   const [activePaper, setActivePaper] = useState<Item | null>(null)
   const [currentYear, setCurrentYear] = useState<number | null>(null)
   const [cursorYear, setCursorYear] = useState<number | null>(null)
-  // Add decimal part to represent months (e.g., 1974.5 = June 1974)
-  const [cursorPosition, setCursorPosition] = useState<number>(0)
   const timelineRef = useRef<HTMLDivElement>(null)
   const isMobile = useMobile()
   const paperRefs = useRef<Map<string, HTMLDivElement>>(new Map())
@@ -26,114 +24,93 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
   const timelineLineRef = useRef<HTMLDivElement>(null)
   // Reference to track total timeline height
   const timelineHeightRef = useRef<number>(0)
+  // Calculate and store the first date once
+  const firstDateRef = useRef<Date | null>(null)
 
-  // Set the first paper as active by default and initialize cursor
+  // Set the first paper as active by default and calculate the first date
   useEffect(() => {
-    if (papers.length > 0 && !activePaper && papers.some((p) => p.type === "paper")) {
-      const firstPaper = papers.find((p) => p.type === "paper")
-      if (firstPaper) {
-        setActivePaper(firstPaper)
-        setCurrentYear(new Date(firstPaper.date).getFullYear())
-        
-        // Get earliest year from papers
-        const earliestYear = Math.min(...papers.map(p => new Date(p.date).getFullYear()))
-        setCursorYear(earliestYear)
+    if (papers.length > 0) {
+      // Find the first paper (for activation)
+      if (!activePaper && papers.some((p) => p.type === "paper")) {
+        const firstPaper = papers.find((p) => p.type === "paper")
+        if (firstPaper) {
+          setActivePaper(firstPaper)
+          setCurrentYear(new Date(firstPaper.date).getFullYear())
+        }
+      }
+
+      // Sort items chronologically to find the absolute first date
+      const sortedByDate = [...papers].sort((a, b) => 
+        new Date(a.date).getTime() - new Date(b.date).getTime()
+      );
+      
+      // Set the first date as reference for all positioning
+      if (sortedByDate.length > 0) {
+        const firstDate = new Date(sortedByDate[0].date);
+        firstDateRef.current = firstDate;
+        const year = firstDate.getFullYear();
+        const month = firstDate.getMonth();
+        setCursorYear(year + month/12);
       }
     }
   }, [papers, activePaper])
 
-  // Calculate the total height of the timeline and years span
+  // Calculate absolute position based on date
+  const getAbsolutePosition = (date: string) => {
+    if (!firstDateRef.current) return 0;
+    
+    const itemDate = new Date(date);
+    const firstDate = firstDateRef.current;
+    
+    // Calculate total months difference
+    const monthsDiff = 
+      (itemDate.getFullYear() - firstDate.getFullYear()) * 12 + 
+      (itemDate.getMonth() - firstDate.getMonth());
+    
+    // Add days within the month (approximate)
+    const daysInMonth = new Date(itemDate.getFullYear(), itemDate.getMonth() + 1, 0).getDate();
+    const daysFraction = itemDate.getDate() / daysInMonth;
+    
+    // Position: 1rem per month + a bit more for days within month
+    return monthsDiff + daysFraction;
+  };
+
+  // Calculate the total height of the timeline
   useEffect(() => {
     if (timelineRef.current) {
       // Measure the total height
       const timelineHeight = timelineRef.current.scrollHeight;
       timelineHeightRef.current = timelineHeight;
-      
-      // Get the earliest and latest years
-      const years = papers.map(p => new Date(p.date).getFullYear());
-      const earliestYear = Math.min(...years);
-      const latestYear = Math.max(...years);
-      
-      // Calculate total months
-      const totalMonths = (latestYear - earliestYear) * 12;
-      
-      // Initialize cursor at earliest year
-      setCursorYear(earliestYear);
     }
   }, [papers]);
 
   // Update cursor year based on scroll position
   useEffect(() => {
     const updateCursorYear = () => {
-      if (!timelineRef.current) return;
+      if (!timelineRef.current || !firstDateRef.current) return;
       
-      // Get the viewport middle position
-      const viewportMiddle = window.innerHeight / 2;
+      // Get first date as our reference point
+      const firstDate = firstDateRef.current;
       
-      // Find papers before and after the viewport middle
-      let closestBefore: ClosestPaper | null = null;
-      let closestAfter: ClosestPaper | null = null;
+      // Get timeline position
+      const timelineRect = timelineRef.current.getBoundingClientRect();
+      const scrollTop = -timelineRect.top; // How far we've scrolled past the top
       
-      // Check all paper elements
-      paperRefs.current.forEach((element, id) => {
-        const rect = element.getBoundingClientRect();
-        const elemMiddle = rect.top + rect.height / 2;
-        const paper = papers.find(p => String(p.id) === id);
-        
-        if (!paper || paper.type !== "paper") return;
-        
-        // Check if this element is before or after viewport middle
-        if (elemMiddle <= viewportMiddle) {
-          // Before or equal to viewport middle
-          if (!closestBefore || (viewportMiddle - elemMiddle) < closestBefore.distance) {
-            closestBefore = {
-              paper,
-              distance: viewportMiddle - elemMiddle,
-              element
-            };
-          }
-        } else {
-          // After viewport middle
-          if (!closestAfter || (elemMiddle - viewportMiddle) < closestAfter.distance) {
-            closestAfter = {
-              paper,
-              distance: elemMiddle - viewportMiddle,
-              element
-            };
-          }
-        }
-      });
+      // Calculate scrollTop in rem units
+      const rootFontSize = parseFloat(window.getComputedStyle(document.documentElement).fontSize);
+      const scrollTopRem = scrollTop / rootFontSize;
       
-      // Calculate cursor year based on interpolation between before and after
-      if (closestBefore && closestAfter) {
-        // We have papers before and after viewport middle - interpolate between them
-        const beforeDate = new Date(closestBefore.paper.date);
-        const afterDate = new Date(closestAfter.paper.date);
-        
-        // Calculate total milliseconds between the two dates
-        const totalMs = afterDate.getTime() - beforeDate.getTime();
-        
-        // Calculate the relative position between the two papers (0 to 1)
-        const totalDistance = closestBefore.distance + closestAfter.distance;
-        const relativePosition = closestBefore.distance / totalDistance;
-        
-        // Calculate the interpolated date
-        const interpolatedMs = beforeDate.getTime() + (totalMs * relativePosition);
-        const interpolatedDate = new Date(interpolatedMs);
-        
-        // Extract year and month
-        const year = interpolatedDate.getFullYear();
-        const month = interpolatedDate.getMonth();
-        setCursorYear(year + month/12);
-      } else if (closestBefore) {
-        // Only have a paper before viewport middle
-        const date = new Date(closestBefore.paper.date);
-        setCursorYear(date.getFullYear() + date.getMonth()/12);
-      } else if (closestAfter) {
-        // Only have a paper after viewport middle
-        const date = new Date(closestAfter.paper.date);
-        setCursorYear(date.getFullYear() + date.getMonth()/12);
-      }
+      // Convert scroll position to months (1rem = 1 month)
+      const monthsScrolled = scrollTopRem / 1;
+      
+      // Calculate the date at this position
+      const targetDate = new Date(firstDate);
+      targetDate.setMonth(firstDate.getMonth() + monthsScrolled);
+      
+      // Set cursor year
+      const year = targetDate.getFullYear();
+      const month = targetDate.getMonth();
+      setCursorYear(year + month/12);
     };
     
     // Call initially
@@ -253,6 +230,27 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
   
   const yearPositions = calculateYearPositions()
 
+  // Calculate total height needed for the timeline
+  const calculateTimelineHeight = () => {
+    if (papers.length === 0 || !firstDateRef.current) return 0;
+    
+    // Find the last date
+    const sortedPapers = [...papers].sort((a, b) => 
+      new Date(b.date).getTime() - new Date(a.date).getTime()
+    );
+    
+    const lastDate = new Date(sortedPapers[0].date);
+    const firstDate = firstDateRef.current;
+    
+    // Calculate total months
+    const totalMonths = 
+      (lastDate.getFullYear() - firstDate.getFullYear()) * 12 + 
+      (lastDate.getMonth() - firstDate.getMonth());
+    
+    // Add some padding at the bottom
+    return totalMonths + 20; // in rem units
+  };
+
   return (
     <div className="flex flex-col lg:flex-row gap-8">
       <div ref={timelineRef} className="relative flex-1 max-w-full lg:max-w-[35%]">
@@ -260,11 +258,10 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
           {/* Timeline line */}
           <div ref={timelineLineRef} className="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-200" />
 
-          {/* Year cursor that stays fixed in the middle */}
+          {/* Fixed date indicator at the top that stays visible when scrolling */}
           {cursorYear && (
-            <div className="sticky top-1/2 h-0 z-20 pointer-events-none">
-              <div className="absolute left-4 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
-                <div className="w-5 h-5 rounded-full bg-gray-400 border-2 border-white shadow-md"></div>
+            <div className="sticky top-0 z-20 pointer-events-none pt-4 pb-2 bg-white">
+              <div className="absolute left-[calc(3rem - 150px)] transform -translate-x-1/2 flex flex-col items-center">
                 <div className="bg-gray-400 text-white text-xs font-bold px-2 py-1 rounded mt-1 shadow-sm">
                   {formatCursorDate()}
                 </div>
@@ -272,8 +269,13 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
             </div>
           )}
 
-          {/* Timeline items */}
-          <div>
+          {/* Timeline items with absolute positioning */}
+          <div 
+            className="pt-16 relative" 
+            style={{ 
+              height: `${calculateTimelineHeight()}rem`
+            }}
+          >
             {papers.map((paper, index) => (
               <TimelineItem
                 key={paper.id || `event-${index}`}
@@ -286,7 +288,7 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
                   }
                 }}
                 onSelect={handlePaperSelect}
-                prevDate={index > 0 ? papers[index - 1].date : undefined}
+                getPosition={getAbsolutePosition}
                 papers={papers}
                 index={index}
                 ref={(el) => {
@@ -336,7 +338,7 @@ interface TimelineItemProps {
   isActive: boolean;
   onInView: () => void;
   onSelect: (paper: Item) => void;
-  prevDate?: string;
+  getPosition: (date: string) => number;
   papers: Item[];
   index: number;
 }
@@ -347,7 +349,7 @@ const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(({
   isActive,
   onInView,
   onSelect,
-  prevDate,
+  getPosition,
   papers,
   index,
 }, ref) => {
@@ -376,31 +378,8 @@ const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(({
     }
   }, [inView, onInView, paper.type, paper])
 
-  // Calculate the gap based on the time difference between this paper and the previous one
-  const getTimeGap = () => {
-    if (!prevDate) return 0 // First item has no gap
-
-    const currentDate = new Date(paper.date)
-    const previousDate = new Date(prevDate)
-
-    // Calculate months difference
-    const monthsDiff =
-      (currentDate.getFullYear() - previousDate.getFullYear()) * 12 + (currentDate.getMonth() - previousDate.getMonth())
-
-    // Use different scaling based on the year
-    // For papers after 2004, use a larger scale factor to show more detail
-    const isAfter2004 = currentDate.getFullYear() > 2004;
-    
-    // Scale factor - adjust this to control the overall spacing
-    // Higher scale factor for papers after 2004
-    const scaleFactor = isAfter2004 ? 3.0 : 0.8;
-
-    // Base gap (minimum spacing) in rem
-    const baseGap = 3
-
-    // Calculate the gap in rem, with a minimum of baseGap
-    return baseGap + monthsDiff * scaleFactor
-  }
+  // Get absolute position in rem units for this item
+  const position = getPosition(paper.date);
 
   // Calculate the height of the event if it has start and end years
   const getEventHeight = () => {
@@ -413,17 +392,13 @@ const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(({
     // Calculate total months between start and end
     const totalMonths = (endYear - startYear) * 12;
     
-    // Define pixels per month - this is the key scaling factor
-    // We use a more moderate scaling to ensure timeline remains usable
-    const pixelsPerMonth = 10; // 10px per month (120px per year)
+    // Use same scaling as regular spacing for consistency
+    // Each month = 1rem of vertical space
+    const heightInRem = totalMonths * 1;
     
-    // Calculate height in pixels based on months
-    const heightInPixels = Math.max(100, totalMonths * pixelsPerMonth);
-    
-    return `${heightInPixels}px`;
+    return `${heightInRem}rem`;
   };
 
-  const timeGap = getTimeGap()
   const eventHeight = getEventHeight()
 
   // Different styling for events vs papers
@@ -439,7 +414,10 @@ const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(({
       ref={setRefs}
       className="relative pl-10"
       style={{
-        marginTop: `${timeGap}rem`,
+        position: 'absolute',
+        top: `${position}rem`,
+        left: 0,
+        right: 0,
       }}
     >
       {/* Timeline dot */}
