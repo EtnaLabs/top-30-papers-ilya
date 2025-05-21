@@ -36,7 +36,7 @@ export function PaperCard({ paper }: { paper: Item }) {
     <Card className="mt-2">
       <CardContent className="pt-6">
         <div className="flex justify-between items-start mb-2">
-          <h3 className="text-xl font-bold">{paper.title}</h3>
+          <h3 className="text-xl font-bold tracking-tight">{paper.title}</h3>
           {paper.link && (
             <Button 
               asChild 
@@ -54,9 +54,9 @@ export function PaperCard({ paper }: { paper: Item }) {
         {paper.authors && (
           <div className="flex justify-between items-center text-sm text-gray-700 mb-4">
             <div>
-              <p>{paper.authors}</p>
+              <p className="font-light tracking-wide">{paper.authors}</p>
             </div>
-            <span className="text-sm font-bold bg-gray-100 text-gray-800 px-2 py-1 rounded-full">{paper.date}</span>
+            <span className="text-sm font-semibold bg-gray-100 text-gray-800 px-2 py-1 rounded-full">{paper.date}</span>
           </div>
         )}
 
@@ -72,12 +72,8 @@ export function PaperCard({ paper }: { paper: Item }) {
                 return (
                   <>
                     {/* Show slide type as title above the slide */}
-                    {slide.type && (
                       <div className="flex items-center justify-between mb-2">
                         <h5 className="font-medium text-lg text-gray-700">
-                          {slide.type === "summary" ? "Summary" : 
-                           slide.type === "keyTakeaways" ? "Key Takeaways" : 
-                           slide.title || ""}
                         </h5>
                         
                         {/* Navigation buttons moved next to title */}
@@ -105,20 +101,30 @@ export function PaperCard({ paper }: { paper: Item }) {
                           </div>
                         )}
                       </div>
-                    )}
                     <div key={activeSlideIndex}>
-                      {slide.type === "image" && slide.imageUrl && (
-                        <div className="relative h-60 w-full overflow-hidden rounded-md mb-2">
-                          <Image 
-                            src={slide.imageUrl} 
-                            alt={slide.title || "Slide image"}
-                            fill
-                            className="object-contain"
-                          />
-                        </div>
-                      )}
                       
-                      {slide.type === "video" && slide.videoUrl && (
+                      <div>
+                        <p className={isShortText ? "text-3xl font-light leading-relaxed tracking-wide" : "text-base leading-relaxed"}>
+                          {slide.content}
+                        </p>
+                        {slide.bullets && (
+                          <ul className="list-disc pl-5 space-y-2">
+                            {slide.bullets.map((bullet, idx) => (
+                              <li className="text-2xl font-light leading-relaxed tracking-wide" key={idx}>{bullet}</li>
+                            ))}
+                          </ul>
+                        )}
+                        {slide.imageUrl && (
+                          <div className="relative">
+                            <Image 
+                              src={slide.imageUrl} 
+                              alt={slide.title || "Slide image"}
+                              width={400}
+                              height={400}
+                            />
+                          </div>
+                        )}
+                      {slide.videoUrl && (
                         <div className="aspect-video mb-2">
                           <iframe
                             src={slide.videoUrl}
@@ -127,32 +133,7 @@ export function PaperCard({ paper }: { paper: Item }) {
                           ></iframe>
                         </div>
                       )}
-                      
-                      {slide.type === "text" && slide.content && (
-                        <p className={isShortText ? "text-3xl font-light leading-relaxed tracking-wide" : "text-base leading-relaxed"}>
-                          {slide.content}
-                        </p>
-                      )}
-                      
-                      {slide.type === "summary" && slide.content && (
-                        <div>
-                          <p className={isShortText ? "text-3xl font-light leading-relaxed tracking-wide" : "text-base leading-relaxed"}>
-                            {slide.content}
-                          </p>
-                        </div>
-                      )}
-                      
-                      {slide.type === "keyTakeaways" && slide.content && (
-                        <div>
-                          <ul className="list-disc pl-5 space-y-2">
-                            {slide.content.split("\n").map((takeaway, idx) => (
-                              <li key={idx} className={hasShortText(takeaway) ? "text-2xl font-light leading-relaxed" : "text-base leading-relaxed"}>
-                                {takeaway.replace(/^\d+\.\s/, "")}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
+                      </div>
                     </div>
                   </>
                 );

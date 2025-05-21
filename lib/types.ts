@@ -11,8 +11,8 @@ export interface Item {
   slides?: {
     title?: string
     content?: string
-    type: "image" | "video" | "text" | "summary" | "keyTakeaways"
     imageUrl?: string
     videoUrl?: string
+    bullets?: string[]
   }[]
 }

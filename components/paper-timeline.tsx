@@ -5,6 +5,7 @@ import { PaperCard } from "@/components/paper-card"
 import type { Item } from "@/lib/types"
 import { useInView } from "react-intersection-observer"
 import { useMobile } from "@/hooks/use-mobile"
+import { ExternalLink } from "lucide-react"
 
 // Type for tracking closest papers to viewport center
 type ClosestPaper = {
@@ -327,7 +328,7 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
 
   return (
     <div className="flex flex-col lg:flex-row gap-8">
-      <div ref={timelineRef} className="relative flex-1 max-w-full lg:max-w-[35%]">
+      <div ref={timelineRef} className={`relative flex-1 max-w-full ${isIlyaOrder ? 'lg:max-w-[20%]' : 'lg:w-full'}`}>
         <div className="relative">
           {/* Timeline line */}
           <div ref={timelineLineRef} className="absolute left-2 top-0 bottom-0 w-0.5 bg-gray-200" />
@@ -365,6 +366,7 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
                 getPosition={getAbsolutePosition}
                 papers={papers}
                 index={index}
+                isIlyaOrder={isIlyaOrder}
                 ref={(el) => {
                   if (el && paper.id && paper.type === "paper") {
                     paperRefs.current.set(String(paper.id), el);
@@ -376,9 +378,9 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
         </div>
       </div>
 
-      {/* Detail box - fixed on desktop, scrolls with content on mobile */}
-      {!isMobile && activePaper && activePaper.type === "paper" && (
-        <div className="lg:sticky lg:top-8 lg:self-start lg:w-[65%] h-fit">
+      {/* Detail box - only show in Ilya's order mode, fixed on desktop, scrolls with content on mobile */}
+      {isIlyaOrder && !isMobile && activePaper && activePaper.type === "paper" && (
+        <div className="lg:sticky lg:top-8 lg:self-start lg:w-[80%] h-fit">
           <div 
             key={activePaper.id} 
             className="transition-all duration-300 ease-in-out animate-fadeIn"
@@ -399,6 +401,7 @@ interface TimelineItemProps {
   getPosition: (date: string, index: number) => number;
   papers: Item[];
   index: number;
+  isIlyaOrder: boolean;
 }
 
 // Modify the TimelineItem to accept ref
@@ -410,6 +413,7 @@ const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(({
   getPosition,
   papers,
   index,
+  isIlyaOrder,
 }, ref) => {
   const { ref: inViewRef, inView } = useInView({
     threshold: 0,
@@ -534,8 +538,32 @@ const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(({
           )}
         </span>
         <h3 className={`text-lg font-semibold ${isEvent ? "text-amber-800" : isActive ? "text-blue-700" : "text-gray-800"}`}>{paper.title}</h3>
+        
+        {/* Show authors when not in Ilya's order */}
+        {!isIlyaOrder && paper.type === "paper" && paper.authors && (
+          <p className="text-sm text-gray-600 mt-1 font-light">{paper.authors}</p>
+        )}
 
-        {/* On mobile, show the paper card inline */}
+        {/* Show expanded content in historical view (when not in Ilya's order) */}
+        {!isIlyaOrder && paper.type === "paper" && isActive && paper.slides && paper.slides.length > 0 && (
+          <div className="mt-4 pt-4 border-t border-gray-100">
+            {paper.slides[0].content && (
+              <p className="text-sm text-gray-700 leading-relaxed mb-3">{paper.slides[0].content}</p>
+            )}
+            {paper.link && (
+              <a 
+                href={paper.link} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="inline-flex items-center text-sm text-blue-600 hover:text-blue-800 transition-colors"
+              >
+                Read Paper <ExternalLink className="ml-1 h-3 w-3" />
+              </a>
+            )}
+          </div>
+        )}
+
+        {/* On mobile, show the paper card inline regardless of view mode */}
         {isMobile && paper.type === "paper" && <PaperCard paper={paper} />}
       </div>
     </div>
