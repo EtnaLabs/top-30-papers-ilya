@@ -283,8 +283,9 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
     
     const targetPaper = papers[targetIndex];
     
-    // Update the selected paper in the timeline
+    // Update both the selected and active papers
     setSelectedPaper(targetPaper);
+    setActivePaper(targetPaper);
     setCurrentYear(new Date(targetPaper.date).getFullYear());
     
     // Scroll to the target element
@@ -308,7 +309,7 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [activePaper, papers]);
+  }, [selectedPaper, papers]);
 
   // Create a function to handle item selection and scrolling
   const handlePaperSelect = (paper: Item) => {

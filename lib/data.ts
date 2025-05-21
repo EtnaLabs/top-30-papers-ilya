@@ -72,7 +72,7 @@ const events: Item[] = [
     slides: [
       {
         content: "IBM's Watson computer system competed on Jeopardy! against former winners Brad Rutter and Ken Jennings. Watson won the first place prize of $1 million, demonstrating significant advances in natural language processing and question answering.",
-        imageUrl: "https://media-cldnry.s-nbcnews.com/image/upload/t_fit-1240w,f_auto,q_auto:best/msnbc/Components/Photo/_new/110114-watson-hmed-5p.jpg"
+        imageUrl: "https://static01.nyt.com/images/2011/02/17/us/17jeopardy_337-span/17jeopardy_337-span-jumbo.jpg?quality=75&auto=webp"
       }
     ]
   },
@@ -226,7 +226,7 @@ const items: Item[] = [
         imageUrl: "https://miro.medium.com/v2/resize:fit:640/format:webp/1*InsTuWpZTYm0kwi8ovIMAQ.png",
       },
       {
-        title: "Attention",
+        title: "Attention Function",
         content: "An attention function maps a query and key-value pairs to an output, using a weighted sum of values based on query-key compatibility.",
         imageUrl: "https://miro.medium.com/v2/resize:fit:1400/1*ZyzLikV0Jf1rgnNCGjxlTQ.png"
       }
