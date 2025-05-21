@@ -256,13 +256,13 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
       <div ref={timelineRef} className="relative flex-1 max-w-full lg:max-w-[35%]">
         <div className="relative">
           {/* Timeline line */}
-          <div ref={timelineLineRef} className="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-200" />
+          <div ref={timelineLineRef} className="absolute left-2 top-0 bottom-0 w-0.5 bg-gray-200" />
 
           {/* Fixed date indicator at the top that stays visible when scrolling */}
           {cursorYear && (
-            <div className="sticky top-0 z-20 pointer-events-none pt-4 pb-2 bg-white">
-              <div className="absolute left-[calc(3rem - 150px)] transform -translate-x-1/2 flex flex-col items-center">
-                <div className="bg-gray-400 text-white text-xs font-bold px-2 py-1 rounded mt-1 shadow-sm">
+            <div className="sticky top-0 z-20 pointer-events-none pt-4 pb-2">
+              <div className="absolute left-0 transform -translate-x-1/2 flex flex-col items-center">
+                <div className="bg-blue-600 text-white text-xs font-bold px-3 py-2 rounded-full mt-1 shadow-sm">
                   {formatCursorDate()}
                 </div>
               </div>
@@ -423,7 +423,7 @@ const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(({
       {/* Timeline dot */}
       {!isRangeEvent && (
         <div
-          className={`absolute left-[16px] top-6 w-3 h-3 rounded-full border-2 border-white z-10 transform -translate-x-1/2 -translate-y-1/2 ${
+          className={`absolute left-[8px] top-6 w-3 h-3 rounded-full border-2 border-white z-10 transform -translate-x-1/2 -translate-y-1/2 ${
             isEvent ? "bg-amber-500" : isActive ? "bg-blue-500 ring-4 ring-blue-200" : "bg-gray-300"
           }`}
         />
@@ -431,7 +431,7 @@ const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(({
       {/* For range events, add a vertical line to show duration */}
       {isRangeEvent && (
         <div 
-          className="absolute left-[17px] w-1 bg-amber-500 rounded-full" 
+          className="absolute left-[8px] w-1 bg-amber-500 rounded-full" 
           style={{
             top: "0.75rem",
             height: eventHeight,
