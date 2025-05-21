@@ -36,7 +36,7 @@ const events: Item[] = [
     slides: [
       {
         content: "The second major AI winter occurred when the market for expert systems collapsed in the late 1980s. Specialized AI hardware companies suffered as conventional desktop computers became more powerful, making dedicated AI machines unnecessary.",
-        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/1/1b/Expert_systems_technology_stack.png"
+        videoUrl: "https://youtu.be/fZYUqICYCAk?si=xlq5LB1XRTNQtEIP"
       }
     ] 
   },
@@ -48,6 +48,7 @@ const events: Item[] = [
       {
         content: "In 1997, IBM's Deep Blue became the first computer chess-playing system to beat a reigning world chess champion, Garry Kasparov, in a match under standard chess tournament time controls.",
         imageUrl: "https://eu-images.contentstack.com/v3/assets/blt6b0f74e5591baa03/blt7cc688614b70f9be/65672f49361a98040a9a8940/News_Image_-_2023-11-29T123206.186.jpg",
+        videoUrl: "https://www.youtube.com/watch?v=KF6sLCeBj0s"
       }
     ]
   },
@@ -75,16 +76,6 @@ const events: Item[] = [
   },
   { 
     type: "event", 
-    date: "01 Jan 2014", 
-    title: "Launch GPT",
-    slides: [
-      {
-        content: "In 2014, the first steps toward what would become the Generative Pre-trained Transformer (GPT) model began with advances in sequence-to-sequence learning and attention mechanisms, laying the groundwork for future large language models.",
-      }
-    ]
-  },
-  { 
-    type: "event", 
     date: "01 Jan 2016", 
     title: "AlphaGo beats Lee Sedol in Go",
     slides: [
@@ -96,7 +87,17 @@ const events: Item[] = [
   },
   { 
     type: "event", 
-    date: "01 Jan 2018", 
+    date: "01 June 2018", 
+    title: "Launch GPT-1",
+    slides: [
+      {
+        content: "In 2018, the first steps toward what would become the Generative Pre-trained Transformer (GPT) model began with advances in sequence-to-sequence learning and attention mechanisms, laying the groundwork for future large language models.",
+      }
+    ]
+  },
+  { 
+    type: "event", 
+    date: "01 Feb 2019", 
     title: "Launch GPT-2; Launch BERT",
     slides: [
       {
@@ -112,7 +113,7 @@ const events: Item[] = [
   },
   { 
     type: "event", 
-    date: "01 Jan 2020", 
+    date: "01 Jun 2020", 
     title: "Launch GPT-3",
     slides: [
       {

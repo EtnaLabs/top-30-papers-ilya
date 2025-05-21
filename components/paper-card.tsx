@@ -152,8 +152,9 @@ export function PaperCard({ paper }: { paper: Item }) {
                         {slide?.videoUrl && (
                           <div className="aspect-video mt-4">
                             <iframe
-                              src={slide.videoUrl}
+                              src={formatYoutubeUrl(slide.videoUrl)}
                               className="w-full h-full rounded-md"
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                               allowFullScreen
                             ></iframe>
                           </div>
@@ -169,4 +170,26 @@ export function PaperCard({ paper }: { paper: Item }) {
       </CardContent>
     </Card>
   )
+}
+
+function formatYoutubeUrl(url: string): string {
+  // If already an embed URL, return as is
+  if (url.includes('embed')) {
+    return url;
+  }
+  
+  // Convert youtu.be links
+  if (url.includes('youtu.be')) {
+    const videoId = url.split('/').pop()?.split('?')[0];
+    return `https://www.youtube.com/embed/${videoId}`;
+  }
+  
+  // Convert youtube.com watch links
+  if (url.includes('youtube.com/watch')) {
+    const videoId = new URL(url).searchParams.get('v');
+    return `https://www.youtube.com/embed/${videoId}`;
+  }
+  
+  // Return original if not a recognized format
+  return url;
 }
