@@ -36,8 +36,7 @@ const items: Item[] = [
     link: "https://nlp.seas.harvard.edu/annotated-transformer/",
     slides: [
       {
-        content: "Attention is all you need simplified and annotated with diagrams and python code!",
-        imageUrl: "https://miro.medium.com/v2/resize:fit:640/format:webp/1*InsTuWpZTYm0kwi8ovIMAQ.png",
+        content: "This paper is a simplified and annotated version of the Attention Is All You Need paper, it shows the architecture of the Transformer model, with diagrams and python code.",
       },
       {
         bullets: [

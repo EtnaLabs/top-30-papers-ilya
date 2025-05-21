@@ -374,15 +374,15 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
 
   return (
     <div className="flex flex-col lg:flex-row gap-8">
-      <div ref={timelineRef} className={`relative flex-1 max-w-full lg:max-w-[20%]`}>
+      <div ref={timelineRef} className={`relative flex-1 max-w-full lg:max-w-[20%] -ml-5`}>
         <div className="relative">
           {/* Timeline line */}
-          <div ref={timelineLineRef} className="absolute left-2 top-0 bottom-0 w-0.5 bg-gray-200" />
+          <div ref={timelineLineRef} className="absolute left-0 top-0 bottom-0 w-0.5 bg-gray-200" />
 
           {/* Fixed date indicator at the top that stays visible when scrolling */}
-          {cursorYear && (
+          {cursorYear && !isIlyaOrder && (
             <div className="sticky top-0 z-20 pointer-events-none pt-4 pb-2">
-              <div className="absolute left-0 transform -translate-x-1/2 flex flex-col items-center" style={{ marginLeft: '-60px' }}>
+              <div className="absolute left-0 transform -translate-x-1/2 flex flex-col items-center">
                 <div className="bg-blue-600 text-white text-xs font-bold px-3 py-2 rounded-full mt-1 shadow-sm">
                   {formatCursorDate()}
                 </div>
@@ -522,7 +522,7 @@ const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(({
   return (
     <div
       ref={setRefs}
-      className="relative pl-10"
+      className="relative pl-8"
       style={{
         position: 'absolute',
         top: `${position}rem`,
@@ -533,7 +533,7 @@ const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(({
       {/* Timeline dot */}
       {!isRangeEvent && (
         <div
-          className={`absolute left-[8px] top-6 w-3 h-3 rounded-full border-2 border-white z-10 transform -translate-x-1/2 -translate-y-1/2 ${
+          className={`absolute left-0 top-6 w-3 h-3 rounded-full border-2 border-white z-10 transform -translate-x-1/2 -translate-y-1/2 ${
             isEvent ? "bg-amber-500" : isActive ? "bg-blue-500 ring-4 ring-blue-200" : "bg-gray-300"
           }`}
         />
@@ -541,7 +541,7 @@ const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(({
       {/* For range events, add a vertical line to show duration */}
       {isRangeEvent && (
         <div 
-          className="absolute left-[8px] w-2 bg-amber-500 rounded-full" 
+          className="absolute left-0 w-2 bg-amber-500 rounded-full" 
           style={{
             top: "0.75rem",
             height: eventHeight,

@@ -25,7 +25,7 @@ export default function Home() {
   }, [sortByIlya])
   
   return (
-    <div className="container mx-auto py-10 px-4 md:px-6">
+    <div className="container mx-auto py-10">
       <div className="mb-10 text-center">
         <h1 className="text-3xl font-bold tracking-tight lg:text-4xl mb-4">Ilya Sutskever&apos;s Top 30 AI Papers</h1>
         <p className="mt-2 text-gray-600 max-w-3xl mx-auto font-light leading-relaxed tracking-wide text-lg">
