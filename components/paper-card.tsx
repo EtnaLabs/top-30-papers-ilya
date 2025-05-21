@@ -74,7 +74,7 @@ export function PaperCard({ paper }: { paper: Item }) {
                     {/* Show slide type as title above the slide */}
                     {slide.type && (
                       <div className="flex items-center justify-between mb-2">
-                        <h5 className="font-medium text-lg">
+                        <h5 className="font-medium text-lg text-gray-700">
                           {slide.type === "summary" ? "Summary" : 
                            slide.type === "keyTakeaways" ? "Key Takeaways" : 
                            slide.title || ""}
@@ -129,14 +129,14 @@ export function PaperCard({ paper }: { paper: Item }) {
                       )}
                       
                       {slide.type === "text" && slide.content && (
-                        <p className={isShortText ? "text-3xl" : "text-sm"}>
+                        <p className={isShortText ? "text-3xl font-light leading-relaxed tracking-wide" : "text-base leading-relaxed"}>
                           {slide.content}
                         </p>
                       )}
                       
                       {slide.type === "summary" && slide.content && (
                         <div>
-                          <p className={isShortText ? "text-3xl" : "text-sm"}>
+                          <p className={isShortText ? "text-3xl font-light leading-relaxed tracking-wide" : "text-base leading-relaxed"}>
                             {slide.content}
                           </p>
                         </div>
@@ -144,9 +144,9 @@ export function PaperCard({ paper }: { paper: Item }) {
                       
                       {slide.type === "keyTakeaways" && slide.content && (
                         <div>
-                          <ul className="list-disc pl-5 space-y-1 text-4xl">
+                          <ul className="list-disc pl-5 space-y-2">
                             {slide.content.split("\n").map((takeaway, idx) => (
-                              <li key={idx} className={hasShortText(takeaway) ? "text-3xl" : "text-sm"}>
+                              <li key={idx} className={hasShortText(takeaway) ? "text-2xl font-light leading-relaxed" : "text-base leading-relaxed"}>
                                 {takeaway.replace(/^\d+\.\s/, "")}
                               </li>
                             ))}

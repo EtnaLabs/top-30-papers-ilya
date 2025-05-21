@@ -1,17 +1,18 @@
 import type React from "react"
 import "@/app/globals.css"
-import { Inter, Playfair_Display } from "next/font/google"
+import { Nunito_Sans, Merriweather } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
 
-const inter = Inter({
+const nunitoSans = Nunito_Sans({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-nunito-sans",
   display: "swap",
 })
 
-const playfair = Playfair_Display({
+const merriweather = Merriweather({
   subsets: ["latin"],
-  variable: "--font-playfair",
+  variable: "--font-merriweather",
+  weight: ["300", "400", "700", "900"],
   display: "swap",
 })
 
@@ -31,7 +32,7 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
-      <body className={`${inter.variable} ${playfair.variable}`}>
+      <body className={`${nunitoSans.variable} ${merriweather.variable}`}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           {children}
         </ThemeProvider>

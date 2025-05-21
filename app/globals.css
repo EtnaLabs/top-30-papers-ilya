@@ -63,9 +63,9 @@
   h4,
   h5,
   h6 {
-    font-family: "Playfair Display", serif;
+    font-family: var(--font-merriweather), serif;
   }
   body {
-    font-family: "Inter", sans-serif;
+    font-family: var(--font-nunito-sans), sans-serif;
   }
 }
