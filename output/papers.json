@@ -1,0 +1,408 @@
+[
+  {
+    "type": "paper",
+    "order": 1,
+    "date": "01 Aug 2017",
+    "title": "The Annotated Transformer",
+    "authors": "Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Łukasz Kaiser, Illia Polosukhin",
+    "link": "https://nlp.seas.harvard.edu/annotated-transformer/",
+    "slides": [
+      {
+        "content": "This paper is a simplified and annotated version of the Attention Is All You Need paper, it shows the architecture of the Transformer model, with diagrams and python code."
+      },
+      {
+        "bullets": [
+          "Offers a practical, executable implementation of the Transformer architecture.",
+          "Breaks down complex concepts with detailed annotations and explanations.",
+          "Serves as an educational bridge between theoretical papers and practical implementation."
+        ]
+      },
+      {
+        "title": "Transformer Architecture",
+        "imageUrl": "https://miro.medium.com/v2/resize:fit:640/format:webp/1*InsTuWpZTYm0kwi8ovIMAQ.png"
+      }
+    ]
+  },
+  {
+    "type": "paper",
+    "order": 2,
+    "date": "23 Sep 2011",
+    "title": "The First Law of Complexodynamics",
+    "authors": "Scott Aaronson",
+    "link": "https://scottaaronson.blog/?p=762",
+    "slides": [
+      {
+        "content": "This blog post explores the dynamics of complexity in closed systems using the Coffee Automaton model. It analyzes how complexity emerges, evolves, and dissipates, providing insights into the fundamental principles governing complex systems and their applications in various scientific fields."
+      },
+      {
+        "bullets": [
+          "Analyzes the dynamics of complexity in closed systems using the Coffee Automaton model.",
+          "Provides insights into the mechanisms driving complexity changes over time.",
+          "Offers a framework for predicting complexity trends in similar systems."
+        ]
+      },
+      {
+        "imageUrl": "https://149663533.v2.pressablecdn.com/coffee-small.jpg"
+      },
+      {
+        "imageUrl": "https://scottaaronson.blog/complexity-lrg.jpg"
+      }
+    ]
+  },
+  {
+    "type": "paper",
+    "order": 3,
+    "date": "21 May 2015",
+    "title": "The Unreasonable Effectiveness of Recurrent Neural Networks",
+    "authors": "Andrej Karpathy",
+    "link": "https://karpathy.github.io/2015/05/21/rnn-effectiveness/",
+    "slides": [
+      {
+        "content": "This paper highlights the surprising capabilities of recurrent neural networks in sequence prediction tasks. It demonstrates their effectiveness in generating coherent sequences, from text to music, showcasing the potential of RNNs in creative and predictive applications."
+      },
+      {
+        "bullets": [
+          "Highlights the surprising capabilities of recurrent neural networks in various applications.",
+          "Explores the reasons behind the effectiveness of RNNs in sequence modeling.",
+          "Discusses the potential and limitations of RNNs in real-world scenarios."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "paper",
+    "order": 4,
+    "date": "27 Aug 2015",
+    "title": "Understanding LSTM Networks",
+    "authors": "Christopher Olah",
+    "link": "https://colah.github.io/posts/2015-08-Understanding-LSTMs/",
+    "slides": [
+      {
+        "content": "This paper explains Long Short-Term Memory (LSTM) networks, a type of recurrent neural network capable of learning long-term dependencies. It covers their architecture, functionality, and applications, highlighting their effectiveness in sequence prediction tasks across various domains."
+      },
+      {
+        "bullets": [
+          "Provides an in-depth explanation of Long Short-Term Memory (LSTM) networks.",
+          "Clarifies the mechanisms that enable LSTMs to capture long-range dependencies.",
+          "Offers practical guidance for implementing and training LSTM models."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "paper",
+    "order": 5,
+    "date": "08 Sep 2014",
+    "title": "Recurrent Neural Network Regularization",
+    "authors": "Wojciech Zaremba; Ilya Sutskever; Oriol Vinyals",
+    "link": "https://arxiv.org/pdf/1409.2329.pdf",
+    "slides": [
+      {
+        "content": "This paper explores techniques to regularize recurrent neural networks, addressing overfitting issues. It introduces methods like dropout and weight noise, improving model generalization and performance. These techniques are crucial for enhancing the robustness of RNNs in various applications."
+      },
+      {
+        "bullets": [
+          "Proposes new regularization techniques to enhance the performance of recurrent neural networks.",
+          "Reduces overfitting and improves generalization in RNN models.",
+          "Validates the effectiveness of the methods through extensive experiments."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "paper",
+    "order": 6,
+    "date": "01 Jul 1993",
+    "title": "Keeping Neural Networks Simple by Minimizing the Description Length of the Weights",
+    "authors": "Geoffrey E. Hinton; Drew van Camp",
+    "link": "https://www.cs.toronto.edu/~hinton/absps/colt93.pdf",
+    "slides": [
+      {
+        "content": "Hinton & van Camp reduce overfitting in neural networks by minimizing weight description length using the MDL principle. This method simplifies to L2 weight-decay with a Gaussian prior, linking MDL to Bayesian regularization. It supports weight-sharing, pruning, and adaptive noise, effectively improving test errors."
+      },
+      {
+        "bullets": [
+          "Simplifies neural network models by reducing the complexity of weight descriptions.",
+          "Enhances model generalization by focusing on essential features.",
+          "Reduces overfitting by minimizing unnecessary parameters."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "paper",
+    "order": 7,
+    "date": "09 Jun 2015",
+    "title": "Pointer Networks",
+    "authors": "Oriol Vinyals; Meire Fortunato; Navdeep Jaitly",
+    "link": "https://arxiv.org/pdf/1506.03134.pdf",
+    "slides": [
+      {
+        "content": "This paper introduces Pointer Networks, a novel neural architecture for solving combinatorial optimization problems. It uses attention mechanisms to select output sequences, outperforming traditional methods in tasks like sorting and routing, and offering new solutions in optimization challenges."
+      },
+      {
+        "bullets": [
+          "Introduces Pointer Networks, a novel neural architecture for solving combinatorial problems.",
+          "Demonstrates the model's ability to handle variable-sized outputs.",
+          "Validates the approach on tasks like sorting and the traveling salesman problem."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "paper",
+    "order": 8,
+    "date": "01 Dec 2012",
+    "title": "ImageNet Classification with Deep Convolutional Neural Networks",
+    "authors": "Alex Krizhevsky; Ilya Sutskever; Geoffrey E. Hinton",
+    "link": "https://proceedings.neurips.cc/paper_files/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf",
+    "slides": [
+      {
+        "content": "AlexNet transformed image classification with deep convolutional neural networks, achieving high accuracy on ImageNet. It introduced ReLU activations, dropout, and GPU use, significantly advancing computer vision and deep learning architectures."
+      },
+      {
+        "bullets": [
+          "Demonstrates the effectiveness of deep CNNs in large-scale image classification.",
+          "Highlights the role of data augmentation and dropout in improving model performance.",
+          "Sets a new benchmark for image recognition tasks with significant accuracy improvements."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "paper",
+    "order": 9,
+    "date": "19 Nov 2015",
+    "title": "Order Matters: Sequence-to-sequence for sets",
+    "authors": "Oriol Vinyals; Samy Bengio; Manjunath Kudlur",
+    "link": "https://arxiv.org/pdf/1511.06391.pdf",
+    "slides": [
+      {
+        "content": "This paper explores the importance of order in sequence-to-sequence models for set-based tasks. It demonstrates how different orderings can impact model performance, providing insights into optimizing sequence processing for improved accuracy in set-related applications."
+      },
+      {
+        "bullets": [
+          "Investigates the impact of input order on sequence-to-sequence models for set-based tasks.",
+          "Proposes methods to mitigate order sensitivity in model training.",
+          "Demonstrates improved performance on tasks where order invariance is crucial."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "paper",
+    "order": 10,
+    "date": "16 Nov 2018",
+    "title": "GPipe: Efficient Training of Giant Neural Networks using Pipeline Parallelism",
+    "authors": "Yanping Huang; Youlong Cheng; Ankur Bapna; Orhan Firat; Mia Xu Chen; Dehao Chen; HyoukJoong Lee; Jiquan Ngiam; Quoc V. Le; Yonghui Wu; Zhifeng Chen",
+    "link": "https://arxiv.org/pdf/1811.06965.pdf",
+    "slides": [
+      {
+        "content": "This paper presents GPipe, a method for training large neural networks efficiently using pipeline parallelism. It improves scalability and reduces training time, enabling the handling of giant models in deep learning applications."
+      },
+      {
+        "bullets": [
+          "Introduces pipeline parallelism to efficiently train large neural networks.",
+          "Reduces memory usage by partitioning models across multiple accelerators.",
+          "Demonstrates scalability and improved training speed for giant models."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "paper",
+    "order": 11,
+    "date": "10 Dec 2015",
+    "title": "Deep Residual Learning for Image Recognition",
+    "authors": "Kaiming He; Xiangyu Zhang; Shaoqing Ren; Jian Sun",
+    "link": "https://arxiv.org/pdf/1512.03385.pdf",
+    "slides": [
+      {
+        "content": "This paper introduces deep residual networks (ResNets) for image recognition. It addresses the degradation problem in deep networks by using residual learning, significantly improving accuracy and enabling the training of much deeper models."
+      },
+      {
+        "bullets": [
+          "Introduces residual learning framework to ease training of deep networks.",
+          "Significantly improves accuracy in image recognition tasks.",
+          "Enables the training of extremely deep networks with hundreds of layers."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "paper",
+    "order": 12,
+    "date": "23 Nov 2015",
+    "title": "Multi-Scale Context Aggregation by Dilated Convolutions",
+    "authors": "Fisher Yu; Vladlen Koltun",
+    "link": "https://arxiv.org/pdf/1511.07122.pdf",
+    "slides": [
+      {
+        "content": "This paper introduces dilated convolutions for multi-scale context aggregation in neural networks. It enhances feature extraction by expanding the receptive field without increasing parameters, improving performance in tasks like image segmentation and object detection."
+      },
+      {
+        "bullets": [
+          "Introduces dilated convolutions for effective multi-scale context aggregation.",
+          "Enhances feature extraction without increasing computational cost.",
+          "Improves performance in dense prediction tasks like semantic segmentation."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "paper",
+    "order": 13,
+    "date": "04 Apr 2017",
+    "title": "Neural Message Passing for Quantum Chemistry",
+    "authors": "Justin Gilmer; Samuel S. Schoenholz; Patrick F. Riley; Oriol Vinyals; George E. Dahl",
+    "link": "https://arxiv.org/pdf/1704.01212.pdf",
+    "slides": [
+      {
+        "content": "This paper presents a neural message passing framework for quantum chemistry, enhancing molecular property prediction. It leverages graph neural networks to model interactions, improving accuracy and efficiency in computational chemistry tasks."
+      },
+      {
+        "bullets": [
+          "Develops a neural message passing framework for molecular property prediction.",
+          "Achieves state-of-the-art results in quantum chemistry tasks.",
+          "Offers a scalable approach to model complex molecular interactions."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "paper",
+    "order": 14,
+    "date": "12 Jun 2017",
+    "title": "Attention Is All You Need",
+    "authors": "Ashish Vaswani; Noam Shazeer; Niki Parmar; Jakob Uszkoreit; Llion Jones; Aidan N. Gomez; Łukasz Kaiser; Illia Polosukhin",
+    "link": "https://arxiv.org/pdf/1706.03762.pdf",
+    "slides": [
+      {
+        "content": "This paper introduces the Transformer model, revolutionizing natural language processing by using self-attention mechanisms. It eliminates recurrence, improving parallelization and performance in sequence transduction tasks, setting new standards in NLP."
+      },
+      {
+        "bullets": [
+          "Introduces the Transformer model, relying solely on attention mechanisms.",
+          "Achieves superior performance in machine translation tasks.",
+          "Simplifies the architecture by removing recurrence and convolutions."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "paper",
+    "order": 15,
+    "date": "01 Sep 2014",
+    "title": "Neural Machine Translation by Jointly Learning to Align and Translate",
+    "authors": "Dzmitry Bahdanau; Kyunghyun Cho; Yoshua Bengio",
+    "link": "https://arxiv.org/pdf/1409.0473.pdf",
+    "slides": [
+      {
+        "content": "This paper introduces a novel approach to neural machine translation by integrating alignment and translation processes. It enhances translation accuracy by jointly learning these tasks, significantly improving performance over traditional methods, and setting a new standard in machine translation research."
+      },
+      {
+        "bullets": [
+          "Introduces a novel approach to neural machine translation by integrating alignment and translation processes.",
+          "Improves translation accuracy by leveraging joint learning techniques.",
+          "Demonstrates the effectiveness of the model on various language pairs."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "paper",
+    "order": 16,
+    "date": "16 Mar 2016",
+    "title": "Identity Mappings in Deep Residual Networks",
+    "authors": "Kaiming He; Xiangyu Zhang; Shaoqing Ren; Jian Sun",
+    "link": "https://arxiv.org/pdf/1603.05027.pdf"
+  },
+  {
+    "type": "paper",
+    "order": 17,
+    "date": "05 Jun 2017",
+    "title": "A Simple Neural Network Module for Relational Reasoning",
+    "authors": "Adam Santoro; David Raposo; David G.T. Barrett; Mateusz Malinowski; Razvan Pascanu; Peter Battaglia; Timothy Lillicrap",
+    "link": "https://arxiv.org/pdf/1706.01427.pdf"
+  },
+  {
+    "type": "paper",
+    "order": 18,
+    "date": "08 Nov 2016",
+    "title": "Variational Lossy Autoencoder",
+    "authors": "Xi Chen; Diederik P. Kingma; Tim Salimans; Yan Duan; Prafulla Dhariwal; John Schulman; Ilya Sutskever; Pieter Abbeel",
+    "link": "https://arxiv.org/pdf/1611.02731.pdf"
+  },
+  {
+    "type": "paper",
+    "order": 19,
+    "date": "05 Jun 2018",
+    "title": "Relational Recurrent Neural Networks",
+    "authors": "Adam Santoro; Ryan Faulkner; David Raposo; Jack Rae; Mike Chrzanowski; Theophane Weber; Daan Wierstra; Oriol Vinyals; Razvan Pascanu; Timothy Lillicrap",
+    "link": "https://arxiv.org/pdf/1806.01822.pdf"
+  },
+  {
+    "type": "paper",
+    "order": 20,
+    "date": "27 May 2014",
+    "title": "Quantifying the Rise and Fall of Complexity in Closed Systems: The Coffee Automaton",
+    "authors": "Scott Aaronson, Sean M. Carroll, Lauren Ouellette",
+    "link": "https://arxiv.org/pdf/1405.6903"
+  },
+  {
+    "type": "paper",
+    "order": 21,
+    "date": "20 Oct 2014",
+    "title": "Neural Turing Machines",
+    "authors": "Alex Graves; Greg Wayne; Ivo Danihelka",
+    "link": "https://arxiv.org/pdf/1405.6903.pdf"
+  },
+  {
+    "type": "paper",
+    "order": 22,
+    "date": "08 Dec 2015",
+    "title": "Deep Speech 2: End-to-End Speech Recognition in English and Mandarin",
+    "authors": "Dario Amodei; Rishita Anubhai; Eric Battenberg; Carl Case; Jared Casper; Bryan Catanzaro; Jingdong Chen; Mike Chrzanowski; Adam Coates; Greg Diamos; Erich Elsen; Jesse Engel; Linxi Fan; Christopher Fougner; Tony Han; Awni Hannun; Billy Jun; Patrick LeGresley; Libby Lin; Sharan Narang; Andrew Ng; Sherjil Ozair; Ryan Prenger; Jonathan Raiman; Sanjeev Satheesh; David Seetapun; Shubho Sengupta; Yi Wang; Zhiqian Wang; Chong Wang; Bo Xiao; Dani Yogatama; Jun Zhan; Zhenyao Zhu",
+    "link": "https://arxiv.org/pdf/1512.02595.pdf"
+  },
+  {
+    "type": "paper",
+    "order": 23,
+    "date": "23 Jan 2020",
+    "title": "Scaling Laws for Neural Language Models",
+    "authors": "Jared Kaplan; Sam McCandlish; Tom Henighan; Tom B. Brown; Benjamin Chess; Rewon Child; Scott Gray; Alec Radford; Jeffrey Wu; Dario Amodei",
+    "link": "https://arxiv.org/pdf/2001.08361.pdf"
+  },
+  {
+    "type": "paper",
+    "order": 24,
+    "date": "04 Jun 2004",
+    "title": "A Tutorial Introduction to the Minimum Description Length Principle",
+    "authors": "Peter Grunwald",
+    "link": "https://arxiv.org/pdf/math/0406077.pdf"
+  },
+  {
+    "type": "paper",
+    "order": 25,
+    "date": "22 Jun 2008",
+    "title": "Machine Super Intelligence",
+    "authors": "Shane Legg",
+    "link": "https://www.vetta.org/documents/Machine_Super_Intelligence.pdf"
+  },
+  {
+    "type": "paper",
+    "order": 26,
+    "date": "01 Jan 2008",
+    "title": "Kolmogorov Complexity and Algorithmic Randomness",
+    "authors": "A. Shen; V. A. Uspensky; N. Vereshchagin",
+    "link": "https://www.lirmm.fr/~ashen/kolmbook-eng-scan.pdf"
+  },
+  {
+    "type": "paper",
+    "order": 27,
+    "date": "01 Jan 2015",
+    "title": "Stanford's CS231n Convolutional Neural Networks for Visual Recognition",
+    "authors": "Fei-Fei Li; Justin Johnson; Serena Yeung",
+    "link": "https://cs231n.github.io/"
+  }
+]

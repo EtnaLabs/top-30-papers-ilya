@@ -14,5 +14,6 @@ export interface Item {
     imageUrl?: string
     videoUrl?: string
     bullets?: string[]
+    intuition?: string
   }[]
 }

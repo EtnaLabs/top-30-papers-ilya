@@ -225,17 +225,30 @@ const items: Item[] = [
         "This blog post explores the dynamics of complexity in closed systems using the Coffee Automaton model. It analyzes how complexity emerges, evolves, and dissipates, providing insights into the fundamental principles governing complex systems and their applications in various scientific fields.",
       },
       {
-        bullets: [
-          "Analyzes the dynamics of complexity in closed systems using the Coffee Automaton model.",
-          "Provides insights into the mechanisms driving complexity changes over time.",
-          "Offers a framework for predicting complexity trends in similar systems.",
-        ],
-      },
-      {
+        content: "Its about the notion of complexity, and how it tends to have a inverted U shape.. in layman terms the system starts and ends in simplicity, but peaks for complexity in the middle intermediate stage. \nInteresting how this looks like a computation, you start your program, it expands into many states,  and then it converges back into a single state",
         imageUrl: "https://149663533.v2.pressablecdn.com/coffee-small.jpg",
       },
       {
+        content: "Entropy increases but entropy follows a curve.",
         imageUrl: "https://scottaaronson.blog/complexity-lrg.jpg",
+        intuition: "does this mean universe can be modelled as a computation? and entropy is increasing because of it's relation with time?... "                
+      },
+      {
+        title: "Questions about Entropy",
+        bullets: [
+          "What is the formal definition of complexity?",
+          "Prove that the complexity we define ends up explaining the pattern we are seeing.",
+        ],
+        content: "It's intuitively easy to guess why it is so, but for mathematical rigor, the author uses ideas from 'Kolmogorov complexity', the concept of Kolmogorov complexity itself, and another concept called 'sophistication'. KC of a string is the smallest program that can generate it, which can be thought of as the smallest compression of it that can computationally expand, somewhat akin to the notion of intelligence.",
+        imageUrl: "https://pbs.twimg.com/media/GrXJ8sZbAAEYXBh?format=jpg&name=medium"
+      },
+      {
+        content: "Using Kolmogorov Complexity (KC) to define entropy reveals intriguing insights. A uniformly random string, while having the highest KC, is paradoxically the least interesting due to its lack of decipherable structure. For instance, a random string can be described simply as 'it's random,' offering no complexity to the observer. This observation suggests that complexity requires some form of structure that an observer can interpret as meaningful. Mathematical arguments propose that we can either use bounded computations or adopt a probabilistic model to align KC and entropy with the observed complexity curve. Without discernible structure, an observer perceives a string as random, lacking the complexity that makes it interesting.",
+        imageUrl: "https://pbs.twimg.com/media/GrXM_JBbgAAnn5I?format=jpg&name=medium"
+      },
+      {
+        content: "We have explored KC and entropy, now let's define a concept closer to complexity: 'sophistication'. It's an apt term, as being sophisticated means not being easily describable. If a string S belongs to a group that can be easily generated (i.e., the group's generator has a small MDL/KC), then its sophistication is low. When entropy is low, KC is low due to fewer states, leading to low sophistication (beginning of a computation/universe). Conversely, in high entropy, randomness prevails, and a simple random generator can describe the sea of states, resulting in lost sophistication but high KC. This is an intriguing definition, offering a new perspective on complexity.",
+        imageUrl: "https://pbs.twimg.com/media/GrXPZcDbAAI01Ou?format=jpg&name=medium"
       }
     ]
   },
@@ -313,6 +326,7 @@ const items: Item[] = [
       {
         content:
         "Hinton & van Camp reduce overfitting in neural networks by minimizing weight description length using the MDL principle. This method simplifies to L2 weight-decay with a Gaussian prior, linking MDL to Bayesian regularization. It supports weight-sharing, pruning, and adaptive noise, effectively improving test errors.",
+        imageUrl: "https://pbs.twimg.com/media/GrXRyILbAAI_k2g?format=png&name=medium"
       },
       {
         bullets: [
@@ -320,6 +334,9 @@ const items: Item[] = [
           "Enhances model generalization by focusing on essential features.",
           "Reduces overfitting by minimizing unnecessary parameters.",
         ],
+      },
+      {
+        imageUrl: "https://pbs.twimg.com/media/GrXSwdCa4AAHXdn?format=png&name=medium"
       }
     ]
   },
