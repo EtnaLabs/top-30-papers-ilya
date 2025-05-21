@@ -9,8 +9,8 @@ export async function getPapersSortedByIlyaList(): Promise<Item[]> {
 }
 
 const events: Item[] = [
-  { type: "event", date: "01 Jan 1990", start: 1974, end: 1980, title: "First AI winter: limited progress, loss of funding due to overly optimistic expectations" },
-  { type: "event", date: "01 Jan 1990", start: 1987, end: 1993, title: "Second AI winter: reduced funding after expert systems failed commercially" },
+  { type: "event", date: "01 Jan 1974", start: 1974, end: 1980, title: "First AI winter: limited progress, loss of funding due to overly optimistic expectations" },
+  { type: "event", date: "01 Jan 1987", start: 1987, end: 1993, title: "Second AI winter: reduced funding after expert systems failed commercially" },
   { type: "event", date: "01 Jan 1997", title: "IBM's Deep Blue beats chess champion Garry Kasparov" },
   { type: "event", date: "01 Jan 2011", title: "IBM Watson wins Jeopardy!" },
   { type: "event", date: "01 Jan 2012", title: "AlexNet wins ImageNet challenge, sparking deep learning revolution" },
@@ -64,16 +64,17 @@ const items: Item[] = [
         "This blog post explores the dynamics of complexity in closed systems using the Coffee Automaton model. It analyzes how complexity emerges, evolves, and dissipates, providing insights into the fundamental principles governing complex systems and their applications in various scientific fields.",
       },
       {
-        content:
-        "1. Analyzes the dynamics of complexity in closed systems using the Coffee Automaton model. \n2. Provides insights into the mechanisms driving complexity changes over time. \n3. Offers a framework for predicting complexity trends in similar systems.",
+        bullets: [
+          "Analyzes the dynamics of complexity in closed systems using the Coffee Automaton model.",
+          "Provides insights into the mechanisms driving complexity changes over time.",
+          "Offers a framework for predicting complexity trends in similar systems.",
+        ],
       },
       {
         imageUrl: "https://149663533.v2.pressablecdn.com/coffee-small.jpg",
-        type: "image",
       },
       {
         imageUrl: "https://scottaaronson.blog/complexity-lrg.jpg",
-        type: "image",
       }
     ]
   },
@@ -90,8 +91,11 @@ const items: Item[] = [
         "This paper highlights the surprising capabilities of recurrent neural networks in sequence prediction tasks. It demonstrates their effectiveness in generating coherent sequences, from text to music, showcasing the potential of RNNs in creative and predictive applications.",
       },
       {
-        content:
-        "1. Highlights the surprising capabilities of recurrent neural networks in various applications. \n2. Explores the reasons behind the effectiveness of RNNs in sequence modeling. \n3. Discusses the potential and limitations of RNNs in real-world scenarios.",
+        bullets: [
+          "Highlights the surprising capabilities of recurrent neural networks in various applications.",
+          "Explores the reasons behind the effectiveness of RNNs in sequence modeling.",
+          "Discusses the potential and limitations of RNNs in real-world scenarios.",
+        ],
       }
     ]
   },
@@ -108,8 +112,11 @@ const items: Item[] = [
         "This paper explains Long Short-Term Memory (LSTM) networks, a type of recurrent neural network capable of learning long-term dependencies. It covers their architecture, functionality, and applications, highlighting their effectiveness in sequence prediction tasks across various domains.",
       },
       {
-        content:
-        "1. Provides an in-depth explanation of Long Short-Term Memory (LSTM) networks. \n2. Clarifies the mechanisms that enable LSTMs to capture long-range dependencies. \n3. Offers practical guidance for implementing and training LSTM models.",
+        bullets: [
+          "Provides an in-depth explanation of Long Short-Term Memory (LSTM) networks.",
+          "Clarifies the mechanisms that enable LSTMs to capture long-range dependencies.",
+          "Offers practical guidance for implementing and training LSTM models.",
+        ],
       }
     ]
   },
@@ -126,8 +133,11 @@ const items: Item[] = [
         "This paper explores techniques to regularize recurrent neural networks, addressing overfitting issues. It introduces methods like dropout and weight noise, improving model generalization and performance. These techniques are crucial for enhancing the robustness of RNNs in various applications.",
       },
       {
-        content:
-        "1. Proposes new regularization techniques to enhance the performance of recurrent neural networks. \n2. Reduces overfitting and improves generalization in RNN models. \n3. Validates the effectiveness of the methods through extensive experiments.",
+        bullets: [
+          "Proposes new regularization techniques to enhance the performance of recurrent neural networks.",
+          "Reduces overfitting and improves generalization in RNN models.",
+          "Validates the effectiveness of the methods through extensive experiments.",
+        ],
       }
     ]
   },
@@ -144,8 +154,11 @@ const items: Item[] = [
         "Hinton & van Camp reduce overfitting in neural networks by minimizing weight description length using the MDL principle. This method simplifies to L2 weight-decay with a Gaussian prior, linking MDL to Bayesian regularization. It supports weight-sharing, pruning, and adaptive noise, effectively improving test errors.",
       },
       {
-        content:
-        "1. Simplifies neural network models by reducing the complexity of weight descriptions. \n2. Enhances model generalization by focusing on essential features. \n3. Reduces overfitting by minimizing unnecessary parameters.",
+        bullets: [
+          "Simplifies neural network models by reducing the complexity of weight descriptions.",
+          "Enhances model generalization by focusing on essential features.",
+          "Reduces overfitting by minimizing unnecessary parameters.",
+        ],
       }
     ]
   },
@@ -162,8 +175,11 @@ const items: Item[] = [
         "This paper introduces Pointer Networks, a novel neural architecture for solving combinatorial optimization problems. It uses attention mechanisms to select output sequences, outperforming traditional methods in tasks like sorting and routing, and offering new solutions in optimization challenges.",
       },
       {
-        content:
-        "1. Introduces Pointer Networks, a novel neural architecture for solving combinatorial problems. \n2. Demonstrates the model's ability to handle variable-sized outputs. \n3. Validates the approach on tasks like sorting and the traveling salesman problem.",
+        bullets: [
+          "Introduces Pointer Networks, a novel neural architecture for solving combinatorial problems.",
+          "Demonstrates the model's ability to handle variable-sized outputs.",
+          "Validates the approach on tasks like sorting and the traveling salesman problem.",
+        ],
       }
     ]
   },
@@ -182,8 +198,11 @@ const items: Item[] = [
         "AlexNet transformed image classification with deep convolutional neural networks, achieving high accuracy on ImageNet. It introduced ReLU activations, dropout, and GPU use, significantly advancing computer vision and deep learning architectures.",
       },
       {
-        content:
-        "1. Demonstrates the effectiveness of deep CNNs in large-scale image classification. \n2. Highlights the role of data augmentation and dropout in improving model performance. \n3. Sets a new benchmark for image recognition tasks with significant accuracy improvements.",
+        bullets: [
+          "Demonstrates the effectiveness of deep CNNs in large-scale image classification.",
+          "Highlights the role of data augmentation and dropout in improving model performance.",
+          "Sets a new benchmark for image recognition tasks with significant accuracy improvements.",
+        ],
       }
     ]
   },
@@ -201,8 +220,11 @@ const items: Item[] = [
         "This paper explores the importance of order in sequence-to-sequence models for set-based tasks. It demonstrates how different orderings can impact model performance, providing insights into optimizing sequence processing for improved accuracy in set-related applications.",
       },
       {
-        content:
-        "1. Investigates the impact of input order on sequence-to-sequence models for set-based tasks. \n2. Proposes methods to mitigate order sensitivity in model training. \n3. Demonstrates improved performance on tasks where order invariance is crucial.",
+        bullets: [
+          "Investigates the impact of input order on sequence-to-sequence models for set-based tasks.",
+          "Proposes methods to mitigate order sensitivity in model training.",
+          "Demonstrates improved performance on tasks where order invariance is crucial.",
+        ],
       }
     ]
   },
@@ -220,8 +242,11 @@ const items: Item[] = [
         "This paper presents GPipe, a method for training large neural networks efficiently using pipeline parallelism. It improves scalability and reduces training time, enabling the handling of giant models in deep learning applications.",
       },
       {
-        content:
-        "1. Introduces pipeline parallelism to efficiently train large neural networks. \n2. Reduces memory usage by partitioning models across multiple accelerators. \n3. Demonstrates scalability and improved training speed for giant models.",
+        bullets: [
+          "Introduces pipeline parallelism to efficiently train large neural networks.",
+          "Reduces memory usage by partitioning models across multiple accelerators.",
+          "Demonstrates scalability and improved training speed for giant models.",
+        ],
       }
     ]
   },
@@ -239,8 +264,11 @@ const items: Item[] = [
         "This paper introduces deep residual networks (ResNets) for image recognition. It addresses the degradation problem in deep networks by using residual learning, significantly improving accuracy and enabling the training of much deeper models.",
       },
       {
-        content:
-        "1. Introduces residual learning framework to ease training of deep networks. \n2. Significantly improves accuracy in image recognition tasks. \n3. Enables the training of extremely deep networks with hundreds of layers.",
+        bullets: [
+          "Introduces residual learning framework to ease training of deep networks.",
+          "Significantly improves accuracy in image recognition tasks.",
+          "Enables the training of extremely deep networks with hundreds of layers.",
+        ],
       }
     ]
   },
@@ -257,8 +285,11 @@ const items: Item[] = [
         "This paper introduces dilated convolutions for multi-scale context aggregation in neural networks. It enhances feature extraction by expanding the receptive field without increasing parameters, improving performance in tasks like image segmentation and object detection.",
       },
       {
-        content:
-        "1. Introduces dilated convolutions for effective multi-scale context aggregation. \n2. Enhances feature extraction without increasing computational cost. \n3. Improves performance in dense prediction tasks like semantic segmentation.",
+        bullets: [
+          "Introduces dilated convolutions for effective multi-scale context aggregation.",
+          "Enhances feature extraction without increasing computational cost.",
+          "Improves performance in dense prediction tasks like semantic segmentation.",
+        ],
       }
     ]
   },
@@ -275,8 +306,11 @@ const items: Item[] = [
         "This paper presents a neural message passing framework for quantum chemistry, enhancing molecular property prediction. It leverages graph neural networks to model interactions, improving accuracy and efficiency in computational chemistry tasks.",
       },
       {
-        content:
-        "1. Develops a neural message passing framework for molecular property prediction. \n2. Achieves state-of-the-art results in quantum chemistry tasks. \n3. Offers a scalable approach to model complex molecular interactions.",
+        bullets: [
+          "Develops a neural message passing framework for molecular property prediction.",
+          "Achieves state-of-the-art results in quantum chemistry tasks.",
+          "Offers a scalable approach to model complex molecular interactions.",
+        ],
       }
     ]
   },
@@ -294,8 +328,11 @@ const items: Item[] = [
         "This paper introduces the Transformer model, revolutionizing natural language processing by using self-attention mechanisms. It eliminates recurrence, improving parallelization and performance in sequence transduction tasks, setting new standards in NLP.",
       },
       {
-        content:
-        "1. Introduces the Transformer model, relying solely on attention mechanisms. \n2. Achieves superior performance in machine translation tasks. \n3. Simplifies the architecture by removing recurrence and convolutions.",
+        bullets: [
+          "Introduces the Transformer model, relying solely on attention mechanisms.",
+          "Achieves superior performance in machine translation tasks.",
+          "Simplifies the architecture by removing recurrence and convolutions.",
+        ],
       }
     ]
   },
@@ -312,8 +349,11 @@ const items: Item[] = [
         "This paper introduces a novel approach to neural machine translation by integrating alignment and translation processes. It enhances translation accuracy by jointly learning these tasks, significantly improving performance over traditional methods, and setting a new standard in machine translation research.",
       },
       {
-        content:
-        "1. Introduces a novel approach to neural machine translation by integrating alignment and translation processes. \n2. Improves translation accuracy by leveraging joint learning techniques. \n3. Demonstrates the effectiveness of the model on various language pairs.",
+        bullets: [
+          "Introduces a novel approach to neural machine translation by integrating alignment and translation processes.",
+          "Improves translation accuracy by leveraging joint learning techniques.",
+          "Demonstrates the effectiveness of the model on various language pairs.",
+        ],
       }
     ]
   },
@@ -331,8 +371,11 @@ const items: Item[] = [
         "This paper explores identity mappings in deep residual networks, enhancing their performance. It shows how identity shortcuts improve training efficiency and accuracy, contributing to the success of ResNets in various computer vision tasks.",
       },
       {
-        content:
-        "1. Proposes identity mappings to improve residual network training. \n2. Enhances learning by simplifying the optimization process. \n3. Demonstrates improved performance on benchmark image recognition datasets.",
+        bullets: [
+          "Proposes identity mappings to improve residual network training.",
+          "Enhances learning by simplifying the optimization process.",
+          "Demonstrates improved performance on benchmark image recognition datasets.",
+        ],
       }
     ]
   },
@@ -351,8 +394,11 @@ const items: Item[] = [
         "This paper introduces a neural network module designed for relational reasoning tasks. It enhances the model's ability to process and infer relationships between entities, improving performance in tasks requiring complex relational understanding.",
       },
       {
-        content:
-        "1. Proposes a neural network module for effective relational reasoning. \n2. Enhances the ability to process and reason about relationships in data. \n3. Demonstrates improved performance on visual question answering tasks.",
+        bullets: [
+          "Proposes a neural network module for effective relational reasoning.",
+          "Enhances the ability to process and reason about relationships in data.",
+          "Demonstrates improved performance on visual question answering tasks.",
+        ],
       }
     ]
   },
@@ -371,8 +417,11 @@ const items: Item[] = [
         "This paper introduces a variational approach to lossy autoencoders, focusing on efficient data compression and reconstruction. It explores the trade-offs between compression rate and quality, providing insights into optimizing autoencoder performance for various applications.",
       },
       {
-        content:
-        "1. Introduces a variational approach to lossy data compression. \n2. Balances reconstruction quality and compression rate effectively. \n3. Provides insights into the trade-offs in lossy compression using neural networks.",
+        bullets: [
+          "Introduces a variational approach to lossy data compression.",
+          "Balances reconstruction quality and compression rate effectively.",
+          "Provides insights into the trade-offs in lossy compression using neural networks.",
+        ],
       }
     ]
   },
@@ -390,8 +439,11 @@ const items: Item[] = [
         "This paper explores relational recurrent neural networks, integrating relational reasoning into RNNs. It enhances the model's ability to capture complex dependencies and relationships, improving performance in tasks requiring sequential and relational understanding.",
       },
       {
-        content:
-        "1. Combines relational reasoning with recurrent neural networks for enhanced modeling. \n2. Improves the ability to capture complex dependencies in sequential data. \n3. Demonstrates effectiveness in tasks requiring relational understanding.",
+        bullets: [
+          "Combines relational reasoning with recurrent neural networks for enhanced modeling.",
+          "Improves the ability to capture complex dependencies in sequential data.",
+          "Demonstrates effectiveness in tasks requiring relational understanding.",
+        ],
       }
     ]
   },
@@ -424,8 +476,11 @@ const items: Item[] = [
         "This paper presents Neural Turing Machines, a model combining neural networks with external memory resources. It mimics the capabilities of a Turing machine, enabling complex data manipulation and storage, advancing the field of neural computation and memory-augmented networks.",
       },
       {
-        content:
-        "1. Combines neural networks with external memory resources to create Neural Turing Machines. \n2. Enhances the ability of neural networks to perform algorithmic tasks. \n3. Demonstrates the potential of NTMs in solving complex computational problems.",
+        bullets: [
+          "Combines neural networks with external memory resources to create Neural Turing Machines.",
+          "Enhances the ability of neural networks to perform algorithmic tasks.",
+          "Demonstrates the potential of NTMs in solving complex computational problems.",
+        ],
       }
     ]
   },
@@ -443,8 +498,11 @@ const items: Item[] = [
         "This paper presents Deep Speech 2, an end-to-end speech recognition system for English and Mandarin. It utilizes deep learning techniques to achieve high accuracy, demonstrating significant improvements over traditional methods in speech recognition tasks.",
       },
       {
-        content:
-        "1. Proposes an end-to-end deep learning approach for speech recognition. \n2. Achieves state-of-the-art performance in both English and Mandarin. \n3. Utilizes a deep recurrent neural network architecture for improved accuracy.",
+        bullets: [
+          "Proposes an end-to-end deep learning approach for speech recognition.",
+          "Achieves state-of-the-art performance in both English and Mandarin.",
+          "Utilizes a deep recurrent neural network architecture for improved accuracy.",
+        ],
       }
     ]
   },
@@ -462,8 +520,11 @@ const items: Item[] = [
         "This paper explores the scaling laws governing neural language models, analyzing how model size, data, and compute affect performance. It provides insights into optimizing resources for improved language model efficiency and effectiveness.",
       },
       {
-        content:
-        "1. Identifies scaling laws that govern the performance of neural language models. \n2. Provides insights into model size, data, and compute requirements for optimal performance. \n3. Guides the development of more efficient and effective language models.",
+        bullets: [
+          "Identifies scaling laws that govern the performance of neural language models.",
+          "Provides insights into model size, data, and compute requirements for optimal performance.",
+          "Guides the development of more efficient and effective language models.",
+        ],
       }
     ]
   },
@@ -480,8 +541,11 @@ const items: Item[] = [
         "This paper introduces the MDL principle, a method for model selection and inference in information theory. It minimizes data and model description length to prevent overfitting. The paper covers MDL's foundations, applications, and practical guidance, aiding in selecting models that generalize well.",
       },
       {
-        content:
-        "1. Provides a comprehensive overview of the MDL principle in model selection. \n2. Demonstrates the application of MDL in various statistical models. \n3. Highlights the balance between model complexity and data fitting.",
+        bullets: [
+          "Provides a comprehensive overview of the MDL principle in model selection.",
+          "Demonstrates the application of MDL in various statistical models.",
+          "Highlights the balance between model complexity and data fitting.",
+        ],
       }
     ]
   },
@@ -498,8 +562,11 @@ const items: Item[] = [
         "This paper discusses machine superintelligence, an AI surpassing human intelligence. It examines societal, ethical, and future implications, focusing on controlling and aligning such systems with human values. The paper emphasizes safety measures and explores superintelligence's transformative impact on technology, economy, and global power dynamics.",
       },
       {
-        content:
-        "1. Examines the potential and challenges of achieving superintelligent AI. \n2. Discusses ethical considerations and safety measures for AI development. \n3. Analyzes the impact of superintelligence on society and future technologies.",
+        bullets: [
+          "Examines the potential and challenges of achieving superintelligent AI.",
+          "Discusses ethical considerations and safety measures for AI development.",
+          "Analyzes the impact of superintelligence on society and future technologies.",
+        ],
       }
     ]
   },
@@ -516,8 +583,11 @@ const items: Item[] = [
         "This paper examines Kolmogorov complexity, measuring randomness by the shortest description length of a string. It explores algorithmic randomness and its implications in data compression, information theory, and computational theory, serving as a foundational text for understanding the mathematical basis of randomness.",
       },
       {
-        content:
-        "1. Explores the concept of Kolmogorov complexity in measuring randomness. \n2. Discusses the implications of algorithmic randomness in computation. \n3. Connects complexity theory with practical applications in data compression.",
+        bullets: [
+          "Explores the concept of Kolmogorov complexity in measuring randomness.",
+          "Discusses the implications of algorithmic randomness in computation.",
+          "Connects complexity theory with practical applications in data compression.",
+        ],
       }
     ]
   },
@@ -534,8 +604,11 @@ const items: Item[] = [
         "This course provides comprehensive insights into convolutional neural networks for visual recognition. It covers fundamental concepts, architectures, and applications, equipping students with practical skills and theoretical knowledge to tackle computer vision challenges using deep learning techniques.",
       },
       {
-        content:
-        "1. Provides comprehensive coverage of CNNs for visual recognition tasks. \n2. Offers practical insights and techniques for improving CNN performance. \n3. Serves as a foundational resource for students and practitioners in the field.",
+        bullets: [
+          "Provides comprehensive coverage of CNNs for visual recognition tasks.",
+          "Offers practical insights and techniques for improving CNN performance.",
+          "Serves as a foundational resource for students and practitioners in the field.",
+        ],
       }
     ]
   },
@@ -555,8 +628,11 @@ const otherFoundationPapers: Item[] = [
         "This paper examines how language models utilize long contexts, identifying challenges and opportunities. It provides insights into optimizing context usage for improved model performance, addressing issues like context fragmentation and information retention.",
       },
       {
-        content:
-        "1. Analyzes the ability of language models to utilize long contexts effectively. \n2. Identifies challenges and limitations in processing extended sequences. \n3. Suggests improvements for better handling of long-range dependencies.",
+        bullets: [
+          "Analyzes the ability of language models to utilize long contexts effectively.",
+          "Identifies challenges and limitations in processing extended sequences.",
+          "Suggests improvements for better handling of long-range dependencies.",
+        ],
       }
     ]
   },

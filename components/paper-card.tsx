@@ -29,20 +29,20 @@ export function PaperCard({ paper }: { paper: Item }) {
   // Function to check if text has fewer than 30 words
   const hasShortText = (text: string) => {
     if (!text) return false;
-    return text.split(/\s+/).filter(word => word.length > 0).length < 30;
+    return text.split(/\s+/).filter(word => word.length > 0).length < 50;
   }
 
   return (
-    <Card className="mt-2">
+    <Card className="mt-2 border-0 shadow-none">
       <CardContent className="pt-6">
-        <div className="flex justify-between items-start mb-2">
-          <h3 className="text-xl font-bold tracking-tight">{paper.title}</h3>
+        <div className="flex justify-between items-start mb-6">
+          <h3 className="text-4xl font-bold tracking-tight leading-tight mr-10">{paper.title}</h3>
           {paper.link && (
             <Button 
               asChild 
               variant="ghost" 
               size="icon" 
-              className="ml-2"
+              className="ml-2 mt-2"
             >
               <a href={paper.link} target="_blank" rel="noopener noreferrer">
                 <ExternalLink className="h-5 w-5" />

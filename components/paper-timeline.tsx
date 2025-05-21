@@ -54,15 +54,6 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
   // Set the first paper as active by default and calculate the first date
   useEffect(() => {
     if (papers.length > 0) {
-      // Find the first paper (for activation)
-      if (!activePaper && papers.some((p) => p.type === "paper")) {
-        const firstPaper = papers.find((p) => p.type === "paper")
-        if (firstPaper) {
-          setActivePaper(firstPaper)
-          setCurrentYear(new Date(firstPaper.date).getFullYear())
-        }
-      }
-
       // Sort items chronologically to find the absolute first date
       const sortedByDate = [...papers].sort((a, b) => 
         new Date(a.date).getTime() - new Date(b.date).getTime()
@@ -75,6 +66,20 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
         const year = firstDate.getFullYear();
         const month = firstDate.getMonth();
         setCursorYear(year + month/12);
+        
+        // Set current year even if the first item is an event
+        if (sortedByDate[0].type === "event") {
+          setCurrentYear(year);
+        }
+      }
+
+      // Find the first paper (for activation) - only if no paper is already active
+      if (!activePaper && papers.some((p) => p.type === "paper")) {
+        const firstPaper = papers.find((p) => p.type === "paper")
+        if (firstPaper) {
+          setActivePaper(firstPaper)
+          setCurrentYear(new Date(firstPaper.date).getFullYear())
+        }
       }
     }
   }, [papers, activePaper])
@@ -87,13 +92,27 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
       const paperItems = papers.filter(p => p.type === "paper");
       const paperIndex = paperItems.findIndex(p => p.date === date);
       
+      // For papers, position based on their order in the papers list
       if (paperIndex !== -1) {
-        // Position based on index in the paper items list
         return paperIndex * MIN_ITEM_SPACING + 1; // +1 for initial offset
       }
       
-      // For events, position them based on their date
-      // This falls through to the date-based positioning below
+      // For events in Ilya's order, position them near related papers based on date
+      const itemDate = new Date(date);
+      const closestPaper = paperItems.reduce(
+        (closest, paper) => {
+          const paperDate = new Date(paper.date);
+          const distance = Math.abs(paperDate.getTime() - itemDate.getTime());
+          if (distance < closest.distance) {
+            return { paper, distance, position: paperItems.indexOf(paper) };
+          }
+          return closest;
+        },
+        { paper: paperItems[0], distance: Infinity, position: 0 }
+      );
+      
+      // Position the event near the closest paper
+      return closestPaper.position * MIN_ITEM_SPACING + 0.5; // Slight offset from the closest paper
     }
   
     if (!firstDateRef.current) return 0;
@@ -166,17 +185,44 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
       const rootFontSize = parseFloat(window.getComputedStyle(document.documentElement).fontSize);
       const scrollTopRem = scrollTop / rootFontSize;
       
-      // Convert scroll position to months (1rem = 1 month)
-      const monthsScrolled = scrollTopRem / 1;
+      // Use different approach for different views
+      if (isIlyaOrder) {
+        // For Ilya's order, base the cursor year on which paper is currently in view
+        const nearestPaper = findNearestVisiblePaper();
+        if (nearestPaper) {
+          const paperDate = new Date(nearestPaper.date);
+          setCursorYear(paperDate.getFullYear() + paperDate.getMonth()/12);
+        }
+      } else {
+        // Convert scroll position to months (1rem = 1 month)
+        const monthsScrolled = scrollTopRem / 1;
+        
+        // Calculate the date at this position
+        const targetDate = new Date(firstDate);
+        targetDate.setMonth(firstDate.getMonth() + monthsScrolled);
+        
+        // Set cursor year
+        const year = targetDate.getFullYear();
+        const month = targetDate.getMonth();
+        setCursorYear(year + month/12);
+      }
+    };
+    
+    // Helper function to find the nearest paper to viewport center
+    const findNearestVisiblePaper = () => {
+      if (!timelineRef.current || papers.length === 0) return null;
       
-      // Calculate the date at this position
-      const targetDate = new Date(firstDate);
-      targetDate.setMonth(firstDate.getMonth() + monthsScrolled);
+      // Get only paper items
+      const paperItems = papers.filter(p => p.type === "paper");
+      if (paperItems.length === 0) return null;
       
-      // Set cursor year
-      const year = targetDate.getFullYear();
-      const month = targetDate.getMonth();
-      setCursorYear(year + month/12);
+      // Use activePaper if available
+      if (activePaper && activePaper.type === "paper") {
+        return activePaper;
+      }
+      
+      // Fallback to first paper
+      return paperItems[0];
     };
     
     // Call initially
@@ -185,7 +231,7 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
     // Update on scroll
     window.addEventListener('scroll', updateCursorYear);
     return () => window.removeEventListener('scroll', updateCursorYear);
-  }, [papers]);
+  }, [papers, activePaper, isIlyaOrder]);
 
   // Format the cursor year to show year and month
   const formatCursorDate = () => {
@@ -328,15 +374,15 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
 
   return (
     <div className="flex flex-col lg:flex-row gap-8">
-      <div ref={timelineRef} className={`relative flex-1 max-w-full ${isIlyaOrder ? 'lg:max-w-[20%]' : 'lg:w-full'}`}>
+      <div ref={timelineRef} className={`relative flex-1 max-w-full lg:max-w-[20%]`}>
         <div className="relative">
           {/* Timeline line */}
           <div ref={timelineLineRef} className="absolute left-2 top-0 bottom-0 w-0.5 bg-gray-200" />
 
           {/* Fixed date indicator at the top that stays visible when scrolling */}
-          {cursorYear && !isIlyaOrder && (
+          {cursorYear && (
             <div className="sticky top-0 z-20 pointer-events-none pt-4 pb-2">
-              <div className="absolute left-0 transform -translate-x-1/2 flex flex-col items-center">
+              <div className="absolute left-0 transform -translate-x-1/2 flex flex-col items-center" style={{ marginLeft: '-60px' }}>
                 <div className="bg-blue-600 text-white text-xs font-bold px-3 py-2 rounded-full mt-1 shadow-sm">
                   {formatCursorDate()}
                 </div>
@@ -378,8 +424,8 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
         </div>
       </div>
 
-      {/* Detail box - only show in Ilya's order mode, fixed on desktop, scrolls with content on mobile */}
-      {isIlyaOrder && !isMobile && activePaper && activePaper.type === "paper" && (
+      {/* Detail box - show in all views, not just Ilya's order mode */}
+      {!isMobile && activePaper && activePaper.type === "paper" && (
         <div className="lg:sticky lg:top-8 lg:self-start lg:w-[80%] h-fit">
           <div 
             key={activePaper.id} 
@@ -435,8 +481,11 @@ const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(({
   };
 
   useEffect(() => {
-    if (inView && paper.type === "paper") {
-      onInView();
+    if (inView) {
+      // Only trigger onInView for paper types, but still track visibility for events
+      if (paper.type === "paper") {
+        onInView();
+      }
     }
   }, [inView, onInView, paper.type, paper])
 
@@ -454,9 +503,8 @@ const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(({
     // Calculate total months between start and end
     const totalMonths = (endYear - startYear) * 12;
     
-    // Use same scaling as regular spacing for consistency
-    // Each month = 1rem of vertical space
-    const heightInRem = totalMonths * 1;
+    // Use a scaling factor that works well with the timeline spacing
+    const heightInRem = Math.max(totalMonths * 0.4, 8); // Ensure minimum height for visibility
     
     return `${heightInRem}rem`;
   };
@@ -493,15 +541,19 @@ const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(({
       {/* For range events, add a vertical line to show duration */}
       {isRangeEvent && (
         <div 
-          className="absolute left-[8px] w-1 bg-amber-500 rounded-full" 
+          className="absolute left-[8px] w-2 bg-amber-500 rounded-full" 
           style={{
             top: "0.75rem",
             height: eventHeight,
             transform: "translateX(-50%)",
-            opacity: 0.8,
-            boxShadow: "0 0 4px rgba(245, 158, 11, 0.5)"
+            opacity: 0.7,
+            boxShadow: "0 0 6px rgba(245, 158, 11, 0.6)"
           }}
-        />
+        >
+          {/* Small dots at start and end of timeline */}
+          <div className="absolute top-0 left-1/2 w-3 h-3 bg-amber-600 rounded-full transform -translate-x-1/2 -translate-y-1/2" />
+          <div className="absolute bottom-0 left-1/2 w-3 h-3 bg-amber-600 rounded-full transform -translate-x-1/2 translate-y-1/2" />
+        </div>
       )}
 
       <div 
@@ -518,9 +570,11 @@ const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(({
           flexDirection: "column"
         }}
         onClick={() => {
+          // For papers, select them and scroll to view
           if (paper.type === "paper") {
             onSelect(paper);
-          }
+          } 
+          // For events, just highlight them but don't change the active paper
         }}
       >
         <span className="text-sm text-gray-500 font-medium">
@@ -539,28 +593,9 @@ const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(({
         </span>
         <h3 className={`text-lg font-semibold ${isEvent ? "text-amber-800" : isActive ? "text-blue-700" : "text-gray-800"}`}>{paper.title}</h3>
         
-        {/* Show authors when not in Ilya's order */}
-        {!isIlyaOrder && paper.type === "paper" && paper.authors && (
+        {/* Show authors for both views */}
+        {paper.type === "paper" && paper.authors && (
           <p className="text-sm text-gray-600 mt-1 font-light">{paper.authors}</p>
-        )}
-
-        {/* Show expanded content in historical view (when not in Ilya's order) */}
-        {!isIlyaOrder && paper.type === "paper" && isActive && paper.slides && paper.slides.length > 0 && (
-          <div className="mt-4 pt-4 border-t border-gray-100">
-            {paper.slides[0].content && (
-              <p className="text-sm text-gray-700 leading-relaxed mb-3">{paper.slides[0].content}</p>
-            )}
-            {paper.link && (
-              <a 
-                href={paper.link} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="inline-flex items-center text-sm text-blue-600 hover:text-blue-800 transition-colors"
-              >
-                Read Paper <ExternalLink className="ml-1 h-3 w-3" />
-              </a>
-            )}
-          </div>
         )}
 
         {/* On mobile, show the paper card inline regardless of view mode */}
