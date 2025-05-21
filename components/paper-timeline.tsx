@@ -16,6 +16,7 @@ type ClosestPaper = {
 
 export function PaperTimeline({ papers }: { papers: Item[] }) {
   const [activePaper, setActivePaper] = useState<Item | null>(null)
+  const [selectedPaper, setSelectedPaper] = useState<Item | null>(null)
   const [currentYear, setCurrentYear] = useState<number | null>(null)
   const [cursorYear, setCursorYear] = useState<number | null>(null)
   const timelineRef = useRef<HTMLDivElement>(null)
@@ -77,6 +78,7 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
       if (papers.length > 0) {
         const firstItem = papers[0];
         setActivePaper(firstItem);
+        setSelectedPaper(firstItem);
         setCurrentYear(new Date(firstItem.date).getFullYear());
         
         // Scroll to the top of the timeline
@@ -265,10 +267,10 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
 
   // Navigation functions
   const navigateToPaper = (direction: 'next' | 'prev') => {
-    if (!activePaper) return;
+    if (!selectedPaper) return;
     
     // Get all items (both papers and events)
-    const currentIndex = papers.findIndex(p => p.id === activePaper.id);
+    const currentIndex = papers.findIndex(p => p.id === selectedPaper.id);
     
     if (currentIndex === -1) return;
     
@@ -281,8 +283,8 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
     
     const targetPaper = papers[targetIndex];
     
-    // Set the active paper
-    setActivePaper(targetPaper);
+    // Update the selected paper in the timeline
+    setSelectedPaper(targetPaper);
     setCurrentYear(new Date(targetPaper.date).getFullYear());
     
     // Scroll to the target element
@@ -310,7 +312,8 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
 
   // Create a function to handle item selection and scrolling
   const handlePaperSelect = (paper: Item) => {
-    // Set the active item (regardless of type)
+    // Set both the selected and active papers
+    setSelectedPaper(paper);
     setActivePaper(paper);
     setCurrentYear(new Date(paper.date).getFullYear());
     
@@ -415,7 +418,7 @@ export function PaperTimeline({ papers }: { papers: Item[] }) {
               <TimelineItem
                 key={paper.id || `event-${index}`}
                 paper={paper}
-                isActive={activePaper?.title === paper.title}
+                isActive={selectedPaper?.title === paper.title}
                 onInView={() => {
                   setActivePaper(paper)
                   setCurrentYear(new Date(paper.date).getFullYear())
@@ -474,6 +477,11 @@ const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(({
   isIlyaOrder,
 }, ref) => {
   const isMobile = useMobile()
+  const { ref: intersectionRef, inView } = useInView({
+    threshold: 0.1, // Small threshold to trigger when item starts appearing
+    rootMargin: '0px 0px -80% 0px', // Only trigger when item is near the top
+    delay: 100, // Add small delay to prevent rapid updates
+  });
 
   // Get absolute position in rem units for this item
   const position = getPosition(paper.date, index);
@@ -490,9 +498,32 @@ const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(({
   const itemColor = getItemColor();
   const itemId = `item-${index}`;
 
+  // Call onInView when the item becomes visible, with debounce
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+    if (inView) {
+      timeoutId = setTimeout(() => {
+        onInView();
+      }, 50); // Small debounce to prevent rapid updates
+    }
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [inView, onInView]);
+
   return (
     <div
-      ref={ref}
+      ref={(el) => {
+        // Combine both refs
+        if (typeof ref === 'function') {
+          ref(el);
+        } else if (ref) {
+          ref.current = el;
+        }
+        intersectionRef(el);
+      }}
       id={itemId}
       className="relative pl-8"
       style={{

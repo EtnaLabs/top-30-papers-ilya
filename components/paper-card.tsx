@@ -59,21 +59,32 @@ export function PaperCard({ paper }: { paper: Item }) {
     <Card className="mt-0 border-0 shadow-none">
       <CardContent className="pt-0">
         <div className="flex justify-between items-start mb-6">
-          <h3 className={`text-4xl font-bold tracking-tight leading-tight mr-10 ${isEvent ? "text-amber-700" : "text-blue-700"}`}>
-            {paper.title}
-          </h3>
-          {paper.link && (
-            <Button 
-              asChild 
-              variant="ghost" 
-              size="icon" 
-              className="ml-2 mt-2"
-            >
-              <a href={paper.link} target="_blank" rel="noopener noreferrer">
+          <div className="flex items-center gap-2">
+            <h3 className={`text-4xl font-bold tracking-tight leading-tight ${isEvent ? "text-amber-700" : "text-blue-700"}`}>
+              {paper.link ? (
+                <a 
+                  href={paper.link} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="hover:opacity-80 transition-opacity"
+                >
+                  {paper.title}
+                </a>
+              ) : (
+                paper.title
+              )}
+            </h3>
+            {paper.link && (
+              <a 
+                href={paper.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`inline-flex items-center ${isEvent ? "text-amber-700" : "text-blue-700"} hover:opacity-80 transition-opacity`}
+              >
                 <ExternalLink className="h-5 w-5" />
               </a>
-            </Button>
-          )}
+            )}
+          </div>
         </div>
 
         {/* Always show date info for both types */}
