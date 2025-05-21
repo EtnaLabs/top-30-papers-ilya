@@ -224,6 +224,11 @@ const items: Item[] = [
       {
         title: "Transformer Architecture",
         imageUrl: "https://miro.medium.com/v2/resize:fit:640/format:webp/1*InsTuWpZTYm0kwi8ovIMAQ.png",
+      },
+      {
+        title: "Attention",
+        content: "An attention function maps a query and key-value pairs to an output, using a weighted sum of values based on query-key compatibility.",
+        imageUrl: "https://miro.medium.com/v2/resize:fit:1400/1*ZyzLikV0Jf1rgnNCGjxlTQ.png"
       }
     ]
   },
@@ -371,7 +376,7 @@ const items: Item[] = [
       },
       {
         bullets: [
-          "Simplifies neural network models by reducing the complexity of weight descriptions.",
+          "Simplifies neural network models by reducing the complexity of weight descriptions (MDL Minimum Description Length)",
           "Enhances model generalization by focusing on essential features.",
           "Reduces overfitting by minimizing unnecessary parameters.",
         ],

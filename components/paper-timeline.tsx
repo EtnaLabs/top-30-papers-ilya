@@ -479,7 +479,7 @@ const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(({
   const isMobile = useMobile()
   const { ref: intersectionRef, inView } = useInView({
     threshold: 0.1, // Small threshold to trigger when item starts appearing
-    rootMargin: '0px 0px -80% 0px', // Only trigger when item is near the top
+    rootMargin: '-10% 0px -90% 0px', // Only trigger when item is at the top
     delay: 100, // Add small delay to prevent rapid updates
   });
 
