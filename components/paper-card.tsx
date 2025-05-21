@@ -52,11 +52,11 @@ export function PaperCard({ paper }: { paper: Item }) {
         </div>
 
         {paper.authors && (
-          <div className="flex justify-between items-center text-sm text-gray-700 mb-4">
+          <div className="flex justify-between items-center mb-4">
             <div>
-              <p className="font-light tracking-wide">{paper.authors}</p>
+              <p className="text-base font-light tracking-wide">{paper.authors}</p>
             </div>
-            <span className="text-sm font-semibold bg-gray-100 text-gray-800 px-2 py-1 rounded-full">{paper.date}</span>
+            <span className="text-base font-semibold bg-gray-100 text-gray-800 px-3 py-1.5 rounded-full">{paper.date}</span>
           </div>
         )}
 
