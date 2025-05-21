@@ -101,7 +101,7 @@ export default function Home() {
               onClick={handleSortByIlya}
               disabled={isLoading}
             >
-              {isLoading ? "Loading..." : "Show in Ilya&apos;s order"}
+              {isLoading ? "Loading..." : "Show in Ilya's order"}
             </Button>
           </div>
         </div>

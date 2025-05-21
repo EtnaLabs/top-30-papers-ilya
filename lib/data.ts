@@ -2,9 +2,18 @@ import image from "next/image"
 import type { Item } from "./types"
 
 export async function getPapers(): Promise<Item[]> {
-  // Combine events and papers, then sort by date
-  const allItems = [...events, ...itemsSortedByDate]
-  return sortByDate(allItems, events).map((item, index) => ({ ...item, id: index + 1 }))
+  // Create a Map to track unique items by title
+  const uniqueItems = new Map<string, Item>();
+  
+  // Add all items to the map, using title as the key
+  [...events, ...itemsSortedByDate].forEach(item => {
+    uniqueItems.set(item.title, item);
+  });
+  
+  // Convert map values back to array and sort by date
+  return Array.from(uniqueItems.values())
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+    .map((item, index) => ({ ...item, id: index + 1 }));
 }
 
 export async function getPapersSortedByIlyaList(): Promise<Item[]> {
