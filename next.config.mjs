@@ -11,8 +11,8 @@ const nextConfig = {
   },
   output: 'export',
   trailingSlash: true,
-  basePath: '/top-30-papers-ilya',
-  assetPrefix: '/top-30-papers-ilya/',
+  basePath: '',
+  assetPrefix: '',
 }
 
 export default nextConfig
