@@ -9,6 +9,10 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  output: 'export',
+  trailingSlash: true,
+  basePath: '/top-30-papers-ilya',
+  assetPrefix: '/top-30-papers-ilya/',
 }
 
 export default nextConfig
